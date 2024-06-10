@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/iv_add"
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:layout_marginStart="39dp"
         android:padding="8dp"
         android:text="@string/gallery"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:cornerRadius="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add" />
@@ -38,17 +38,90 @@
         android:layout_marginStart="74dp"
         app:cornerRadius="18dp"
         android:text="@string/camera"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_building"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pilih Gedung Perkuliahan"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="322dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_gallery"/>
+
+    <Spinner
+        android:id="@+id/spinner_building"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="358dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_building"/>
+
+    <TextView
+        android:id="@+id/tv_classes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pilih Ruang Kelas"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="322dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_building"/>
+
+    <Spinner
+        android:id="@+id/spinner_classes"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="358dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_classes"/>
+
+    <TextView
+        android:id="@+id/tv_detailFacil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pilih Fasilitas"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="322dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_classes"/>
+
+    <Spinner
+        android:id="@+id/spinner_detailFacil"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="358dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil"/>
 
     <EditText
         android:id="@+id/et_desc"
         android:layout_width="match_parent"
-        android:layout_height="163dp"
+        android:layout_height="123dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_gallery"
-        android:layout_margin="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_detailFacil"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:background="@color/soft_pink"
         android:textColor="@color/black"
         android:hint="Deskripsi..."
@@ -58,13 +131,11 @@
 
     <Button
         android:id="@+id/button_upload"
-        android:layout_width="240dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_desc"
-        android:layout_marginTop="10dp"
-        android:layout_margin="20dp"
+        android:layout_margin="12dp"
         android:text="UPLOAD"
         android:textSize="25sp"
         android:backgroundTint="@color/army"/>

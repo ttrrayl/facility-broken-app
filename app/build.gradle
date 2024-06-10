@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.storyapp'
+    namespace 'com.example.kumandra'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.storyapp"
+        applicationId "com.example.kumandra"
         minSdk 21
         targetSdk 32
         versionCode 1

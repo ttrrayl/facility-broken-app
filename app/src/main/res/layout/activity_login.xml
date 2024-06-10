@@ -105,7 +105,7 @@
         app:boxCornerRadiusTopEnd="30dp"
         app:boxCornerRadiusTopStart="30dp">
 
-        <com.example.storyapp.ui.customview.PasswordET
+        <com.example.kumandra.ui.customview.PasswordET
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
