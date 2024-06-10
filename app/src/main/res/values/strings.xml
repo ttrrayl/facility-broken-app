@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Kumandra</string>
+    <string name="gallery">GALLERY</string>
+    <string name="camera">CAMERA</string>
+    <string name="logout">Logout</string>
+    <string name="error_pas">Minimum Password Length is 8</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="look_map">Look Map</string>
+</resources>
