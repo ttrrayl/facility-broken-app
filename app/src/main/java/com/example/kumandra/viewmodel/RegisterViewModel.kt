@@ -24,9 +24,9 @@ class RegisterViewModel(private val pref: UserSession) : ViewModel() {
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
-    fun register(name: String, email: String, password: String) {
+    fun register(username: String, email: String, password: String, confirm_password: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().register(name, email, password)
+        val client = ApiConfig.getApiService().register(username, email, password, confirm_password)
         client.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                 _isLoading.value = false

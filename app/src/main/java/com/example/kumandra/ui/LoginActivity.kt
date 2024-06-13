@@ -44,6 +44,9 @@ class LoginActivity : AppCompatActivity() {
                 email.isEmpty() -> {
                     binding.layoutEmail.error = "Isi email"
                 }
+                !isValidEmail(email) -> {
+                    binding.layoutEmail.error = "Harus menggunakan email UNAND"
+                }
                 password.isEmpty() -> {
                     binding.layoutPassword.error = "Isi password"
                 }
@@ -67,6 +70,10 @@ class LoginActivity : AppCompatActivity() {
         playAnimation()
     }
 
+    private fun isValidEmail(email: String): Boolean {
+        val regex = "^\\d{10}_[a-zA-Z]+@student\\.unand\\.ac\\.id$".toRegex()
+        return regex.matches(email)
+    }
     private fun viewModelConfig(){
         val pref = UserSession.getInstance(dataStore)
 

@@ -250,7 +250,7 @@ class AddStoryActivity : AppCompatActivity() {
                     file.name,
                     requestImageFile
                 )
-                addStoryViewModel.uploadStory(imageMultipart, id_building,id_classes,id_detailFacil,description, latLng)
+                addStoryViewModel.uploadStory(TOKEN, imageMultipart, id_building,id_classes,id_detailFacil,description, latLng)
 
             }
         }

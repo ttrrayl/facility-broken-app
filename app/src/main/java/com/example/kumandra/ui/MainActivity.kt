@@ -110,9 +110,7 @@ class MainActivity : AppCompatActivity() {
                     show()
                 }
             }
-            R.id.menu_map -> {
-                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
-            }
+
         }
         return true
     }

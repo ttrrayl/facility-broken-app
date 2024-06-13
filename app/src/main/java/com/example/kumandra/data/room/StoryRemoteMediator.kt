@@ -48,9 +48,7 @@ class StoryRemoteMediator(
         try {
             val responseData =
                 apiService.getStories(
-                    "Bearer $token",
-                    page,
-                    state.config.pageSize
+                    "Bearer $token"
                 )
             val endOfPaginationReached = responseData.listStory.isEmpty()
             database.withTransaction {

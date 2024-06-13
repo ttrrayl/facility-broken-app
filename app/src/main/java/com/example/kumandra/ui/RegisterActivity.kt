@@ -18,6 +18,7 @@ import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.databinding.ActivityRegisterBinding
 import com.example.kumandra.viewmodel.RegisterViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
+import java.util.regex.Pattern.compile
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -34,7 +35,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.hide()
 
         Glide.with(this)
-            .load("https://th.bing.com/th/id/OIP.1MZ3IQ50dBysLAdeCnt5wwHaHa?pid=ImgDet&rs=1")
+            .load("https://www.google.com/url?sa=i&url=https%3A%2F%2Fph.pinterest.com%2Fpin%2F620370917423162468%2F&psig=AOvVaw1k22F-S9pHbwJB1rB7yy3n&ust=1718370092217000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNC5irHS2IYDFQAAAAAdAAAAABAE")
             .into(binding.ivLogo)
 
         binding.buttonRegis.setOnClickListener(this)
@@ -72,6 +73,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         binding.pbRegis.visibility =
             if (isLoading) View.VISIBLE else View.GONE
     }
+     private fun isValidEmail(email: String): Boolean {
+         val regex = "^\\d{10}_[a-zA-Z]+@student\\.unand\\.ac\\.id$".toRegex()
+         return regex.matches(email)
+     }
 
     override fun onClick(v: View) {
         when(v.id){
@@ -79,6 +84,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 val name = binding.etNama.text.toString()
                 val email = binding.etEmail.text.toString()
                 val password = binding.etPassword.text.toString()
+                val confirm_password = binding.etConfirmPassword.text.toString()
                 when {
                     name.isEmpty() -> {
                         binding.layoutNama.error = "Fill name field"
@@ -86,11 +92,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     email.isEmpty() -> {
                         binding.layoutEmail.error = "Fill email field"
                     }
+                    !isValidEmail(email) -> {
+                        binding.layoutEmail.error = "Harus menggunakan email UNAND"
+                    }
                     password.isEmpty() -> {
                         binding.layoutPassword.error = "Fill password field"
                     }
                     else -> {
-                        registerViewModel.register(name, email, password)
+                        registerViewModel.register(name, email, password, confirm_password)
                         registerViewModel.isError.observe(this) {
                             if (!it) {
                                 AlertDialog.Builder(this@RegisterActivity).apply {

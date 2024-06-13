@@ -4,7 +4,9 @@ import com.example.kumandra.data.local.BuildingModel
 import com.example.kumandra.data.local.ClassesModel
 import com.example.kumandra.data.local.DetailFacilModel
 import com.example.kumandra.data.remote.response.AddStoryResponse
+import com.example.kumandra.data.remote.response.LoginResponse
 import com.example.kumandra.data.remote.response.MainResponse
+import com.example.kumandra.data.remote.response.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -12,24 +14,25 @@ import retrofit2.http.*
 
 interface ApiService {
 
-//    @FormUrlEncoded
-//    @POST("register")
-//    fun register(
-//        @Field("name") name: String,
-//        @Field("email") email: String,
-//        @Field("password") password: String
-//    ): Call<RegisterResponse>
-//
-//    @FormUrlEncoded
-//    @POST("login")
-//    fun login(
-//        @Field("email") email: String,
-//        @Field("password") password: String
-//    ): Call<LoginResponse>
+    @FormUrlEncoded
+    @POST("register")
+    fun register(
+        @Field("username") name: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("confirm_password") confirmPassword: String,
+    ): Call<RegisterResponse>
 
-    @GET("stories")
+    @FormUrlEncoded
+    @POST("login")
+    fun login(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Call<LoginResponse>
+
+    @GET("report")
     suspend fun getStories(
-//        @Header("Authorization") authorization: String,
+        @Header("Authorization") authorization: String,
 //        @Query("page") page: Int,
 //        @Query("size") size: Int
     ): MainResponse
@@ -49,9 +52,9 @@ interface ApiService {
 //    ): Call<MainResponse>
 
     @Multipart
-    @POST("stories")
+    @POST("report")
     fun addStory(
-//        @Header("Authorization") authorization: String,
+        @Header("Authorization") authorization: String,
         @Part file: MultipartBody.Part,
         @Part("id_building") idBuilding: RequestBody,
         @Part("id_classes") idClasses: RequestBody,

@@ -20,6 +20,7 @@ class AddStoryViewModel : ViewModel() {
     val msg: LiveData<String> = _msg
 
     fun uploadStory(
+        token: String,
         image: MultipartBody.Part,
         id_building: RequestBody,
         id_classes: RequestBody,
@@ -31,7 +32,7 @@ class AddStoryViewModel : ViewModel() {
         val lat = latLng?.latitude?.toFloat()
         val lon = latLng?.longitude?.toFloat()
         val client = ApiConfig.getApiService().addStory(
-            image,id_building,id_classes,id_detailFacil,description, lat, lon
+            "Bearer $token",image,id_building,id_classes,id_detailFacil,description, lat, lon
         )
         client.enqueue(object : Callback<AddStoryResponse>{
             override fun onFailure(call: Call<AddStoryResponse>, t: Throwable) {
