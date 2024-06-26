@@ -35,7 +35,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.hide()
 
         Glide.with(this)
-            .load("https://www.google.com/url?sa=i&url=https%3A%2F%2Fph.pinterest.com%2Fpin%2F620370917423162468%2F&psig=AOvVaw1k22F-S9pHbwJB1rB7yy3n&ust=1718370092217000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNC5irHS2IYDFQAAAAAdAAAAABAE")
+            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Logo_Unand.svg/600px-Logo_Unand.svg.png")
             .into(binding.ivLogo)
 
         binding.buttonRegis.setOnClickListener(this)
@@ -132,6 +132,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         val layout_nama = ObjectAnimator.ofFloat(binding.layoutNama, View.ALPHA, ALPHA).setDuration(DURATION)
         val layout_email = ObjectAnimator.ofFloat(binding.layoutEmail, View.ALPHA, ALPHA).setDuration(DURATION)
         val layout_password = ObjectAnimator.ofFloat(binding.layoutPassword, View.ALPHA, ALPHA).setDuration(DURATION)
+        val layout_confirm_password = ObjectAnimator.ofFloat(binding.layoutConfirmPassword, View.ALPHA, ALPHA).setDuration(DURATION)
         val tv_regis = ObjectAnimator.ofFloat(binding.tvAkun, View.ALPHA, ALPHA).setDuration(DURATION)
         val button_regis = ObjectAnimator.ofFloat(binding.buttonRegis, View.ALPHA, ALPHA).setDuration(DURATION)
         AnimatorSet().apply {
@@ -142,6 +143,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 layout_nama,
                 layout_email,
                 layout_password,
+                layout_confirm_password,
                 tv_regis,
                 button_regis
             )

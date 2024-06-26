@@ -22,6 +22,15 @@ class ViewModelFactory (private val context: Context, private val pref: UserSess
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 AddStoryViewModel() as T
             }
+            modelClass.isAssignableFrom(BuildingViewModel::class.java) -> {
+                BuildingViewModel() as T
+            }
+            modelClass.isAssignableFrom(ClassesViewModel::class.java) -> {
+                ClassesViewModel() as T
+            }
+            modelClass.isAssignableFrom(DetailFacilViewModel::class.java) -> {
+                DetailFacilViewModel() as T
+            }
             else -> throw java.lang.IllegalArgumentException("Uknown Viewmodel Class: " + modelClass.name)
         }
     }

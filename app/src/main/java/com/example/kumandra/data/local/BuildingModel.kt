@@ -1,6 +1,11 @@
 package com.example.kumandra.data.local
 
+import java.util.Date
+
 data class BuildingModel(
     val id_building: Int,
-    val nama_bulding: String
+    val id_pj: Int,
+    val nama_bulding: String,
+    val tanggal_post: Date,
+    val tanggal: Date
 )

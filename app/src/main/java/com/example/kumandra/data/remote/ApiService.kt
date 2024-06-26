@@ -1,15 +1,16 @@
 package com.example.kumandra.data.remote
 
-import com.example.kumandra.data.local.BuildingModel
-import com.example.kumandra.data.local.ClassesModel
-import com.example.kumandra.data.local.DetailFacilModel
 import com.example.kumandra.data.remote.response.AddStoryResponse
+import com.example.kumandra.data.remote.response.BuildingResponses
+import com.example.kumandra.data.remote.response.ClassesResponses
+import com.example.kumandra.data.remote.response.DetailFacilResponses
 import com.example.kumandra.data.remote.response.LoginResponse
 import com.example.kumandra.data.remote.response.MainResponse
 import com.example.kumandra.data.remote.response.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -38,13 +39,13 @@ interface ApiService {
     ): MainResponse
 
     @GET("building")
-    fun listBuilding(): Call<List<BuildingModel>>
+    suspend fun listBuilding(): Response<BuildingResponses>
 
     @GET("classes")
-    fun listClasses(): Call<List<ClassesModel>>
+    suspend fun listClasses(): Response<ClassesResponses>
 
     @GET("detail_facil")
-    fun listDetailFacil(): Call<List<DetailFacilModel>>
+    suspend fun listDetailFacil(): Response<DetailFacilResponses>
 
 //    @GET("stories?location=1")
 //    fun getStoriesMap(
@@ -55,7 +56,7 @@ interface ApiService {
     @POST("report")
     fun addStory(
         @Header("Authorization") authorization: String,
-        @Part file: MultipartBody.Part,
+        @Part pictures: MultipartBody.Part,
         @Part("id_building") idBuilding: RequestBody,
         @Part("id_classes") idClasses: RequestBody,
         @Part("id_detail_facilities") idDetailFacil: RequestBody,

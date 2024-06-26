@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddStoryActivity">
+
+
 
     <ImageView
         android:id="@+id/iv_add"
@@ -55,15 +59,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_gallery"/>
 
-    <Spinner
-        android:id="@+id/spinner_building"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="358dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/buildingInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pilih Gedung Kuliah"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_building"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_building">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_building"-->
+<!--        android:layout_width="380dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        tools:layout_editor_absoluteX="1dp"-->
+<!--        tools:layout_editor_absoluteY="358dp"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_building"/>-->
 
     <TextView
         android:id="@+id/tv_classes"
@@ -77,17 +99,35 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_building"/>
+        app:layout_constraintTop_toBottomOf="@+id/buildingInputLayout"/>
 
-    <Spinner
-        android:id="@+id/spinner_classes"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="358dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/classesInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pilih Ruang Kelas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_classes"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_classes">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_classes"-->
+<!--        android:layout_width="380dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        tools:layout_editor_absoluteX="1dp"-->
+<!--        tools:layout_editor_absoluteY="358dp"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_classes"/>-->
 
     <TextView
         android:id="@+id/tv_detailFacil"
@@ -101,17 +141,35 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_classes"/>
+        app:layout_constraintTop_toBottomOf="@+id/classesInputLayout"/>
 
-    <Spinner
-        android:id="@+id/spinner_detailFacil"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="358dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/detailFacilInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pilih Fasilitas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_detailFacil"-->
+<!--        android:layout_width="380dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        tools:layout_editor_absoluteX="1dp"-->
+<!--        tools:layout_editor_absoluteY="358dp"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil"/>-->
 
     <EditText
         android:id="@+id/et_desc"
@@ -119,7 +177,7 @@
         android:layout_height="123dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_detailFacil"
+        app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:background="@color/soft_pink"
