@@ -1,28 +1,30 @@
 package com.example.kumandra.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.media.ExifInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import android.os.Bundle
 import android.provider.MediaStore
-import android.renderscript.RenderScript.RSMessageHandler
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.view.get
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -32,9 +34,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kumandra.R
 import com.example.kumandra.createCustomTempFile
 import com.example.kumandra.data.Results
-import com.example.kumandra.data.local.ClassesModel
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.databinding.ActivityAddStoryBinding
+import com.example.kumandra.checkPermissionsGranted
 import com.example.kumandra.reduceFileImage
 import com.example.kumandra.uriToFile
 import com.example.kumandra.viewmodel.AddStoryViewModel
@@ -42,11 +44,14 @@ import com.example.kumandra.viewmodel.BuildingViewModel
 import com.example.kumandra.viewmodel.ClassesViewModel
 import com.example.kumandra.viewmodel.DetailFacilViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.IOException
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -59,6 +64,9 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var buildingViewModel: BuildingViewModel
     private lateinit var classesViewModel: ClassesViewModel
     private lateinit var detailFacilViewModel: DetailFacilViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude: Double? = null
+    private var longitude: Double? = null
 
 
     private val launcherIntentCamera = registerForActivityResult(
@@ -91,11 +99,20 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (!allPermissionsGranted()) {
+//        if (!allPermissionsGranted()) {
+//            ActivityCompat.requestPermissions(
+//                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+//            )
+//        } else{
+//            getLastLocation()
+//        }
+
+        if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)){
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                this, REQUIRED_CAMERA_PERMISSIONS, REQUEST_CODE_CAMERA_PERMISSIONS
             )
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         binding.buttonCamera.setOnClickListener { startTakePhoto() }
         binding.buttonGallery.setOnClickListener { startGallery() }
@@ -192,16 +209,106 @@ class AddStoryActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (!allPermissionsGranted()) {
-                Toast.makeText(this, "Tidak Mendapatkan Permission", Toast.LENGTH_SHORT).show()
+        if (requestCode == REQUEST_CODE_CAMERA_PERMISSIONS) {
+            if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)) {
+                Toast.makeText(
+                    this, "Tidak mendapatkan izin kamera", Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        } else if (requestCode == REQUEST_CODE_LOCATION_PERMISSIONS) {
+            if (!REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
+                Toast.makeText(
+                    this,"Tidak mendapatkan izin lokasi", Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }
         }
+
     }
 
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+//    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+//        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+//    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                // Precise location access granted.
+                getMyLastLocation()
+            }
+
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                // Only approximate location access granted.
+                getMyLastLocation()
+            }
+
+            else -> {
+                // No location access granted.
+            }
+        }
+    }
+    @SuppressLint("MissingPermission")
+    private fun getMyLastLocation(){
+        if (REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                } else {
+                    Toast.makeText(
+                        this@AddStoryActivity,
+                        "Location not found",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+
+
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return
+//        }
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            return
+//        }
+//        fusedLocationClient.lastLocation
+//            .addOnSuccessListener { location: Location? ->
+//                location?.let {
+//                    latitude = it.latitude
+//                    longitude = it.longitude
+//                }
+//            }
+    }
+
+    private fun getExifData(context: Context, imageUri: Uri): Pair<Double?,Double?>{
+        try {
+            val inputStream = context.contentResolver.openInputStream(imageUri)
+            val exif = ExifInterface(inputStream!!)
+            val latLong = FloatArray(2)
+            if (exif.getLatLong(latLong)) {
+                return Pair(latLong[0].toDouble(), latLong[1].toDouble())
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return Pair(null, null)
     }
 
     private fun startTakePhoto() {
@@ -235,7 +342,6 @@ class AddStoryActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Results.Loading -> {
-                    Toast.makeText(this, "loading dropdown", Toast.LENGTH_SHORT).show()
                 }
                 is Results.Success -> {
                     val items = mutableListOf<String>()
@@ -259,7 +365,6 @@ class AddStoryActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Results.Loading -> {
-                    Toast.makeText(this, "loading dropdown", Toast.LENGTH_SHORT).show()
                 }
                 is Results.Success -> {
                     val items = mutableListOf<String>()
@@ -283,7 +388,6 @@ class AddStoryActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Results.Loading -> {
-                    Toast.makeText(this, "loading dropdown", Toast.LENGTH_SHORT).show()
                 }
                 is Results.Success -> {
                     val items = mutableListOf<String>()
@@ -301,6 +405,11 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun submit() {
         val desc = binding.etDesc.text.toString()
+        val (imageLatitude, imageLongitude) = getExifData(this, getFile?.toUri()!!)
+        if (imageLatitude != null && imageLongitude != null){
+            latitude = imageLatitude
+            longitude = imageLongitude
+        }
         val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
 
 //        val selectedItem = spinner.selectedItem
@@ -349,6 +458,7 @@ class AddStoryActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+
 //            selectedBuildingId == null -> {
 //                Toast.makeText(
 //                    this@AddStoryActivity,
@@ -372,6 +482,10 @@ class AddStoryActivity : AppCompatActivity() {
 //            }
             else -> {
                 val file = reduceFileImage(getFile as File)
+                val lat =
+                    latitude.toString().toRequestBody("text/plain".toMediaType())
+                val lon =
+                    longitude.toString().toRequestBody("text/plain".toMediaType())
                 val description =
                     binding.etDesc.text.toString().toRequestBody("text/plain".toMediaType())
                 val idBuilding =
@@ -400,7 +514,7 @@ class AddStoryActivity : AppCompatActivity() {
 //                }
 //                val report = arrayOf(idBuilding,idClasses,idDetailFacil,description, latLng).toString()
 //                Log.d("addReport", "report : $report")
-               addStoryViewModel.uploadStory(TOKEN, imageMultipart, idBuilding,idClasses,idDetailFacil,description, latLng)
+               addStoryViewModel.uploadStory(TOKEN, imageMultipart, idBuilding,idClasses,idDetailFacil,description, lat, lon)
 
             }
         }
@@ -423,8 +537,10 @@ class AddStoryActivity : AppCompatActivity() {
 
 
     companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_LOCATION_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        private val REQUIRED_CAMERA_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private const val REQUEST_CODE_LOCATION_PERMISSIONS = 11
+        private const val REQUEST_CODE_CAMERA_PERMISSIONS = 10
         var TOKEN = "token"
     }
 }

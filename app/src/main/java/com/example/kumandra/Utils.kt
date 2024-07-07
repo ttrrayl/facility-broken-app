@@ -2,10 +2,12 @@ package com.example.kumandra
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import androidx.core.content.ContextCompat
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -55,3 +57,9 @@ fun reduceFileImage(file: File): File{
     bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
     return file
 }
+
+fun Array<String>.checkPermissionsGranted(context: Context) = this.all {
+    ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+}
+
+

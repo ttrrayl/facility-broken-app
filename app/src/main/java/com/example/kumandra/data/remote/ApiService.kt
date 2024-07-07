@@ -61,7 +61,7 @@ interface ApiService {
         @Part("id_classes") idClasses: RequestBody,
         @Part("id_detail_facilities") idDetailFacil: RequestBody,
         @Part("description") description: RequestBody,
-        @Part("lat") lat: Float?,
-        @Part("lon") lon: Float?,
+        @Part("lat") lat: RequestBody?,
+        @Part("lon") lon: RequestBody?,
     ): Call<AddStoryResponse>
 }

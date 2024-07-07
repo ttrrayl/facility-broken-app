@@ -32,12 +32,13 @@ class AddStoryViewModel : ViewModel() {
         id_classes: RequestBody,
         id_detailFacil: RequestBody,
         description: RequestBody,
-        latLng: LatLng?
+        lat: RequestBody?,
+        lon: RequestBody?
     ) {
         _isLoading.value = true
         try {
-            val lat = latLng?.latitude?.toFloat()
-            val lon = latLng?.longitude?.toFloat()
+//            val lat = latLng?.latitude?.toFloat()
+//            val lon = latLng?.longitude?.toFloat()
             val client = ApiConfig.getApiService().addStory(
                 "Bearer $token",
                 image,
