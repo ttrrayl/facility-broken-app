@@ -31,6 +31,10 @@ class LoginViewModel(private val pref: UserSession) : ViewModel() {
         return pref.getToken().asLiveData()
     }
 
+//    fun getUser(): LiveData<StudentModel>{
+//        return pref.getUser().asLiveData()
+//    }
+
     fun authenticate(email: String, password: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().login(email,password)
@@ -44,10 +48,17 @@ class LoginViewModel(private val pref: UserSession) : ViewModel() {
                         viewModelScope.launch {
                             if (getToken().value == null) pref.saveToken(
                                 UserModel(
+                                    responBody.loginResult.idStudent,
                                     true,
                                     responBody.loginResult.token
                                 )
                             )
+//                            pref.saveUser(
+//                                StudentModel(
+//                                    responBody.loginResult.idStudent,
+//                                    responBody.loginResult.username
+//                                )
+//                            )
                             pref.login(responBody.loginResult.token)
                         }
                     } else {

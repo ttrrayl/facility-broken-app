@@ -28,6 +28,7 @@ class AddStoryViewModel : ViewModel() {
     fun uploadStory(
         token: String,
         image: MultipartBody.Part,
+        id_student: RequestBody,
         id_building: RequestBody,
         id_classes: RequestBody,
         id_detailFacil: RequestBody,
@@ -42,6 +43,7 @@ class AddStoryViewModel : ViewModel() {
             val client = ApiConfig.getApiService().addStory(
                 "Bearer $token",
                 image,
+                id_student,
                 id_building,
                 id_classes,
                 id_detailFacil,

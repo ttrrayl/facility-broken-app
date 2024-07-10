@@ -57,6 +57,7 @@ interface ApiService {
     fun addStory(
         @Header("Authorization") authorization: String,
         @Part pictures: MultipartBody.Part,
+        @Part ("id_student") idStudent: RequestBody,
         @Part("id_building") idBuilding: RequestBody,
         @Part("id_classes") idClasses: RequestBody,
         @Part("id_detail_facilities") idDetailFacil: RequestBody,

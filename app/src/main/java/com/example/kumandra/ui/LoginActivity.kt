@@ -27,6 +27,7 @@ lateinit var weakReference: WeakReference<ActivityLoginBinding>
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var user: UserModel
+  //  private lateinit var student: StudentModel
     private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         Glide.with(this)
-            .load("https://th.bing.com/th/id/OIP.1MZ3IQ50dBysLAdeCnt5wwHaHa?pid=ImgDet&rs=1")
+            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Logo_Unand.svg/600px-Logo_Unand.svg.png")
             .into(binding.ivLogo)
 
         viewModelConfig()
@@ -81,6 +82,9 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.getToken().observe(this) { user ->
             this.user = user
         }
+//        loginViewModel.getUser().observe(this) { student ->
+//            this.student = student
+//        }
         loginViewModel.isLoading.observe(this) {
             showLoading(it)
         }

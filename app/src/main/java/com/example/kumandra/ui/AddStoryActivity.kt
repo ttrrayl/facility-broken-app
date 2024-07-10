@@ -37,6 +37,7 @@ import com.example.kumandra.data.Results
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.databinding.ActivityAddStoryBinding
 import com.example.kumandra.checkPermissionsGranted
+import com.example.kumandra.data.local.UserModel
 import com.example.kumandra.reduceFileImage
 import com.example.kumandra.uriToFile
 import com.example.kumandra.viewmodel.AddStoryViewModel
@@ -59,6 +60,7 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
     private lateinit var currentPhotoPath: String
     private var getFile: File? = null
+ //   private lateinit var user: StudentModel
     private var latLng: LatLng? = null
     private lateinit var addStoryViewModel: AddStoryViewModel
     private lateinit var buildingViewModel: BuildingViewModel
@@ -98,6 +100,7 @@ class AddStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 //        if (!allPermissionsGranted()) {
 //            ActivityCompat.requestPermissions(
@@ -433,6 +436,10 @@ class AddStoryActivity : AppCompatActivity() {
             it.nama_detail_facilities == selectedDetailFacil
         }?.id_detail_facilities
 
+
+
+      //  val idStudent = user.idStudent.toString()
+
 //        val selectedClasses = binding.spinnerClasses.selectedItem
 //        selectedClasses?.toString() ?: run{
 //            Toast.makeText(this, "null CLASSES", Toast.LENGTH_SHORT)
@@ -481,6 +488,8 @@ class AddStoryActivity : AppCompatActivity() {
 //                ).show()
 //            }
             else -> {
+                val idStudent =
+                    IDSTUDENT.toString().toRequestBody("text/plain".toMediaType())
                 val file = reduceFileImage(getFile as File)
                 val lat =
                     latitude.toString().toRequestBody("text/plain".toMediaType())
@@ -514,7 +523,7 @@ class AddStoryActivity : AppCompatActivity() {
 //                }
 //                val report = arrayOf(idBuilding,idClasses,idDetailFacil,description, latLng).toString()
 //                Log.d("addReport", "report : $report")
-               addStoryViewModel.uploadStory(TOKEN, imageMultipart, idBuilding,idClasses,idDetailFacil,description, lat, lon)
+               addStoryViewModel.uploadStory(TOKEN, imageMultipart, idStudent, idBuilding,idClasses,idDetailFacil,description, lat, lon)
 
             }
         }
@@ -542,5 +551,6 @@ class AddStoryActivity : AppCompatActivity() {
         private const val REQUEST_CODE_LOCATION_PERMISSIONS = 11
         private const val REQUEST_CODE_CAMERA_PERMISSIONS = 10
         var TOKEN = "token"
+        var IDSTUDENT = "id"
     }
 }

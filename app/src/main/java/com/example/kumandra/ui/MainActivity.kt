@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.getToken().observe(this){ user ->
             if (user.isLogin) {
+                AddStoryActivity.IDSTUDENT = user.idStudent
                 AddStoryActivity.TOKEN = user.token
                 getStory(user.token)
             } else {
