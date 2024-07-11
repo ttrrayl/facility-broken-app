@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -51,13 +52,16 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.getToken().observe(this){ user ->
             if (user.isLogin) {
-                AddStoryActivity.IDSTUDENT = user.idStudent
                 AddStoryActivity.TOKEN = user.token
                 getStory(user.token)
             } else {
                 startActivity(Intent(this,LoginActivity::class.java))
                 finish()
             }
+        }
+
+        mainViewModel.getUser().observe(this) {
+            AddStoryActivity.IDSTUDENT = it.idStudent
         }
 
 //        mainViewModel.listStory.observe(this){

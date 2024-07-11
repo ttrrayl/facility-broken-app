@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.kumandra.data.StoryRepository
+import com.example.kumandra.data.local.StudentModel
 import com.example.kumandra.data.local.UserModel
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.data.remote.ApiConfig
@@ -24,6 +25,10 @@ class MainViewModel (private val storyRepository: StoryRepository,private val pr
 
     fun getToken(): LiveData<UserModel>{
         return pref.getToken().asLiveData()
+    }
+
+    fun getUser(): LiveData<StudentModel>{
+        return pref.getUser().asLiveData()
     }
 
     fun logout(){

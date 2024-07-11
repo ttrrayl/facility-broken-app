@@ -14,36 +14,34 @@ class UserSession private constructor(private val dataStore: DataStore<Preferenc
     fun getToken(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(
-                preferences[IDSTUDENT] ?: "",
                 preferences[STATE] ?: false,
                 preferences[TOKEN] ?:""
             )
         }
     }
 
-//    fun getUser(): Flow<StudentModel> {
-//        return dataStore.data.map { preferences ->
-//            StudentModel(
-//                preferences[IDSTUDENT] ?: "",
-//                preferences[USERNAME] ?:""
-//            )
-//        }
-//    }
+    fun getUser(): Flow<StudentModel> {
+        return dataStore.data.map { preferences ->
+            StudentModel(
+                preferences[IDSTUDENT] ?: "",
+                preferences[USERNAME] ?:""
+            )
+        }
+    }
 
     suspend fun saveToken(user: UserModel) {
         dataStore.edit { preferences ->
-            preferences[IDSTUDENT] = user.idStudent
             preferences[STATE] = user.isLogin
             preferences[TOKEN] = user.token
         }
     }
 
-//    suspend fun saveUser(student: StudentModel) {
-//        dataStore.edit { preferences ->
-//            preferences[IDSTUDENT] = student.idStudent
-//            preferences[USERNAME] = student.username
-//        }
-//    }
+    suspend fun saveUser(student: StudentModel) {
+        dataStore.edit { preferences ->
+            preferences[IDSTUDENT] = student.idStudent
+            preferences[USERNAME] = student.username
+        }
+    }
 
     suspend fun login(token: String){
         dataStore.edit { preferences ->

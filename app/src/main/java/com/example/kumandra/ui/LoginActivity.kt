@@ -14,6 +14,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.kumandra.R
+import com.example.kumandra.data.local.StudentModel
 import com.example.kumandra.data.local.UserModel
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.viewmodel.LoginViewModel
@@ -27,7 +28,7 @@ lateinit var weakReference: WeakReference<ActivityLoginBinding>
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var user: UserModel
-  //  private lateinit var student: StudentModel
+    private lateinit var student: StudentModel
     private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,9 +83,9 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.getToken().observe(this) { user ->
             this.user = user
         }
-//        loginViewModel.getUser().observe(this) { student ->
-//            this.student = student
-//        }
+        loginViewModel.getUser().observe(this) { student ->
+            this.student = student
+        }
         loginViewModel.isLoading.observe(this) {
             showLoading(it)
         }
