@@ -15,7 +15,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kumandra.R
-import com.example.kumandra.adapter.StoriesAdapter
+import com.example.kumandra.adapter.ReportAdapter
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.databinding.ActivityMainBinding
 import com.example.kumandra.viewmodel.MainViewModel
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.getUser().observe(this) {
             AddStoryActivity.IDSTUDENT = it.idStudent
+            Log.i("idStudent", "id: ${it.idStudent}")
         }
 
 //        mainViewModel.listStory.observe(this){
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getStory(token: String) {
-        val adapter = StoriesAdapter()
+        val adapter = ReportAdapter()
         binding.rvStory.setHasFixedSize(true)
         mainViewModel.getStories(token).observe(this){
 

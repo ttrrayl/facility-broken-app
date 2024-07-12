@@ -36,7 +36,7 @@ class RegisterViewModel(private val pref: UserSession) : ViewModel() {
                         _msg.value = "Daftar Berhasil"
                         viewModelScope.launch {
                             pref.saveToken(
-                                UserModel("",false,"")
+                                UserModel(false,"")
                             )
                         }
                         _isError.value = false

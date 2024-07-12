@@ -1,18 +1,17 @@
 package com.example.kumandra.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.kumandra.data.StoryRepository
+import com.example.kumandra.data.ReportRepository
 import com.example.kumandra.data.local.StudentModel
 import com.example.kumandra.data.local.UserModel
 import com.example.kumandra.data.local.UserSession
-import com.example.kumandra.data.remote.ApiConfig
 import com.example.kumandra.data.remote.response.ListStoryItem
+import com.example.kumandra.data.remote.response.Report
 import kotlinx.coroutines.launch
 
-class MainViewModel (private val storyRepository: StoryRepository,private val pref: UserSession) : ViewModel(){
+class MainViewModel (private val reportRepository: ReportRepository, private val pref: UserSession) : ViewModel(){
 
 //    private val _listStory = MutableLiveData<List<ListStoryItem>>()
 //    val listStory: LiveData<List<ListStoryItem>> = _listStory
@@ -37,8 +36,8 @@ class MainViewModel (private val storyRepository: StoryRepository,private val pr
         }
     }
 
-    fun getStories(token: String): LiveData<PagingData<ListStoryItem>> =
-        storyRepository.getStory(token).cachedIn(viewModelScope)
+    fun getStories(token: String): LiveData<PagingData<Report>> =
+        reportRepository.getReport(token).cachedIn(viewModelScope)
 
 //    fun getStoriesMap(token: String) {
 //        _isLoading.value = true

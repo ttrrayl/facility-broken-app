@@ -6,15 +6,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.kumandra.data.remote.response.ListStoryItem
+import com.example.kumandra.data.remote.response.Report
 
 @Dao
-interface StoryDao {
+interface ReportDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStory(story: List<ListStoryItem>)
+    suspend fun insertReport(report: List<Report>)
 
-    @Query("SELECT * FROM story")
-    fun getAllStory(): PagingSource<Int, ListStoryItem>
+    @Query("SELECT * FROM report")
+    fun getAllReport(): PagingSource<Int, Report>
 
-    @Query("DELETE FROM story")
+    @Query("DELETE FROM report")
     suspend fun deleteAll()
 }

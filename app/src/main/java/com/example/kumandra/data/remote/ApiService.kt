@@ -34,8 +34,8 @@ interface ApiService {
     @GET("report")
     suspend fun getStories(
         @Header("Authorization") authorization: String,
-//        @Query("page") page: Int,
-//        @Query("size") size: Int
+        @Query("page") page: Int,
+        @Query("size") size: Int
     ): MainResponse
 
     @GET("building")

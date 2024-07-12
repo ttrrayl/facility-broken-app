@@ -8,10 +8,10 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
-import com.example.kumandra.adapter.StoriesAdapter
-import com.example.kumandra.data.StoryRepository
+import com.example.kumandra.adapter.ReportAdapter
+import com.example.kumandra.data.ReportRepository
 import com.example.kumandra.data.local.UserSession
-import com.example.kumandra.data.remote.response.ListStoryItem
+import com.example.kumandra.data.remote.response.Report
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -31,7 +31,7 @@ class MainViewModelTest{
     private lateinit var pref: UserSession
 
     @Mock
-    private lateinit var storyRepository: StoryRepository
+    private lateinit var reportRepository: ReportRepository
     private val dummyStory = DataDummy.generateDummyStory()
     private val dummyToken = "yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLU56enVBZGJkRVFiU0QiLCJpY"
 
@@ -49,17 +49,17 @@ class MainViewModelTest{
 
     @Test
     fun `when Get Story Should Not Null and Return Data`() = runTest {
-        val data: PagingData<ListStoryItem> = StoryPagingSource.snapshot(dummyStory)
-        val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
+        val data: PagingData<Report> = StoryPagingSource.snapshot(dummyStory)
+        val expectedStory = MutableLiveData<PagingData<Report>>()
         expectedStory.value = data
-        Mockito.`when`(storyRepository.getStory(dummyToken)).thenReturn(expectedStory)
+        Mockito.`when`(reportRepository.getReport(dummyToken)).thenReturn(expectedStory)
 
-        val mainViewModel = MainViewModel(storyRepository, pref)
-        val actualStory: PagingData<ListStoryItem> =
+        val mainViewModel = MainViewModel(reportRepository, pref)
+        val actualStory: PagingData<Report> =
             mainViewModel.getStories(dummyToken).getOrAwaitValue()
 
         val differ  = AsyncPagingDataDiffer(
-            diffCallback = StoriesAdapter.DIFF_CALLBACK,
+            diffCallback = ReportAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
             workerDispatcher = Dispatchers.Main,
         )
@@ -72,17 +72,17 @@ class MainViewModelTest{
 
     @Test
     fun `when Get Story Empty Should Return Zero or no Data`() = runTest {
-        val data: PagingData<ListStoryItem> = PagingData.from(emptyList())
-        val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
+        val data: PagingData<Report> = PagingData.from(emptyList())
+        val expectedStory = MutableLiveData<PagingData<Report>>()
         expectedStory.value = data
-        Mockito.`when`(storyRepository.getStory(dummyToken)).thenReturn(expectedStory)
+        Mockito.`when`(reportRepository.getReport(dummyToken)).thenReturn(expectedStory)
 
-        val mainViewModel = MainViewModel(storyRepository, pref)
-        val actualStory: PagingData<ListStoryItem> =
+        val mainViewModel = MainViewModel(reportRepository, pref)
+        val actualStory: PagingData<Report> =
             mainViewModel.getStories(dummyToken).getOrAwaitValue()
 
         val differ  = AsyncPagingDataDiffer(
-            diffCallback = StoriesAdapter.DIFF_CALLBACK,
+            diffCallback = ReportAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
             workerDispatcher = Dispatchers.Main,
         )
@@ -90,18 +90,18 @@ class MainViewModelTest{
         assertEquals(0, differ.snapshot().size)
     }
 
-    class StoryPagingSource: PagingSource<Int, LiveData<List<ListStoryItem>>>() {
+    class StoryPagingSource: PagingSource<Int, LiveData<List<Report>>>() {
         companion object{
-            fun snapshot(items: List<ListStoryItem>): PagingData<ListStoryItem>{
+            fun snapshot(items: List<Report>): PagingData<Report>{
                 return PagingData.from(items)
             }
         }
 
-        override fun getRefreshKey(state: PagingState<Int, LiveData<List<ListStoryItem>>>): Int {
+        override fun getRefreshKey(state: PagingState<Int, LiveData<List<Report>>>): Int {
             return 0
         }
 
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<ListStoryItem>>> {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<Report>>> {
             return LoadResult.Page(emptyList(),0,1)
         }
     }
