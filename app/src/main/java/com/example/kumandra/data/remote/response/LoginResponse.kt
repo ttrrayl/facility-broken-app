@@ -23,7 +23,7 @@ data class LoginResult(
 //	val userId: String,
 
 	@field:SerializedName("id_student")
-	val idStudent: String,
+	val idStudent: Int,
 
 	@field:SerializedName("username")
 	val username: String,

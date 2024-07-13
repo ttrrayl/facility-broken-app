@@ -23,7 +23,7 @@ class UserSession private constructor(private val dataStore: DataStore<Preferenc
     fun getUser(): Flow<StudentModel> {
         return dataStore.data.map { preferences ->
             StudentModel(
-                preferences[IDSTUDENT] ?: "",
+                preferences[IDSTUDENT] ?: 0,
                 preferences[USERNAME] ?:""
             )
         }
@@ -72,7 +72,7 @@ class UserSession private constructor(private val dataStore: DataStore<Preferenc
 
         private val STATE = booleanPreferencesKey("state")
         private val TOKEN = stringPreferencesKey("token")
-        private val IDSTUDENT = stringPreferencesKey("id_student")
+        private val IDSTUDENT = intPreferencesKey("id_student")
         private val USERNAME = stringPreferencesKey("username")
 
 

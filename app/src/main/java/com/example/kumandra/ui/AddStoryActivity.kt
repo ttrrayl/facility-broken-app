@@ -552,6 +552,6 @@ class AddStoryActivity : AppCompatActivity() {
         private const val REQUEST_CODE_LOCATION_PERMISSIONS = 11
         private const val REQUEST_CODE_CAMERA_PERMISSIONS = 10
         var TOKEN = "token"
-        var IDSTUDENT = "id"
+        var IDSTUDENT = 0
     }
 }
