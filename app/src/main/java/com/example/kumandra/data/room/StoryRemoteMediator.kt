@@ -13,7 +13,8 @@ import com.example.kumandra.data.remote.response.Report
 class StoryRemoteMediator(
     private val token: String,
     private val database: ReportDatabase,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val idStudent: Int? = null
 ): RemoteMediator<Int, Report>() {
 
     companion object{
@@ -47,12 +48,21 @@ class StoryRemoteMediator(
             }
         }
         try {
-            val responseData =
+            val responseData = if (idStudent != null){
+                apiService.getStoriesByIdStudent(
+                    "Bearer $token",
+                    page,
+                    state.config.pageSize,
+                    idStudent
+                )
+            } else {
                 apiService.getStories(
                     "Bearer $token",
                     page,
                     state.config.pageSize
                 )
+            }
+
             val endOfPaginationReached = responseData.listReport.isEmpty()
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -69,7 +79,7 @@ class StoryRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: Exception) {
-            println("GAGAL ${exception.message}")
+            println("Remote Mediator Failed: ${exception.message}")
             return MediatorResult.Error(exception)
         }
     }

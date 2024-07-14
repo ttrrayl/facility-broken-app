@@ -10,5 +10,9 @@ object Injection {
         val database = ReportDatabase.getDatabase(context)
         val apiService = ApiConfig.getApiService()
         return ReportRepository(database, apiService)
+
+
     }
+
+
 }

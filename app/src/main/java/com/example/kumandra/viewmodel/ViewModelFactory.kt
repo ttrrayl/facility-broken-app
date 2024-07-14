@@ -34,4 +34,15 @@ class ViewModelFactory (private val context: Context, private val pref: UserSess
             else -> throw java.lang.IllegalArgumentException("Uknown Viewmodel Class: " + modelClass.name)
         }
     }
+
+//    companion object{
+//        @Volatile
+//        private var instance: ViewModelFactory? = null
+//
+//        @JvmStatic
+//        fun getInstance(context: Context): ViewModelFactory =
+//            instance ?: synchronized(this) {
+//                instance ?: ViewModelFactory(context)
+//            }.also { instance = it }
+//    }
 }

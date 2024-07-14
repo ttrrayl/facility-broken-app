@@ -38,6 +38,14 @@ interface ApiService {
         @Query("size") size: Int
     ): MainResponse
 
+    @GET("report/user/{id_student}")
+    suspend fun getStoriesByIdStudent(
+        @Header("Authorization") authorization: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Path("id_student") id_student:Int
+    ): MainResponse
+
     @GET("building")
     suspend fun listBuilding(): Response<BuildingResponses>
 

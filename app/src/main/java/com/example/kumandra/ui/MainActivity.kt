@@ -8,35 +8,48 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.kumandra.R
-import com.example.kumandra.adapter.ReportAdapter
+import com.example.kumandra.adapter.SectionPageAdapter
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.databinding.ActivityMainBinding
 import com.example.kumandra.viewmodel.MainViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var token: String
+    private var idStudent: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.rvStory.layoutManager = layoutManager
 
         binding.fbAddStory.setOnClickListener{
             startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
         }
+
+        val sectionsPagerAdapter = SectionPageAdapter(this)
+       // sectionsPagerAdapter.username = username.toString()
+        val viewPager: ViewPager2 = binding.viewPager
+        viewPager.adapter = sectionsPagerAdapter
+        val tabs: TabLayout = binding.tabReport
+        TabLayoutMediator(tabs, viewPager){
+                tab,position -> tab.text = resources.getString(TAB_TITLES[position])
+        }.attach()
 
         viewModelConfig()
     }
@@ -52,8 +65,8 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.getToken().observe(this){ user ->
             if (user.isLogin) {
+                this.token = user.token
                 AddStoryActivity.TOKEN = user.token
-                getStory(user.token)
             } else {
                 startActivity(Intent(this,LoginActivity::class.java))
                 finish()
@@ -61,8 +74,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.getUser().observe(this) {
+            this.idStudent = it.idStudent
             AddStoryActivity.IDSTUDENT = it.idStudent
-            Log.i("idStudent", "id: ${it.idStudent}")
         }
 
 //        mainViewModel.listStory.observe(this){
@@ -86,15 +99,6 @@ class MainActivity : AppCompatActivity() {
             if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun getStory(token: String) {
-        val adapter = ReportAdapter()
-        binding.rvStory.setHasFixedSize(true)
-        mainViewModel.getStories(token).observe(this){
-
-            adapter.submitData(lifecycle, it)
-        }
-        binding.rvStory.adapter = adapter
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -119,5 +123,15 @@ class MainActivity : AppCompatActivity() {
 
         }
         return true
+    }
+
+    companion object{
+        const val EXTRA_DETAIL = "extra_detail"
+        const val AVATAR_DETAIL = "avatar_detail"
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tabText1,
+            R.string.tabText2
+        )
     }
 }

@@ -18,4 +18,7 @@ interface ReportDao {
 
     @Query("DELETE FROM report")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM report WHERE id_student = :idStudent")
+    fun getReportByStudentId(idStudent: Int): PagingSource<Int, Report>
 }
