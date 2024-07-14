@@ -16,4 +16,6 @@
     <string name="deskripsi">Deskripsi</string>
     <string name="lokasi_kelas">Lokasi</string>
     <string name="fasilitas">Fasilitas</string>
+    <string name="edit">Edit</string>
+    <string name="hapus">Hapus</string>
 </resources>

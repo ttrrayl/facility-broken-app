@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.kumandra.data.remote.response.Report
 import com.example.kumandra.databinding.ItemRvBinding
+import com.example.kumandra.ui.AddStoryActivity
 import com.example.kumandra.ui.DetailStoryActivity
 
 class ReportAdapter : PagingDataAdapter<Report, ReportAdapter.ViewHolder>(DIFF_CALLBACK){
@@ -25,6 +26,7 @@ class ReportAdapter : PagingDataAdapter<Report, ReportAdapter.ViewHolder>(DIFF_C
             holder.itemView.setOnClickListener{
                 val intent = Intent(holder.itemView.context, DetailStoryActivity::class.java)
                 intent.putExtra(DetailStoryActivity.STORY_DETAIL, data)
+                intent.putExtra(AddStoryActivity.report, data)
                 holder.itemView.context.startActivity(intent)
             }
         }
