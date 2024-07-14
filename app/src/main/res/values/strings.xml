@@ -10,4 +10,10 @@
     <string name="tabText2">Laporan Saya</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tanggal_dibuat">Tanggal Dibuat</string>
+    <string name="tanggal_update">Tanggal Update</string>
+    <string name="email">Email</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="lokasi_kelas">Lokasi</string>
+    <string name="fasilitas">Fasilitas</string>
 </resources>
