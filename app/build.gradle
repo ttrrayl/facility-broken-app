@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.kumandra'
+    namespace 'com.example.kumandraPJ'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.kumandra"
+        applicationId "com.example.kumandraPJ"
         minSdk 24
         targetSdk 33
         versionCode 1

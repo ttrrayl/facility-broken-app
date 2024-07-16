@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kumandra</string>
+    <string name="app_name">Kumandra-PJ</string>
     <string name="gallery">GALLERY</string>
     <string name="camera">CAMERA</string>
     <string name="logout">Logout</string>
@@ -18,4 +18,5 @@
     <string name="fasilitas">Fasilitas</string>
     <string name="edit">Edit</string>
     <string name="hapus">Hapus</string>
+    <string name="tambah_cerita_anda">tambah cerita Anda</string>
 </resources>

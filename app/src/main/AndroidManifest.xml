@@ -97,7 +97,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.kumandra"
+            android:authorities="com.example.kumandraPJ"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
