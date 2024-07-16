@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -71,13 +72,7 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)){
-            ActivityCompat.requestPermissions(
-                this, REQUIRED_CAMERA_PERMISSIONS, REQUEST_CODE_CAMERA_PERMISSIONS
-            )
-        }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
+        detailReport = intent.getParcelableExtra<Report>(REPORT) as Report
         binding.buttonUpload.setOnClickListener { submit() }
 
         viewModelConfig()
@@ -130,7 +125,7 @@ class AddStoryActivity : AppCompatActivity() {
                 }
                 is Results.Success -> {
                     val items = mutableListOf<String>()
-                    it.data?.response?.forEach { status ->
+                    it.data?.status?.forEach { status ->
                         items.add(status.nama_status)
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
@@ -146,18 +141,16 @@ class AddStoryActivity : AppCompatActivity() {
         val desc = binding.etResp.text.toString()
         val selectedStatus = binding.statusInputLayout.editText?.text.toString()
 
-        val selectedStatusId = statusViewModel.status.value?.data?.response?.find{
+        val selectedStatusId = statusViewModel.status.value?.data?.status?.find{
             it.nama_status == selectedStatus
         }?.id_status
-
-        detailReport = intent.getParcelableExtra<Report>(DetailStoryActivity.STORY_DETAIL) as Report
 
         when {
             desc.isEmpty() -> binding.etResp.error = "Kolom tidak boleh kosong"
 
             else -> {
-                val idReport = detailReport.id_report
-                val idPj = detailReport.id_pj
+                val idReport = detailReport.id_report.toString()
+                val idPj = detailReport.id_pj.toString()
                 val respon = binding.etResp.text.toString()
                 val idStatus = selectedStatusId.toString()
 //                AlertDialog.Builder(this).apply {
@@ -202,7 +195,6 @@ class AddStoryActivity : AppCompatActivity() {
         private const val REQUEST_CODE_LOCATION_PERMISSIONS = 11
         private const val REQUEST_CODE_CAMERA_PERMISSIONS = 10
         var TOKEN = "token"
-        var IDSTUDENT = 0
-        var REPORT = "report"
+        const val REPORT = "report"
     }
 }

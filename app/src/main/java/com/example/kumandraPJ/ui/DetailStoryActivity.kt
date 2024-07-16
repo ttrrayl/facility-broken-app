@@ -28,8 +28,12 @@ class DetailStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModelConfig()
+        setLayout()
         binding.btResponse.setOnClickListener{
-            startActivity(Intent(this, AddStoryActivity::class.java ))
+            val intent = Intent(this, AddStoryActivity::class.java).apply {
+                putExtra(AddStoryActivity.REPORT, detailReport)
+            }
+            startActivity(intent)
         }
     }
     private fun viewModelConfig() {
@@ -39,11 +43,11 @@ class DetailStoryActivity : AppCompatActivity() {
 
         viewModel.getUser().observe(this){
             val id = it.idPj
-            setLayout(id)
+
         }
     }
 
-    private fun setLayout(idStudent: String) {
+    private fun setLayout() {
         detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
         binding.apply {
             Glide.with(applicationContext)
@@ -58,14 +62,6 @@ class DetailStoryActivity : AppCompatActivity() {
             tvStatus.text =  ":" + detailReport.nama_status
 
         }
-    }
-
-    private fun editReport() {
-        TODO("Not yet implemented")
-    }
-
-    private fun deleteReport() {
-        TODO("Not yet implemented")
     }
 
 
