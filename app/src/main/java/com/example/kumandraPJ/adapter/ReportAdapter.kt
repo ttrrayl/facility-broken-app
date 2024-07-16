@@ -23,10 +23,11 @@ class ReportAdapter : PagingDataAdapter<Report, ReportAdapter.ViewHolder>(DIFF_C
             holder.binding.tvDeskripsi.text = data.description
             holder.binding.tvKelas.text = data.nama_classes
             holder.binding.tvTanggal.text = data.created_at
+            holder.binding.tvStatus.text = data.nama_status
             holder.itemView.setOnClickListener{
                 val intent = Intent(holder.itemView.context, DetailStoryActivity::class.java)
                 intent.putExtra(DetailStoryActivity.STORY_DETAIL, data)
-                intent.putExtra(AddStoryActivity.report, data)
+                intent.putExtra(AddStoryActivity.REPORT, data)
                 holder.itemView.context.startActivity(intent)
             }
         }

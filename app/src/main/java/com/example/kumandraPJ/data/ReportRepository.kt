@@ -12,7 +12,7 @@ class ReportRepository(
     private val apiService: ApiService
 ){
     @OptIn(ExperimentalPagingApi::class)
-    fun getReport(token: String, idPj: Int): LiveData<PagingData<Report>> {
+    fun getReport(token: String, idPj: String): LiveData<PagingData<Report>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5

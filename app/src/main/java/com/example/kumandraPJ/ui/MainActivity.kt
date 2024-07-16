@@ -76,9 +76,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.getUser().observe(this) {
-//            getStory(token, it.idPj)
-//            AddStoryActivity.IDSTUDENT = it.idPj
-            Log.i("ID PJ MAIN", "ID: ${it.idPj}")
+            getStory(token, it.idPj)
+        //    AddStoryActivity.IDSTUDENT = it.idPj
         }
 
 //        mainViewModel.listStory.observe(this){
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
-    private fun getStory(token: String, idPj: Int) {
+    private fun getStory(token: String, idPj: String) {
         val adapter = ReportAdapter()
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager

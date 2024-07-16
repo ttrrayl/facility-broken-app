@@ -8,132 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.AddStoryActivity">
 
-
-
-    <ImageView
-        android:id="@+id/iv_add"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_image_"/>
-
-    <Button
-        android:id="@+id/button_gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="39dp"
-        android:padding="8dp"
-        android:text="@string/gallery"
-        android:textSize="18sp"
-        app:cornerRadius="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_add" />
-
-    <Button
-        android:id="@+id/button_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/iv_add"
-        app:layout_constraintStart_toEndOf="@+id/button_gallery"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="74dp"
-        app:cornerRadius="18dp"
-        android:text="@string/camera"
-        android:textSize="18sp"
-        android:padding="8dp"/>
-
-    <TextView
-        android:id="@+id/tv_building"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pilih Gedung Perkuliahan"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="322dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_gallery"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/buildingInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Pilih Gedung Kuliah"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_building">
-
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-<!--    <Spinner-->
-<!--        android:id="@+id/spinner_building"-->
-<!--        android:layout_width="380dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        tools:layout_editor_absoluteX="1dp"-->
-<!--        tools:layout_editor_absoluteY="358dp"-->
-<!--        android:spinnerMode="dropdown"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_building"/>-->
-
-    <TextView
-        android:id="@+id/tv_classes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pilih Ruang Kelas"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="322dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buildingInputLayout"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/classesInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Pilih Ruang Kelas"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_classes">
-
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-<!--    <Spinner-->
-<!--        android:id="@+id/spinner_classes"-->
-<!--        android:layout_width="380dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        tools:layout_editor_absoluteX="1dp"-->
-<!--        tools:layout_editor_absoluteY="358dp"-->
-<!--        android:spinnerMode="dropdown"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_classes"/>-->
-
     <TextView
         android:id="@+id/tv_detailFacil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pilih Fasilitas"
+        android:text="Perbarui status"
         android:textColor="@color/black"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="31dp"
@@ -141,14 +20,14 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classesInputLayout"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/detailFacilInputLayout"
+        android:id="@+id/statusInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pilih Fasilitas"
+        android:hint="Pilih Status"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil">
@@ -156,7 +35,8 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"/>
+            android:inputType="none"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,17 +52,18 @@
 <!--        app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil"/>-->
 
     <EditText
-        android:id="@+id/et_desc"
+        android:id="@+id/et_resp"
         android:layout_width="match_parent"
         android:layout_height="123dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/statusInputLayout"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
         android:background="@color/soft_pink"
         android:textColor="@color/black"
-        android:hint="Deskripsi..."
+        android:hint="Masukkan respon disini"
         android:padding="20dp"
         android:gravity="start"
         android:inputType="textMultiLine"/>
@@ -192,10 +73,11 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_desc"
+        app:layout_constraintTop_toBottomOf="@+id/et_resp"
         android:layout_margin="12dp"
-        android:text="UPLOAD"
-        android:textSize="25sp"
+        android:text="Kirim"
+        android:textSize="20sp"
+        app:cornerRadius="18dp"
         android:backgroundTint="@color/army"/>
 
     <ProgressBar

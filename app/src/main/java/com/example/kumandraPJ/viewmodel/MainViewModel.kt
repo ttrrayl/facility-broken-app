@@ -36,7 +36,7 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
         }
     }
 
-    fun getStories(token: String, idPj: Int): LiveData<PagingData<Report>> =
+    fun getStories(token: String, idPj: String): LiveData<PagingData<Report>> =
         reportRepository.getReport(token, idPj).cachedIn(viewModelScope)
 
 //    fun getStoriesMap(token: String) {

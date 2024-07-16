@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.kumandraPJ.data.remote.response.Report
 
-@Database(entities = [Report::class, RemoteKeys::class], version = 3, exportSchema = false)
+@Database(entities = [Report::class, RemoteKeys::class], version = 4, exportSchema = false)
 abstract class ReportDatabase : RoomDatabase() {
     abstract fun reportDao(): ReportDao
     abstract fun remoteKeysDao(): RemoteKeysDao

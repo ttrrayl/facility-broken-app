@@ -12,4 +12,5 @@ class DetailStoryViewModel (private val pref: UserSession) : ViewModel() {
     fun getUser(): LiveData<PjModel> {
         return pref.getUser().asLiveData()
     }
+
 }

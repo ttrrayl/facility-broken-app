@@ -32,10 +32,11 @@ import com.example.kumandraPJ.data.Results
 import com.example.kumandraPJ.data.local.UserSession
 import com.example.kumandraPJ.databinding.ActivityAddStoryBinding
 import com.example.kumandraPJ.checkPermissionsGranted
+import com.example.kumandraPJ.data.remote.response.Report
 import com.example.kumandraPJ.reduceFileImage
 import com.example.kumandraPJ.uriToFile
 import com.example.kumandraPJ.viewmodel.AddStoryViewModel
-import com.example.kumandraPJ.viewmodel.BuildingViewModel
+import com.example.kumandraPJ.viewmodel.StatusViewModel
 import com.example.kumandraPJ.viewmodel.ClassesViewModel
 import com.example.kumandraPJ.viewmodel.DetailFacilViewModel
 import com.example.kumandraPJ.viewmodel.ViewModelFactory
@@ -57,52 +58,18 @@ class AddStoryActivity : AppCompatActivity() {
  //   private lateinit var user: StudentModel
     private var latLng: LatLng? = null
     private lateinit var addStoryViewModel: AddStoryViewModel
-    private lateinit var buildingViewModel: BuildingViewModel
+    private lateinit var statusViewModel: StatusViewModel
     private lateinit var classesViewModel: ClassesViewModel
     private lateinit var detailFacilViewModel: DetailFacilViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double? = null
     private var longitude: Double? = null
-
-
-    private val launcherIntentCamera = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode == RESULT_OK) {
-            val myFile = File(currentPhotoPath)
-            myFile.let { file ->
-                binding.ivAdd.setImageBitmap(BitmapFactory.decodeFile(file.path))
-            }
-            getFile = myFile
-        }
-    }
-
-    private val launcherIntentGallery = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val selectedImg: Uri = result.data?.data as Uri
-            selectedImg.let { uri ->
-                val myFile = uriToFile(uri, this@AddStoryActivity)
-                getFile = myFile
-                binding.ivAdd.setImageURI(uri)
-            }
-        }
-    }
+    private lateinit var detailReport: Report
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-//        if (!allPermissionsGranted()) {
-//            ActivityCompat.requestPermissions(
-//                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-//            )
-//        } else{
-//            getLastLocation()
-//        }
 
         if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)){
             ActivityCompat.requestPermissions(
@@ -111,14 +78,10 @@ class AddStoryActivity : AppCompatActivity() {
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        binding.buttonCamera.setOnClickListener { startTakePhoto() }
-        binding.buttonGallery.setOnClickListener { startGallery() }
         binding.buttonUpload.setOnClickListener { submit() }
 
         viewModelConfig()
-        updateUIBuilding()
-        updateUIClasses()
-        updateUIFacil()
+        updateUIStatus()
     }
 
     private fun viewModelConfig(){
@@ -144,196 +107,21 @@ class AddStoryActivity : AppCompatActivity() {
             }
         }
 
-        buildingViewModel = ViewModelProvider(
+        statusViewModel = ViewModelProvider(
             this,
             ViewModelFactory(this, UserSession.getInstance(dataStore))
-        )[BuildingViewModel::class.java]
+        )[StatusViewModel::class.java]
 
-
-
-//        buildingViewModel.building.observe(this) { building ->
-//           val adapter: ArrayAdapter<String> = ArrayAdapter(
-//                this,
-//                android.R.layout.simple_spinner_item,
-//                building.map { it.nama_bulding })
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.spinnerBuilding.adapter = adapter
-//        }
-
-
-        classesViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(this, UserSession.getInstance(dataStore))
-        )[ClassesViewModel::class.java]
-
-//        classesViewModel.classes.observe(this) { classes ->
-//          val adapter: ArrayAdapter<String> = ArrayAdapter(
-//                this,
-//                android.R.layout.simple_spinner_item,
-//                classes.map { it.nama_classes })
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.spinnerClasses.adapter = adapter
-//        }
-
-
-
-        detailFacilViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(this, UserSession.getInstance(dataStore))
-        )[DetailFacilViewModel::class.java]
-//        val adapterDetailFacil: ArrayAdapter<String> =
-//            ArrayAdapter(this, android.R.layout.simple_spinner_item, mutableListOf())
-//        adapterDetailFacil.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        binding.spinnerDetailFacil.adapter = adapterDetailFacil
-//        detailFacilViewModel.detailFacil.observe(this) { detailFacil ->
-//          val adapter: ArrayAdapter<String> = ArrayAdapter(
-//                this,
-//                android.R.layout.simple_spinner_item,
-//                detailFacil.map { it.nama_detail_facilities })
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.spinnerDetailFacil.adapter = adapter
-//        }
-//        detailFacilViewModel.fetchDetailFacil()
     }
+
     private fun showLoading(isLoading: Boolean) {
         binding.pbAdd.visibility =
             if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_CAMERA_PERMISSIONS) {
-            if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)) {
-                Toast.makeText(
-                    this, "Tidak mendapatkan izin kamera", Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
-        } else if (requestCode == REQUEST_CODE_LOCATION_PERMISSIONS) {
-            if (!REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
-                Toast.makeText(
-                    this,"Tidak mendapatkan izin lokasi", Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
-        }
-
-    }
-
-//    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-//        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
-//    }
-
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        when {
-            permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                // Precise location access granted.
-                getMyLastLocation()
-            }
-
-            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                // Only approximate location access granted.
-                getMyLastLocation()
-            }
-
-            else -> {
-                // No location access granted.
-            }
-        }
-    }
-    @SuppressLint("MissingPermission")
-    private fun getMyLastLocation(){
-        if (REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    latitude = location.latitude
-                    longitude = location.longitude
-                } else {
-                    Toast.makeText(
-                        this@AddStoryActivity,
-                        "Location not found",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        } else {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
-        }
-
-
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            return
-//        }
-//        if (ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            return
-//        }
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location: Location? ->
-//                location?.let {
-//                    latitude = it.latitude
-//                    longitude = it.longitude
-//                }
-//            }
-    }
-
-    private fun getExifData(context: Context, imageUri: Uri): Pair<Double?,Double?>{
-        try {
-            val inputStream = context.contentResolver.openInputStream(imageUri)
-            val exif = ExifInterface(inputStream!!)
-            val latLong = FloatArray(2)
-            if (exif.getLatLong(latLong)) {
-                return Pair(latLong[0].toDouble(), latLong[1].toDouble())
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return Pair(null, null)
-    }
-
-    private fun startTakePhoto() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.resolveActivity(packageManager)
-
-        createCustomTempFile(application).also {
-            val photoURI: Uri = FileProvider.getUriForFile(
-                this@AddStoryActivity, "com.example.kumandraPJ", it
-            )
-            currentPhotoPath = it.absolutePath
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-            launcherIntentCamera.launch(intent)
-
-        }
-    }
-
-    private fun startGallery() {
-        val intent = Intent()
-        intent.action = ACTION_GET_CONTENT
-        intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Choose a Picture")
-        launcherIntentGallery.launch(chooser)
-    }
-
-    private fun updateUIBuilding(){
-        buildingViewModel.getBuilding()
-        buildingViewModel.builds.observe(this){
+    private fun updateUIStatus(){
+        statusViewModel.getStatus()
+        statusViewModel.status.observe(this){
             when(it){
                 is Results.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
@@ -342,57 +130,11 @@ class AddStoryActivity : AppCompatActivity() {
                 }
                 is Results.Success -> {
                     val items = mutableListOf<String>()
-                    it.data?.building?.forEach { building ->
-                        items.add(building.nama_building)
+                    it.data?.response?.forEach { status ->
+                        items.add(status.nama_status)
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
-                    (binding.buildingInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
-                        adapter
-                    )
-                }
-            }
-        }
-    }
-
-    private fun updateUIClasses(){
-        classesViewModel.getClasses()
-        classesViewModel.classes.observe(this){
-            when(it){
-                is Results.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-                is Results.Loading -> {
-                }
-                is Results.Success -> {
-                    val items = mutableListOf<String>()
-                    it.data?.classes?.forEach { classes ->
-                        items.add(classes.nama_classes)
-                    }
-                    val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
-                    (binding.classesInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
-                        adapter
-                    )
-                }
-            }
-        }
-    }
-
-    private fun updateUIFacil(){
-        detailFacilViewModel.getDetailFacil()
-        detailFacilViewModel.detailFacil.observe(this){
-            when(it){
-                is Results.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-                is Results.Loading -> {
-                }
-                is Results.Success -> {
-                    val items = mutableListOf<String>()
-                    it.data?.detail_facilities?.forEach { detailFacil ->
-                        items.add(detailFacil.nama_detail_facilities)
-                    }
-                    val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
-                    (binding.detailFacilInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
+                    (binding.statusInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
                         adapter
                     )
                 }
@@ -401,108 +143,23 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     private fun submit() {
-        val desc = binding.etDesc.text.toString()
-        val (imageLatitude, imageLongitude) = getExifData(this, getFile?.toUri()!!)
-        if (imageLatitude != null && imageLongitude != null){
-            latitude = imageLatitude
-            longitude = imageLongitude
-        }
-        val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
+        val desc = binding.etResp.text.toString()
+        val selectedStatus = binding.statusInputLayout.editText?.text.toString()
 
-//        val selectedItem = spinner.selectedItem
-//        selectedItem?.let {
-//            val selectedValue = it.toString()
-//            // Gunakan selectedValue
-//        } ?: run {
-//            // Handle null case, mungkin tampilkan pesan kesalahan kepada pengguna
-//        }
-        val selectedBuildingId = buildingViewModel.builds.value?.data?.building?.find{
-            it.nama_building == selectedBuilding
-        }?.id_building
+        val selectedStatusId = statusViewModel.status.value?.data?.response?.find{
+            it.nama_status == selectedStatus
+        }?.id_status
 
-        val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-        val selectedClassesId = classesViewModel.classes.value?.data?.classes?.find{
-            it.nama_classes == selectedClasses
-        }?.id_classes
-
-        val selectedDetailFacil = binding.detailFacilInputLayout.editText?.text.toString()
-        val selectedDetailFacilId = detailFacilViewModel.detailFacil.value?.data?.detail_facilities?.find{
-            it.nama_detail_facilities == selectedDetailFacil
-        }?.id_detail_facilities
-
-
-
-      //  val idStudent = user.idStudent.toString()
-
-//        val selectedClasses = binding.spinnerClasses.selectedItem
-//        selectedClasses?.toString() ?: run{
-//            Toast.makeText(this, "null CLASSES", Toast.LENGTH_SHORT)
-//        }
-//        val selectedClassesId = classesViewModel.classes.value?.find {
-//            it.nama_classes == selectedClasses
-//        }?.id_classes
-//
-//        val selectedDetailFacil = binding.spinnerDetailFacil.selectedItem
-//        selectedClasses?.toString() ?: run{
-//            Toast.makeText(this, "null DETAIL FACIL", Toast.LENGTH_SHORT)
-//        }
-//        val selectedDetailFacilId = detailFacilViewModel.detailFacil.value?.find {
-//            it.nama_detail_facilities == selectedDetailFacil
-//        }?.id_detail_facilities
+        detailReport = intent.getParcelableExtra<Report>(DetailStoryActivity.STORY_DETAIL) as Report
 
         when {
-            desc.isEmpty() -> binding.etDesc.error = "Fill description"
-            getFile == null -> {
-                Toast.makeText(
-                    this@AddStoryActivity,
-                    "Choose the image first",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            desc.isEmpty() -> binding.etResp.error = "Kolom tidak boleh kosong"
 
-//            selectedBuildingId == null -> {
-//                Toast.makeText(
-//                    this@AddStoryActivity,
-//                    "Choose the building here",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//            selectedClassesId == null -> {
-//                Toast.makeText(
-//                    this@AddStoryActivity,
-//                    "Choose the class here",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//            selectedDetailFacilId == null -> {
-//                Toast.makeText(
-//                    this@AddStoryActivity,
-//                    "Choose the facility here",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
             else -> {
-                val idStudent =
-                    IDSTUDENT.toString().toRequestBody("text/plain".toMediaType())
-                val file = reduceFileImage(getFile as File)
-                val lat =
-                    latitude.toString().toRequestBody("text/plain".toMediaType())
-                val lon =
-                    longitude.toString().toRequestBody("text/plain".toMediaType())
-                val description =
-                    binding.etDesc.text.toString().toRequestBody("text/plain".toMediaType())
-                val idBuilding =
-                    selectedBuildingId.toString().toRequestBody("text/plain".toMediaType())
-                val idClasses =
-                    selectedClassesId.toString().toRequestBody("text/plain".toMediaType())
-                val idDetailFacil =
-                    selectedDetailFacilId.toString().toRequestBody("text/plain".toMediaType())
-                val requestImageFile = file.asRequestBody("pictures/jpeg".toMediaType())
-                val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                    "pictures",
-                    file.name,
-                    requestImageFile
-                )
+                val idReport = detailReport.id_report
+                val idPj = detailReport.id_pj
+                val respon = binding.etResp.text.toString()
+                val idStatus = selectedStatusId.toString()
 //                AlertDialog.Builder(this).apply {
 //                    setTitle("STATE")
 //                    setMessage(latLng.toString())
@@ -517,7 +174,7 @@ class AddStoryActivity : AppCompatActivity() {
 //                }
 //                val report = arrayOf(idBuilding,idClasses,idDetailFacil,description, latLng).toString()
 //                Log.d("addReport", "report : $report")
-               addStoryViewModel.uploadStory(TOKEN, imageMultipart, idStudent, idBuilding,idClasses,idDetailFacil,description, lat, lon)
+               addStoryViewModel.sendResponse(TOKEN, idReport, idPj, idStatus, respon)
 
             }
         }
@@ -546,6 +203,6 @@ class AddStoryActivity : AppCompatActivity() {
         private const val REQUEST_CODE_CAMERA_PERMISSIONS = 10
         var TOKEN = "token"
         var IDSTUDENT = 0
-        var report = "report"
+        var REPORT = "report"
     }
 }

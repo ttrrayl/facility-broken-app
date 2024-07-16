@@ -13,7 +13,7 @@ class StoryRemoteMediator(
     private val token: String,
     private val database: ReportDatabase,
     private val apiService: ApiService,
-    private val idPj: Int = 0
+    private val idPj: String = ""
 ): RemoteMediator<Int, Report>() {
 
     companion object{

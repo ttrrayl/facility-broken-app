@@ -1,6 +1,7 @@
 package com.example.kumandraPJ.ui
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -26,10 +27,10 @@ class DetailStoryActivity : AppCompatActivity() {
         binding = ActivityDetailStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         viewModelConfig()
-        binding.btEdit.setOnClickListener{ editReport()}
-        binding.btDelete.setOnClickListener{ deleteReport()}
+        binding.btResponse.setOnClickListener{
+            startActivity(Intent(this, AddStoryActivity::class.java ))
+        }
     }
     private fun viewModelConfig() {
         val pref = UserSession.getInstance(dataStore)
@@ -54,14 +55,8 @@ class DetailStoryActivity : AppCompatActivity() {
             tvFacil.text =  ":" + detailReport.nama_detail_facilities
             tvClass.text =  ":" + detailReport.nama_classes
             tvDesc.text =  ":" + detailReport.description
+            tvStatus.text =  ":" + detailReport.nama_status
 
-        }
-        if (detailReport.id_student != idStudent){
-            binding.btEdit.visibility = View.GONE
-            binding.btDelete.visibility = View.GONE
-        } else{
-            binding.btEdit.visibility = View.VISIBLE
-            binding.btDelete.visibility = View.VISIBLE
         }
     }
 

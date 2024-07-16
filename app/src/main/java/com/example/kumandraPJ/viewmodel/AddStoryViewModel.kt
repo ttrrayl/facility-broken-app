@@ -19,31 +19,23 @@ class AddStoryViewModel : ViewModel() {
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    fun uploadStory(
+    fun sendResponse(
         token: String,
-        image: MultipartBody.Part,
-        id_student: RequestBody,
-        id_building: RequestBody,
-        id_classes: RequestBody,
-        id_detailFacil: RequestBody,
-        description: RequestBody,
-        lat: RequestBody?,
-        lon: RequestBody?
-    ) {
+        id_report: String,
+        id_pj: String,
+        id_status: String,
+        content: String,
+        ) {
         _isLoading.value = true
         try {
 //            val lat = latLng?.latitude?.toFloat()
 //            val lon = latLng?.longitude?.toFloat()
-            val client = ApiConfig.getApiService().addStory(
+            val client = ApiConfig.getApiService().addResponse(
                 "Bearer $token",
-                image,
-                id_student,
-                id_building,
-                id_classes,
-                id_detailFacil,
-                description,
-                lat,
-                lon
+                id_report,
+                id_pj,
+                id_status,
+                content
             )
             client.enqueue(object : Callback<AddStoryResponse> {
                 override fun onFailure(call: Call<AddStoryResponse>, t: Throwable) {
@@ -59,7 +51,7 @@ class AddStoryViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                            _msg.value = "Successfully upload the file"
+                            _msg.value = responseBody.message
                         }
                     } else {
                         _msg.value = "gagal"

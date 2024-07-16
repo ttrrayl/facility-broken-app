@@ -19,4 +19,6 @@
     <string name="edit">Edit</string>
     <string name="hapus">Hapus</string>
     <string name="tambah_cerita_anda">tambah cerita Anda</string>
+    <string name="respon">Respon</string>
+    <string name="status_laporan">Status Laporan</string>
 </resources>

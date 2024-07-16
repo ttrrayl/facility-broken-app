@@ -6,6 +6,7 @@ import com.example.kumandraPJ.data.remote.response.ClassesResponses
 import com.example.kumandraPJ.data.remote.response.DetailFacilResponses
 import com.example.kumandraPJ.data.remote.response.LoginResponse
 import com.example.kumandraPJ.data.remote.response.MainResponse
+import com.example.kumandraPJ.data.remote.response.StatusResponses
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -13,9 +14,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-
-
-
     @FormUrlEncoded
     @POST("login")
     fun login(
@@ -32,13 +30,13 @@ interface ApiService {
     @GET("report/user/{id_pj}")
     suspend fun getStoriesByIdPj(
         @Header("Authorization") authorization: String,
-        @Path("id_pj") id_pj:Int,
+        @Path("id_pj") id_pj:String,
         @Query("page") page: Int,
         @Query("size") size: Int,
     ): MainResponse
 
-    @GET("building")
-    suspend fun listBuilding(): Response<BuildingResponses>
+    @GET("status")
+    suspend fun listStatus(): Response<StatusResponses>
 
     @GET("classes")
     suspend fun listClasses(): Response<ClassesResponses>
@@ -46,22 +44,13 @@ interface ApiService {
     @GET("detail_facil")
     suspend fun listDetailFacil(): Response<DetailFacilResponses>
 
-//    @GET("stories?location=1")
-//    fun getStoriesMap(
-//        @Header("Authorization") authorization: String
-//    ): Call<MainResponse>
-
-    @Multipart
-    @POST("report")
-    fun addStory(
+    @FormUrlEncoded
+    @POST("response")
+    fun addResponse(
         @Header("Authorization") authorization: String,
-        @Part pictures: MultipartBody.Part,
-        @Part ("id_student") idStudent: RequestBody,
-        @Part("id_building") idBuilding: RequestBody,
-        @Part("id_classes") idClasses: RequestBody,
-        @Part("id_detail_facilities") idDetailFacil: RequestBody,
-        @Part("description") description: RequestBody,
-        @Part("lat") lat: RequestBody?,
-        @Part("lon") lon: RequestBody?,
-    ): Call<AddStoryResponse>
+        @Field("id_report") idReport: String,
+        @Field("id_pj") idPj: String,
+        @Field("id_status") idStatus: String,
+        @Field("content") content: String,
+        ): Call<AddStoryResponse>
 }

@@ -46,6 +46,9 @@ data class Report(
     @field:SerializedName("nama_classes")
     val nama_classes: String,
 
+    @field:SerializedName("nama_pj")
+    val nama_pj: String,
+
     @field:SerializedName("nama_detail_facilities")
     val nama_detail_facilities: String,
 

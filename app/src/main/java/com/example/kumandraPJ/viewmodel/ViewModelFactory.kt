@@ -19,8 +19,8 @@ class ViewModelFactory (private val context: Context, private val pref: UserSess
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 AddStoryViewModel() as T
             }
-            modelClass.isAssignableFrom(BuildingViewModel::class.java) -> {
-                BuildingViewModel() as T
+            modelClass.isAssignableFrom(StatusViewModel::class.java) -> {
+                StatusViewModel() as T
             }
             modelClass.isAssignableFrom(ClassesViewModel::class.java) -> {
                 ClassesViewModel() as T
