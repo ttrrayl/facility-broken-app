@@ -1,6 +1,5 @@
 package com.example.kumandraPJ
 
-import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -13,29 +12,23 @@ import androidx.core.app.NotificationCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import com.example.kumandraPJ.data.local.PjModel
-import com.example.kumandraPJ.data.local.UserSession
+import com.example.kumandraPJ.data.remote.ApiConfig
 import com.example.kumandraPJ.ui.MainActivity
-import com.example.kumandraPJ.viewmodel.DetailStoryViewModel
-import com.example.kumandraPJ.viewmodel.FcmViewModel
-import com.example.kumandraPJ.viewmodel.ViewModelFactory
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PushNotificationService(): FirebaseMessagingService() {
 
-    private lateinit var viewModel: FcmViewModel
-    override fun onCreate() {
-        super.onCreate()
-        // Inisialisasi TokenViewModel
-        val app = applicationContext as Application
-        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(app).create(FcmViewModel::class.java)
-    }
+//    private lateinit var viewModel: FcmViewModel
+//    override fun onCreate() {
+//        super.onCreate()
+//        // Inisialisasi TokenViewModel
+//        val app = applicationContext as Application
+//        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(app).create(FcmViewModel::class.java)
+//    }
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FCM TOKEN", "New Token: $token")
@@ -43,7 +36,22 @@ class PushNotificationService(): FirebaseMessagingService() {
     }
 
     private fun sendTokenToServer(token: String) {
-        viewModel.addFcmToken(ID, "2", token)
+      //  viewModel.addFcmToken(ID, "2", token)
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val response = ApiConfig.getApiService().addFcmToken(ID, "2", token)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        Log.i("FcmPUSH", "fcm: $response")
+                    }
+                } else{
+                    Log.i("FcmPUSH", "fcm: $response")
+                }
+
+            } catch (e: Throwable){
+                Log.i("FcmPUSH", e.message.toString())
+            }
+        }
 
     }
 

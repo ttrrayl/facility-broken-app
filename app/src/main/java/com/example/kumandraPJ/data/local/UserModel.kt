@@ -6,6 +6,6 @@ data class UserModel (
 )
 
 data class PjModel(
-    val idPj: String,
+    val idPj: String = "",
     val username: String
 )

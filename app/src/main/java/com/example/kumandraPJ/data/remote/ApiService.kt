@@ -60,6 +60,6 @@ interface ApiService {
     suspend fun addFcmToken(
         @Field("id_user") idUser: String,
         @Field("id_role") idRole: String,
-        @Field("fcm_token") fcmToken: String
+        @Field("token") fcmToken: String
     ): Response<SaveTokenResponses>
 }
