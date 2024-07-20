@@ -6,6 +6,7 @@ import com.example.kumandraPJ.data.remote.response.ClassesResponses
 import com.example.kumandraPJ.data.remote.response.DetailFacilResponses
 import com.example.kumandraPJ.data.remote.response.LoginResponse
 import com.example.kumandraPJ.data.remote.response.MainResponse
+import com.example.kumandraPJ.data.remote.response.SaveTokenResponses
 import com.example.kumandraPJ.data.remote.response.StatusResponses
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -53,4 +54,12 @@ interface ApiService {
         @Field("id_status") idStatus: String,
         @Field("content") content: String,
         ): Call<AddStoryResponse>
+
+    @FormUrlEncoded
+    @POST("fcm")
+    suspend fun addFcmToken(
+        @Field("id_user") idUser: String,
+        @Field("id_role") idRole: String,
+        @Field("fcm_token") fcmToken: String
+    ): Response<SaveTokenResponses>
 }

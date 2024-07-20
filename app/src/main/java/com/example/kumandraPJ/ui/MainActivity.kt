@@ -16,6 +16,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.kumandraPJ.PushNotificationService
 import com.example.kumandraPJ.R
 import com.example.kumandraPJ.adapter.ReportAdapter
 import com.example.kumandraPJ.data.local.UserSession
@@ -24,6 +25,7 @@ import com.example.kumandraPJ.viewmodel.MainViewModel
 import com.example.kumandraPJ.viewmodel.ViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.FirebaseApp
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class MainActivity : AppCompatActivity() {
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        FirebaseApp.initializeApp(this)
 
 
         binding.fbAddStory.setOnClickListener{
@@ -68,7 +72,6 @@ class MainActivity : AppCompatActivity() {
             if (user.isLogin) {
                 token = user.token
                 AddStoryActivity.TOKEN = user.token
-                Log.i("LOGIN", "ID: ${user.isLogin}")
             } else {
                 startActivity(Intent(this,LoginActivity::class.java))
                 finish()
@@ -77,7 +80,8 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.getUser().observe(this) {
             getStory(token, it.idPj)
-        //    AddStoryActivity.IDSTUDENT = it.idPj
+            PushNotificationService.ID = it.idPj
+            //    AddStoryActivity.IDSTUDENT = it.idPj
         }
 
 //        mainViewModel.listStory.observe(this){

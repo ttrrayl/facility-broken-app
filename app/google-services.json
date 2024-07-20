@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1030333834341",
+    "project_id": "kumandra-3c7e1",
+    "storage_bucket": "kumandra-3c7e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030333834341:android:af3bd3e09a6d442018928c",
+        "android_client_info": {
+          "package_name": "com.example.kumandraPJ"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQjheznVo7zHQCXqVmG8I_BfpOkR7Ly-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

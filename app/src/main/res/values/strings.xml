@@ -21,4 +21,6 @@
     <string name="tambah_cerita_anda">tambah cerita Anda</string>
     <string name="respon">Respon</string>
     <string name="status_laporan">Status Laporan</string>
+    <string name="default_notification_channel_id">default_channel</string>
+    <string name="fcm_message">Notifikasi</string>
 </resources>

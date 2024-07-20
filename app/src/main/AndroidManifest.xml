@@ -68,13 +68,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.RegisterActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.LoginActivity"
             android:exported="false">
             <meta-data
@@ -104,6 +97,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service android:name=".PushNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGIN_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
