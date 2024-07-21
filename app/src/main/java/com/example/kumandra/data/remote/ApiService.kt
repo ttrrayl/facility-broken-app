@@ -7,6 +7,7 @@ import com.example.kumandra.data.remote.response.DetailFacilResponses
 import com.example.kumandra.data.remote.response.LoginResponse
 import com.example.kumandra.data.remote.response.MainResponse
 import com.example.kumandra.data.remote.response.RegisterResponse
+import com.example.kumandra.data.remote.response.SaveTokenResponses
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -41,9 +42,9 @@ interface ApiService {
     @GET("report/user/{id_student}")
     suspend fun getStoriesByIdStudent(
         @Header("Authorization") authorization: String,
+        @Path("id_student") id_student:Int,
         @Query("page") page: Int,
-        @Query("size") size: Int,
-        @Path("id_student") id_student:Int
+        @Query("size") size: Int
     ): MainResponse
 
     @GET("building")
@@ -73,4 +74,12 @@ interface ApiService {
         @Part("lat") lat: RequestBody?,
         @Part("lon") lon: RequestBody?,
     ): Call<AddStoryResponse>
+
+    @FormUrlEncoded
+    @POST("fcm")
+    suspend fun addFcmToken(
+        @Field("id_user") idUser: String,
+        @Field("id_role") idRole: String,
+        @Field("token") fcmToken: String
+    ): Response<SaveTokenResponses>
 }

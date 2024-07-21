@@ -70,7 +70,45 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double? = null
     private var longitude: Double? = null
+    private lateinit var location: Location
 
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+                else -> {
+                }
+            }
+        }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_CAMERA_PERMISSIONS) {
+            if (!allPermissionsGranted()) {
+                Toast.makeText(
+                    this,
+                    "tidak mendapatkan izin camera",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        }
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_CAMERA_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
 
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -102,21 +140,21 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-//        if (!allPermissionsGranted()) {
+//        if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)){
 //            ActivityCompat.requestPermissions(
-//                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+//                this, REQUIRED_CAMERA_PERMISSIONS, REQUEST_CODE_CAMERA_PERMISSIONS
 //            )
-//        } else{
-//            getLastLocation()
 //        }
 
-        if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)){
+        if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_CAMERA_PERMISSIONS, REQUEST_CODE_CAMERA_PERMISSIONS
+                this,
+                REQUIRED_CAMERA_PERMISSIONS,
+                REQUEST_CODE_CAMERA_PERMISSIONS
             )
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        getMyLastLocation()
 
         binding.buttonCamera.setOnClickListener { startTakePhoto() }
         binding.buttonGallery.setOnClickListener { startGallery() }
@@ -156,111 +194,79 @@ class AddStoryActivity : AppCompatActivity() {
             ViewModelFactory(this, UserSession.getInstance(dataStore))
         )[BuildingViewModel::class.java]
 
-
-
-//        buildingViewModel.building.observe(this) { building ->
-//           val adapter: ArrayAdapter<String> = ArrayAdapter(
-//                this,
-//                android.R.layout.simple_spinner_item,
-//                building.map { it.nama_bulding })
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.spinnerBuilding.adapter = adapter
-//        }
-
-
         classesViewModel = ViewModelProvider(
             this,
             ViewModelFactory(this, UserSession.getInstance(dataStore))
         )[ClassesViewModel::class.java]
 
-//        classesViewModel.classes.observe(this) { classes ->
-//          val adapter: ArrayAdapter<String> = ArrayAdapter(
-//                this,
-//                android.R.layout.simple_spinner_item,
-//                classes.map { it.nama_classes })
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.spinnerClasses.adapter = adapter
-//        }
-
-
-
         detailFacilViewModel = ViewModelProvider(
             this,
             ViewModelFactory(this, UserSession.getInstance(dataStore))
         )[DetailFacilViewModel::class.java]
-//        val adapterDetailFacil: ArrayAdapter<String> =
-//            ArrayAdapter(this, android.R.layout.simple_spinner_item, mutableListOf())
-//        adapterDetailFacil.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        binding.spinnerDetailFacil.adapter = adapterDetailFacil
-//        detailFacilViewModel.detailFacil.observe(this) { detailFacil ->
-//          val adapter: ArrayAdapter<String> = ArrayAdapter(
-//                this,
-//                android.R.layout.simple_spinner_item,
-//                detailFacil.map { it.nama_detail_facilities })
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.spinnerDetailFacil.adapter = adapter
-//        }
-//        detailFacilViewModel.fetchDetailFacil()
     }
+
     private fun showLoading(isLoading: Boolean) {
         binding.pbAdd.visibility =
             if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_CAMERA_PERMISSIONS) {
-            if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)) {
-                Toast.makeText(
-                    this, "Tidak mendapatkan izin kamera", Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
-        } else if (requestCode == REQUEST_CODE_LOCATION_PERMISSIONS) {
-            if (!REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
-                Toast.makeText(
-                    this,"Tidak mendapatkan izin lokasi", Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
-        }
-
-    }
-
-//    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-//        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == REQUEST_CODE_CAMERA_PERMISSIONS) {
+//            if (!REQUIRED_CAMERA_PERMISSIONS.checkPermissionsGranted(baseContext)) {
+//                Toast.makeText(
+//                    this, "Tidak mendapatkan izin kamera", Toast.LENGTH_SHORT
+//                ).show()
+//                finish()
+//            }
+//        } else if (requestCode == REQUEST_CODE_LOCATION_PERMISSIONS) {
+//            if (!REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
+//                Toast.makeText(
+//                    this,"Tidak mendapatkan izin lokasi", Toast.LENGTH_SHORT
+//                ).show()
+//                finish()
+//            }
+//        }
+//
 //    }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        when {
-            permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                // Precise location access granted.
-                getMyLastLocation()
-            }
+//    private val requestPermissionLauncher = registerForActivityResult(
+//        ActivityResultContracts.RequestMultiplePermissions()
+//    ) { permissions ->
+//        when {
+//            permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+//                // Precise location access granted.
+//                getMyLastLocation()
+//            }
+//
+//            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+//                // Only approximate location access granted.
+//                getMyLastLocation()
+//            }
+//
+//            else -> {
+//                // No location access granted.
+//            }
+//        }
+//    }
 
-            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                // Only approximate location access granted.
-                getMyLastLocation()
-            }
-
-            else -> {
-                // No location access granted.
-            }
-        }
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
-    @SuppressLint("MissingPermission")
     private fun getMyLastLocation(){
-        if (REQUIRED_LOCATION_PERMISSIONS.checkPermissionsGranted(baseContext)) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    latitude = location.latitude
-                    longitude = location.longitude
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ){
+            fusedLocationClient.lastLocation.addOnSuccessListener { loc: Location? ->
+                if (loc != null) {
+                    location = loc
                 } else {
                     Toast.makeText(
                         this@AddStoryActivity,
@@ -277,6 +283,7 @@ class AddStoryActivity : AppCompatActivity() {
                 )
             )
         }
+
 
 
 //        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -409,20 +416,8 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun submit() {
         val desc = binding.etDesc.text.toString()
-        val (imageLatitude, imageLongitude) = getExifData(this, getFile?.toUri()!!)
-        if (imageLatitude != null && imageLongitude != null){
-            latitude = imageLatitude
-            longitude = imageLongitude
-        }
-        val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
 
-//        val selectedItem = spinner.selectedItem
-//        selectedItem?.let {
-//            val selectedValue = it.toString()
-//            // Gunakan selectedValue
-//        } ?: run {
-//            // Handle null case, mungkin tampilkan pesan kesalahan kepada pengguna
-//        }
+        val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
         val selectedBuildingId = buildingViewModel.builds.value?.data?.building?.find{
             it.nama_building == selectedBuilding
         }?.id_building
@@ -437,25 +432,6 @@ class AddStoryActivity : AppCompatActivity() {
             it.nama_detail_facilities == selectedDetailFacil
         }?.id_detail_facilities
 
-
-
-      //  val idStudent = user.idStudent.toString()
-
-//        val selectedClasses = binding.spinnerClasses.selectedItem
-//        selectedClasses?.toString() ?: run{
-//            Toast.makeText(this, "null CLASSES", Toast.LENGTH_SHORT)
-//        }
-//        val selectedClassesId = classesViewModel.classes.value?.find {
-//            it.nama_classes == selectedClasses
-//        }?.id_classes
-//
-//        val selectedDetailFacil = binding.spinnerDetailFacil.selectedItem
-//        selectedClasses?.toString() ?: run{
-//            Toast.makeText(this, "null DETAIL FACIL", Toast.LENGTH_SHORT)
-//        }
-//        val selectedDetailFacilId = detailFacilViewModel.detailFacil.value?.find {
-//            it.nama_detail_facilities == selectedDetailFacil
-//        }?.id_detail_facilities
 
         when {
             desc.isEmpty() -> binding.etDesc.error = "Fill description"
@@ -492,6 +468,15 @@ class AddStoryActivity : AppCompatActivity() {
                 val idStudent =
                     IDSTUDENT.toString().toRequestBody("text/plain".toMediaType())
                 val file = reduceFileImage(getFile as File)
+                val (imageLatitude, imageLongitude) = getExifData(this, file.toUri())
+                if (imageLatitude != null && imageLongitude != null){
+                    latitude = imageLatitude
+                    longitude = imageLongitude
+
+                } else{
+                    latitude = location.latitude.toDouble()
+                    longitude = location.longitude.toDouble()
+                }
                 val lat =
                     latitude.toString().toRequestBody("text/plain".toMediaType())
                 val lon =

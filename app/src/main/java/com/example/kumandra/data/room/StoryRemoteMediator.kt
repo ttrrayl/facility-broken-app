@@ -51,9 +51,9 @@ class StoryRemoteMediator(
             val responseData = if (idStudent != null){
                 apiService.getStoriesByIdStudent(
                     "Bearer $token",
+                    idStudent,
                     page,
                     state.config.pageSize,
-                    idStudent
                 )
             } else {
                 apiService.getStories(

@@ -59,6 +59,7 @@ class LoginViewModel(private val pref: UserSession) : ViewModel() {
                                     responBody.loginResult.username
                                 )
                             )
+                            Log.i("ID VM", "id: ${responBody.loginResult.idStudent}")
                             pref.login(responBody.loginResult.token)
                         }
                     } else {

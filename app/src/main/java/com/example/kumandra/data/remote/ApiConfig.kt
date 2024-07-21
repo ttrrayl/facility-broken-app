@@ -31,7 +31,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://kumandra.unand.dev/api/")
+                .baseUrl("https://kumandra.unand.dev/api/student/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
