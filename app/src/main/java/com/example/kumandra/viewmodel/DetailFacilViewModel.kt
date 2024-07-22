@@ -27,6 +27,9 @@ class DetailFacilViewModel: ViewModel() {
     val msg: LiveData<String> = _msg
 
     val detailFacil = MutableLiveData<Results<DetailFacilResponses>>()
+    val facil: LiveData<Results<DetailFacilResponses>> = detailFacil
+
+
 
     private suspend fun fetchDetailFacil() {
         detailFacil.postValue(Results.Loading())

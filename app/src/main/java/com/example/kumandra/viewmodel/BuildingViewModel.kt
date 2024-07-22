@@ -22,8 +22,6 @@ class BuildingViewModel: ViewModel() {
 
     val builds = MutableLiveData<Results<BuildingResponses>>()
 
-    private lateinit var adapter: ArrayAdapter<String>
-
     private suspend fun fetchBuildings() {
         builds.postValue(Results.Loading())
         try {
@@ -40,19 +38,6 @@ class BuildingViewModel: ViewModel() {
         } catch (e: Throwable){
             builds.postValue(Results.Error(e.message.toString()))
         }
-
-//        val client = ApiConfig.getApiService().listBuilding()
-//        client.enqueue(object : Callback<List<BuildingModel>> {
-//            override fun onResponse(call: Call<List<BuildingModel>>, response: Response<List<BuildingModel>>) {
-//                if (response.isSuccessful) {
-//                    _building.value = response.body()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<List<BuildingModel>>, t: Throwable) {
-//                _msg.value = t.message.toString()
-//            }
-//        })
     }
 
     fun getBuilding() = viewModelScope.launch {

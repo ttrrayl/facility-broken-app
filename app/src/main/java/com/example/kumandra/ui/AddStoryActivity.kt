@@ -393,7 +393,7 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun updateUIFacil(){
         detailFacilViewModel.getDetailFacil()
-        detailFacilViewModel.detailFacil.observe(this){
+        detailFacilViewModel.facil.observe(this){
             when(it){
                 is Results.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()

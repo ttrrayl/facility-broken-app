@@ -3,25 +3,29 @@ package com.example.kumandra.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.kumandra.R
+import com.example.kumandra.data.Results
 import com.example.kumandra.data.local.UserSession
-import com.example.kumandra.data.remote.response.ListStoryItem
 import com.example.kumandra.data.remote.response.Report
+import com.example.kumandra.data.remote.response.ReportDetail
 import com.example.kumandra.databinding.ActivityDetailStoryBinding
-import com.example.kumandra.viewmodel.DetailStoryViewModel
+import com.example.kumandra.viewmodel.DetailReportViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class DetailStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailStoryBinding
     private lateinit var detailReport: Report
-    private lateinit var viewModel: DetailStoryViewModel
+    private lateinit var viewModel: DetailReportViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +40,69 @@ class DetailStoryActivity : AppCompatActivity() {
     private fun viewModelConfig() {
         val pref = UserSession.getInstance(dataStore)
         viewModel =
-            ViewModelProvider(this, ViewModelFactory(this, pref))[DetailStoryViewModel::class.java]
+            ViewModelProvider(this, ViewModelFactory(this, pref))[DetailReportViewModel::class.java]
+
+        val reportId = intent.getStringExtra("ID REPORT")
+        if (reportId != null) {
+            viewModel.getDetailReport(reportId)
+        }
+
+//        if (reportId != null) {
+//            viewModel.getDetailReport(reportId)
+//        } else {
+//            viewModel.getUser().observe(this){
+//                val id = it.idStudent
+//                setLayout(id)
+//            }
+//        }
+
+        viewModel.report.observe(this){
+            when(it){
+                is Results.Error -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Results.Loading -> {
+
+                }
+                is Results.Success -> {
+                    val report = it.data?.report
+                    setUI(report)
+                }
+            }
+        }
 
         viewModel.getUser().observe(this){
-            val id = it.idStudent
-            setLayout(id)
+                val id = it.idStudent
+                setLayout(id)
         }
     }
+
+    private fun setUI(report: ReportDetail?) {
+        binding.apply {
+            Glide.with(applicationContext)
+                .load(report?.image_url)
+                .into(ivDetail)
+            tvCreated.text = ":" + report?.created_at
+            tvUpdate.text =  ":" + report?.updated_at
+            tvEmail.text =  ":" + report?.email
+            tvFacil.text =  ":" + report?.nama_detail_facilities
+            tvClass.text =  ":" + report?.nama_classes
+            tvDesc.text =  ":" + report?.description
+        }
+
+        if (report?.id_status == "4"){
+            binding.btEdit.visibility = View.GONE
+            binding.btDelete.visibility = View.GONE
+        } else {
+            binding.btEdit.visibility = View.VISIBLE
+            binding.btDelete.visibility = View.VISIBLE
+        }
+
+    }
+
+//    private fun setUI(): Results<DetailReportResponses>? {
+//
+//    }
 
     private fun setLayout(idStudent: Int) {
         detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
@@ -62,8 +122,13 @@ class DetailStoryActivity : AppCompatActivity() {
             binding.btEdit.visibility = View.GONE
             binding.btDelete.visibility = View.GONE
         } else{
-            binding.btEdit.visibility = View.VISIBLE
-            binding.btDelete.visibility = View.VISIBLE
+            if (detailReport.id_status == "4"){
+                binding.btEdit.visibility = View.GONE
+                binding.btDelete.visibility = View.GONE
+            } else {
+                binding.btEdit.visibility = View.VISIBLE
+                binding.btDelete.visibility = View.VISIBLE
+            }
         }
     }
 

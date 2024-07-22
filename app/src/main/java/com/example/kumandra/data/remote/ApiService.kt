@@ -4,6 +4,7 @@ import com.example.kumandra.data.remote.response.AddStoryResponse
 import com.example.kumandra.data.remote.response.BuildingResponses
 import com.example.kumandra.data.remote.response.ClassesResponses
 import com.example.kumandra.data.remote.response.DetailFacilResponses
+import com.example.kumandra.data.remote.response.DetailReportResponses
 import com.example.kumandra.data.remote.response.LoginResponse
 import com.example.kumandra.data.remote.response.MainResponse
 import com.example.kumandra.data.remote.response.RegisterResponse
@@ -74,6 +75,11 @@ interface ApiService {
         @Part("lat") lat: RequestBody?,
         @Part("lon") lon: RequestBody?,
     ): Call<AddStoryResponse>
+
+    @GET("report/{id_report}")
+    suspend fun detailReport(
+        @Query("id_report") id_report: String
+    ): Response<DetailReportResponses>
 
     @FormUrlEncoded
     @POST("fcm")
