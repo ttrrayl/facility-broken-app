@@ -12,15 +12,18 @@ class ReportRepository(
     private val apiService: ApiService
 ){
     @OptIn(ExperimentalPagingApi::class)
-    fun getReport(token: String, idPj: String): LiveData<PagingData<Report>> {
+    fun getReport(token: String, idPj: String, idStatus: String?): LiveData<PagingData<Report>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
             remoteMediator = StoryRemoteMediator(token, reportDatabase, apiService, idPj),
             pagingSourceFactory = {
-               reportDatabase.reportDao().getReportByPjId(idPj)
-
+                if (idStatus != null){
+                    reportDatabase.reportDao().getReportByStatusId(idStatus)
+                } else{
+                    reportDatabase.reportDao().getAllReport()
+                }
             }
         ).liveData
     }

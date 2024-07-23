@@ -21,6 +21,16 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+    private val _filter = MutableLiveData<SortClass>()
+
+//    init {
+//        _filter.value = SortClass.TIME
+//    }
+//
+//    fun filter(filterType: SortClass) {
+//        _filter.value = filterType
+//    }
+
 
     fun getToken(): LiveData<UserModel>{
         return pref.getToken().asLiveData()
@@ -36,8 +46,8 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
         }
     }
 
-    fun getStories(token: String, idPj: String): LiveData<PagingData<Report>> =
-        reportRepository.getReport(token, idPj).cachedIn(viewModelScope)
+    fun getStories(token: String, idPj: String,idStatus: String? ): LiveData<PagingData<Report>> =
+        reportRepository.getReport(token, idPj, idStatus).cachedIn(viewModelScope)
 
 //    fun getStoriesMap(token: String) {
 //        _isLoading.value = true

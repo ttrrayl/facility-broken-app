@@ -23,4 +23,11 @@
     <string name="status_laporan">Status Laporan</string>
     <string name="default_notification_channel_id">default_channel</string>
     <string name="fcm_message">Notifikasi</string>
+    <string name="urutkan">Urutkan</string>
+    <string name="urut_berdasarkan_status">Urut Berdasarkan Status</string>
+    <string name="urut_berdasarkan_waktu">Urut Berdasarkan Waktu</string>
+    <string name="status_laporan_baru">Status Laporan Baru</string>
+    <string name="status_sedang_diproses">Status Sedang Diproses</string>
+    <string name="status_ditolak">Status Ditolak</string>
+    <string name="status_selesai">Status Selesai</string>
 </resources>

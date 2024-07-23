@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
@@ -20,7 +21,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.kumandraPJ.PushNotificationService
 import com.example.kumandraPJ.R
 import com.example.kumandraPJ.adapter.ReportAdapter
@@ -30,16 +30,10 @@ import com.example.kumandraPJ.data.remote.ApiConfig
 import com.example.kumandraPJ.databinding.ActivityMainBinding
 import com.example.kumandraPJ.viewmodel.MainViewModel
 import com.example.kumandraPJ.viewmodel.ViewModelFactory
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.messaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class MainActivity : AppCompatActivity() {
@@ -68,21 +62,12 @@ class MainActivity : AppCompatActivity() {
             // Dapatkan token baru
             val token = task.result
 
-
-
             // Log token
             Log.d("FCMToken", "Refreshed token: $token")
 
             mainViewModel.getUser().observe(this) { user ->
                 sendRegistrationToServer(user.idPj, token)
-
-
-                //   id = user.idPj
-                //   Log.i("PJ", "PJ : $pj")
-                //    AddStoryActivity.IDSTUDENT = it.idPj
             }
-            // Kirim token ke server
-
         }
 
 
@@ -101,6 +86,7 @@ class MainActivity : AppCompatActivity() {
 
 
         requestNotificationPermission()
+        getStory(MainActivity.TOKEN, MainActivity.ID, null)
     }
     private fun requestNotificationPermission() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -134,6 +120,7 @@ class MainActivity : AppCompatActivity() {
             if (user.isLogin) {
                 token = user.token
                 AddStoryActivity.TOKEN = user.token
+                MainActivity.TOKEN = user.token
             } else {
                 startActivity(Intent(this,LoginActivity::class.java))
                 finish()
@@ -142,15 +129,9 @@ class MainActivity : AppCompatActivity() {
 
 
         mainViewModel.getUser().observe(this) { user ->
-            getStory(token, user.idPj)
-
+//            getStory(token, user.idPj, MainActivity.status)
+            MainActivity.ID = user.idPj
             PushNotificationService.ID = user.idPj
-
-        //    Log.i("TOKEN" , "TOKEN:$id")
-
-         //   id = user.idPj
-         //   Log.i("PJ", "PJ : $pj")
-            //    AddStoryActivity.IDSTUDENT = it.idPj
         }
 
         //this.id = idPj
@@ -176,12 +157,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun sendRegistrationToServer(idPj: String,token: String) {
-      //  var id = ""
-     //   var idPj = ""
-
-     //   Log.i("ID PJ", "PJ : $id")
-        Log.i("TOKEN2" , "TOKEN:$idPj")
-
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 val response = ApiConfig.getApiService().addFcmToken(idPj, "2", token)
@@ -199,12 +174,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getStory(token: String, idPj: String) {
+    private fun getStory(token: String, idPj: String, idStatus: String?) {
+        Log.i("STATUS", "STATUS: $idStatus")
         val adapter = ReportAdapter()
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
         binding.rvStory.setHasFixedSize(true)
-        mainViewModel.getStories(token, idPj).observe(this){
+        mainViewModel.getStories(token, idPj, idStatus).observe(this){
 
             adapter.submitData(lifecycle, it)
         }
@@ -225,6 +201,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.menu_filter -> {
+                showFilter()
+            }
             R.id.menu_logout -> {
                 AlertDialog.Builder(this).apply {
                     setTitle("CONFIRMATION")
@@ -243,10 +222,36 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun showFilter() {
+        val view = findViewById<View>(R.id.menu_filter) ?: return
+        PopupMenu(this, view).run {
+            menuInflater.inflate(R.menu.filter_sort, menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.filter1 ->
+                        getStory(MainActivity.TOKEN, MainActivity.ID, "1")
+                    R.id.filter2 ->
+                        getStory(MainActivity.TOKEN, MainActivity.ID, "2")
+                    R.id.filter3 ->
+                        getStory(MainActivity.TOKEN, MainActivity.ID, "3")
+                    R.id.filter4 ->
+                        getStory(MainActivity.TOKEN, MainActivity.ID, "4")
+
+                }
+                Log.i("TOKEN", "STATUS: $TOKEN")
+                Log.i("ID", "STATUS: $ID")
+                true
+            }
+            show()
+        }
+    }
+
     companion object{
         const val EXTRA_DETAIL = "extra_detail"
         const val AVATAR_DETAIL = "avatar_detail"
-       var id = ""
+        var status: String? = null
+        var ID: String = ""
+        var TOKEN: String = ""
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tabText1,

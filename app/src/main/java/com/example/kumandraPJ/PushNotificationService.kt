@@ -20,15 +20,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PushNotificationService(): FirebaseMessagingService() {
+class PushNotificationService : FirebaseMessagingService() {
 
-//    private lateinit var viewModel: FcmViewModel
-//    override fun onCreate() {
-//        super.onCreate()
-//        // Inisialisasi TokenViewModel
-//        val app = applicationContext as Application
-//        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(app).create(FcmViewModel::class.java)
-//    }
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FCM TOKEN", "New Token: $token")
@@ -36,7 +29,6 @@ class PushNotificationService(): FirebaseMessagingService() {
     }
 
     private fun sendTokenToServer(token: String) {
-      //  viewModel.addFcmToken(ID, "2", token)
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 val response = ApiConfig.getApiService().addFcmToken(ID, "2", token)
@@ -78,11 +70,16 @@ class PushNotificationService(): FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
-
-
-
         val channelId = getString(R.string.default_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, channelId, importance)
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notifications)
             .setContentTitle(getString(R.string.fcm_message))
@@ -90,13 +87,7 @@ class PushNotificationService(): FirebaseMessagingService() {
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelName = getString(R.string.default_notification_channel_id)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance)
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
+
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(0, notificationBuilder.build())
     }
