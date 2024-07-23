@@ -21,7 +21,6 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-    private val _filter = MutableLiveData<SortClass>()
 
 //    init {
 //        _filter.value = SortClass.TIME
