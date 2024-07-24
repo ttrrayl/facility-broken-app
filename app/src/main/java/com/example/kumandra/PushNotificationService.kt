@@ -16,9 +16,11 @@ import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
+
 class PushNotificationService(): FirebaseMessagingService() {
     override fun onNewToken(token: String) {
-      //  super.onNewToken(token)
+        super.onNewToken(token)
         Log.d("FCM TOKEN", "New Token: $token")
         sendTokenToServer(token)
     }
@@ -43,7 +45,7 @@ class PushNotificationService(): FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-     //   super.onMessageReceived(message)
+        super.onMessageReceived(message)
         val idReport = message.data["id_report"]
 
         Log.d("FCM", "From: ${message.from}")
