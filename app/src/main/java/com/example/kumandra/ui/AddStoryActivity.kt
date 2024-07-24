@@ -40,6 +40,7 @@ import com.example.kumandra.databinding.ActivityAddStoryBinding
 import com.example.kumandra.checkPermissionsGranted
 import com.example.kumandra.data.local.UserModel
 import com.example.kumandra.reduceFileImage
+import com.example.kumandra.rotateBitmap
 import com.example.kumandra.uriToFile
 import com.example.kumandra.viewmodel.AddStoryViewModel
 import com.example.kumandra.viewmodel.BuildingViewModel
@@ -116,7 +117,8 @@ class AddStoryActivity : AppCompatActivity() {
         if (it.resultCode == RESULT_OK) {
             val myFile = File(currentPhotoPath)
             myFile.let { file ->
-                binding.ivAdd.setImageBitmap(BitmapFactory.decodeFile(file.path))
+                val result = rotateBitmap(BitmapFactory.decodeFile(file.path))
+                binding.ivAdd.setImageBitmap(result)
             }
             getFile = myFile
         }

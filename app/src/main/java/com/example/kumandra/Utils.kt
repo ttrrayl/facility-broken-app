@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContextCompat
@@ -57,6 +58,19 @@ fun reduceFileImage(file: File): File{
     bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
     return file
 }
+
+fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
+    val matrix = Matrix()
+    return if (isBackCamera) {
+        matrix.postRotate(270f)
+        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    } else {
+        matrix.postRotate(-270f)
+        matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
+        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+}
+
 
 fun Array<String>.checkPermissionsGranted(context: Context) = this.all {
     ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED

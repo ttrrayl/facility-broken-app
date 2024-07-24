@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter1"
+        android:title="@string/status_laporan_baru" />
+    <item
+        android:id="@+id/filter2"
+        android:title="@string/status_sedang_diproses" />
+    <item
+        android:id="@+id/filter3"
+        android:title="@string/status_ditolak" />
+    <item
+        android:id="@+id/filter4"
+        android:title="@string/status_selesai" />
+</menu>

@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -27,6 +28,7 @@ import com.example.kumandra.adapter.SectionPageAdapter
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.data.remote.ApiConfig
 import com.example.kumandra.databinding.ActivityMainBinding
+import com.example.kumandra.ui.fragment.ReportFragment
 import com.example.kumandra.viewmodel.MainViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
 import com.google.android.material.tabs.TabLayout
@@ -150,30 +152,55 @@ class MainActivity : AppCompatActivity() {
             if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.menu_logout -> {
-                AlertDialog.Builder(this).apply {
-                    setTitle("CONFIRMATION")
-                    setMessage("Logout of your account?")
-                    setPositiveButton("Yes") {_,_ ->
-                        mainViewModel.logout()
-                        finish()
-                    }
-                    setNegativeButton("No") {dialog,_ -> dialog.cancel()}
-                    create()
-                    show()
-                }
-            }
-
-        }
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId) {
+//            R.id.menu_filter -> {
+//                showFilter()
+//            }
+//            R.id.menu_logout -> {
+//                AlertDialog.Builder(this).apply {
+//                    setTitle("CONFIRMATION")
+//                    setMessage("Logout of your account?")
+//                    setPositiveButton("Yes") {_,_ ->
+//                        mainViewModel.logout()
+//                        finish()
+//                    }
+//                    setNegativeButton("No") {dialog,_ -> dialog.cancel()}
+//                    create()
+//                    show()
+//                }
+//            }
+//
+//        }
+//        return true
+//    }
+//
+//    private fun showFilter() {
+//        val view = findViewById<View>(R.id.menu_filter) ?: return
+//        PopupMenu(this, view).run {
+//            menuInflater.inflate(R.menu.filter_sort, menu)
+//            setOnMenuItemClickListener {
+//                when (it.itemId) {
+//                    R.id.filter1 ->
+//                        ReportFragment.ge
+//                        ReportFragment.STATUS = "1"
+//                    R.id.filter2 ->
+//                        ReportFragment.STATUS = "2"
+//                    R.id.filter3 ->
+//                        ReportFragment.STATUS = "3"
+//                    R.id.filter4 ->
+//                        ReportFragment.STATUS = "4"
+//                }
+//                true
+//            }
+//            show()
+//        }
+//    }
 
     companion object{
         const val EXTRA_DETAIL = "extra_detail"

@@ -22,6 +22,13 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+//    private val _statusId = MutableLiveData<String>()
+//    val reports: LiveData<PagingData<Report>> = _statusId.switchMap { statusId ->
+//        getReport("", "", statusId)
+//    }
+
+
+
     fun getToken(): LiveData<UserModel>{
         return pref.getToken().asLiveData()
     }
@@ -36,8 +43,9 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
         }
     }
 
-    fun getStories(token: String, idStudent: Int?): LiveData<PagingData<Report>> =
-        reportRepository.getReport(token, idStudent).cachedIn(viewModelScope)
+    fun getStories(token: String, idStudent: Int?, idStatus: String?): LiveData<PagingData<Report>>{
+           return reportRepository.getReport(token, idStudent, idStatus).cachedIn(viewModelScope)
+    }
 
 //    fun getStoriesMap(token: String) {
 //        _isLoading.value = true
