@@ -33,7 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/iv_detail"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:background="@color/bg"
+        android:layout_margin="5dp"
+        app:layout_constraintCircleRadius="@dimen/cardview_compat_inset_shadow">
         <TableRow>
             <TextView
                 android:id="@+id/tv_labelCreated"
@@ -147,6 +150,7 @@
                 android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
                 android:text="@string/deskripsi"/>
 
             <TextView
@@ -182,29 +186,15 @@
 
     <Button
         android:id="@+id/bt_response"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/table_layout"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:backgroundTint="@color/button"
         android:text="@string/respon"
         android:textSize="20sp"/>
-
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/tv_tanggalDetail"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_margin="10dp"-->
-<!--        android:textSize="17sp"-->
-<!--        android:backgroundTint="@color/pastel"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_deskripsi"-->
-<!--        tools:text="name"/>-->
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,22 +69,6 @@ class MainActivity : AppCompatActivity() {
                 sendRegistrationToServer(user.idPj, token)
             }
         }
-
-
-        binding.fbAddStory.setOnClickListener{
-            startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
-        }
-
-//        val sectionsPagerAdapter = SectionPageAdapter(this)
-//       // sectionsPagerAdapter.username = username.toString()
-//        val viewPager: ViewPager2 = binding.viewPager
-//        viewPager.adapter = sectionsPagerAdapter
-//        val tabs: TabLayout = binding.tabReport
-//        TabLayoutMediator(tabs, viewPager){
-//                tab,position -> tab.text = resources.getString(TAB_TITLES[position])
-//        }.attach()
-
-
         requestNotificationPermission()
         getStory(MainActivity.TOKEN, MainActivity.ID, null)
     }
@@ -115,10 +99,8 @@ class MainActivity : AppCompatActivity() {
             showLoading(it)
         }
 
-        var token = ""
         mainViewModel.getToken().observe(this){ user ->
             if (user.isLogin) {
-                token = user.token
                 AddStoryActivity.TOKEN = user.token
                 MainActivity.TOKEN = user.token
             } else {
@@ -217,7 +199,6 @@ class MainActivity : AppCompatActivity() {
                     show()
                 }
             }
-
         }
         return true
     }
@@ -238,8 +219,6 @@ class MainActivity : AppCompatActivity() {
                         getStory(MainActivity.TOKEN, MainActivity.ID, "4")
 
                 }
-                Log.i("TOKEN", "STATUS: $TOKEN")
-                Log.i("ID", "STATUS: $ID")
                 true
             }
             show()

@@ -146,6 +146,7 @@ class AddStoryActivity : AppCompatActivity() {
         }?.id_status
 
         when {
+            selectedStatus.isEmpty() -> binding.statusInputLayout.editText?.error = "Perbarui status laporan"
             desc.isEmpty() -> binding.etResp.error = "Kolom tidak boleh kosong"
 
             else -> {
@@ -153,47 +154,15 @@ class AddStoryActivity : AppCompatActivity() {
                 val idPj = detailReport.id_pj.toString()
                 val respon = binding.etResp.text.toString()
                 val idStatus = selectedStatusId.toString()
-//                AlertDialog.Builder(this).apply {
-//                    setTitle("STATE")
-//                    setMessage(latLng.toString())
-//                    setPositiveButton("OK") { _, _ ->
-//                        val intent = Intent(context, MainActivity::class.java)
-//                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                        startActivity(intent)
-//                        finish()
-//                    }
-//                    create()
-//                    show()
-//                }
-//                val report = arrayOf(idBuilding,idClasses,idDetailFacil,description, latLng).toString()
-//                Log.d("addReport", "report : $report")
                addStoryViewModel.sendResponse(TOKEN, idReport, idPj, idStatus, respon)
 
             }
         }
     }
 
-//    fun getExifData(context: Context, imageUri: Uri): Pair<Double?, Double?> {
-//        try {
-//            val inputStream = context.contentResolver.openInputStream(imageUri)
-//            val exif = ExifInterface(inputStream!!)
-//            val latLong = FloatArray(2)
-//            if (exif.getLatLong(latLong)) {
-//                return Pair(latLong[0].toDouble(), latLong[1].toDouble())
-//            }
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//        return Pair(null, null)
-//    }
-
 
 
     companion object {
-        private val REQUIRED_LOCATION_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-        private val REQUIRED_CAMERA_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_LOCATION_PERMISSIONS = 11
-        private const val REQUEST_CODE_CAMERA_PERMISSIONS = 10
         var TOKEN = "token"
         const val REPORT = "report"
     }

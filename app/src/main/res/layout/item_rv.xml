@@ -8,11 +8,11 @@
     app:cardCornerRadius="10dp"
     app:cardMaxElevation="8dp"
     app:cardUseCompatPadding="true">
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        
+
         <ImageView
             android:id="@+id/iv_gambarRv"
             android:layout_width="match_parent"
@@ -24,12 +24,10 @@
             tools:src="@tools:sample/avatars"/>
 
         <TextView
-            android:id="@+id/tv_deskripsi"
+            android:id="@+id/tv_tanggal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
+            android:textSize="16sp"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_gambarRv"
@@ -42,7 +40,7 @@
             android:textSize="16sp"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_deskripsi"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tanggal"
             tools:text="deskripsi"/>
 
         <TextView
@@ -56,13 +54,11 @@
             tools:text="status"/>
 
         <TextView
-            android:id="@+id/tv_tanggal"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_deskripsi"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.846"
-            app:layout_constraintStart_toEndOf="@+id/tv_deskripsi"
             app:layout_constraintTop_toBottomOf="@+id/iv_gambarRv"
             tools:text="tanggal" />
 

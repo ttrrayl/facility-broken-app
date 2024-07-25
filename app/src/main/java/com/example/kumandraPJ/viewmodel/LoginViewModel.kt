@@ -63,7 +63,7 @@ class LoginViewModel(private val pref: UserSession) : ViewModel() {
                             pref.login(responBody.loginResult.token)
                         }
                     } else {
-                        _msg.value = responBody?.message
+                        _msg.value = "Nomor yang anda masukkan tidak valid"
                         _isLogin.value = false
                     }
                 } else {
