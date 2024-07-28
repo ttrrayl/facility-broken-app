@@ -6,6 +6,6 @@ data class UserModel (
         )
 
 data class StudentModel(
-    val idStudent: String,
+    val idStudent: String = "",
     val username: String
 )
