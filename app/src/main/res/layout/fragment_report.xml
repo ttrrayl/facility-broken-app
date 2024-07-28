@@ -9,7 +9,8 @@
         android:id="@+id/rv_story"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_rv"/>
+        tools:listitem="@layout/item_rv"
+        android:background="@color/bg"/>
 
         <!--    <ProgressBar-->
         <!--        android:id="@+id/progressBar_report"-->

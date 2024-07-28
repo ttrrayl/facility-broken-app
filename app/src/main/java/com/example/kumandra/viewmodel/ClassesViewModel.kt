@@ -5,20 +5,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kumandra.data.ReportRepository
 import com.example.kumandra.data.Results
 import com.example.kumandra.data.local.ClassesModel
 import com.example.kumandra.data.remote.ApiConfig
+import com.example.kumandra.data.remote.response.Classes
 import com.example.kumandra.data.remote.response.ClassesResponses
 import kotlinx.coroutines.launch
 
-class ClassesViewModel: ViewModel() {
+class ClassesViewModel(private val reportRepository: ReportRepository): ViewModel() {
     private val _classes = MutableLiveData<List<ClassesModel>>()
     //val classes: LiveData<List<ClassesModel>> get() = _classes
 
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    val classes = MutableLiveData<Results<ClassesResponses>>()
+    val classes = MutableLiveData<Results<List<Classes>>>()
 
     private suspend fun fetchClasses() {
         classes.postValue(Results.Loading())
@@ -26,7 +28,7 @@ class ClassesViewModel: ViewModel() {
             val response = ApiConfig.getApiService().listClasses()
             if (response.isSuccessful){
                 response.body()?.let {
-                    classes.postValue(Results.Success(it))
+                    reportRepository.fetchClasses(it.classes)
                 }
             } else {
                 Log.i("ClassesViewModel", "safeGetRoles: $response")
@@ -37,8 +39,11 @@ class ClassesViewModel: ViewModel() {
         }
     }
 
-    fun getClasses() = viewModelScope.launch {
+    fun getClasses(idBuilding: String) = viewModelScope.launch {
         fetchClasses()
+        reportRepository.getAllClasses(idBuilding).observeForever{
+            classes.postValue(Results.Success(it))
+        }
     }
 
 //    fun fetchClasses() {

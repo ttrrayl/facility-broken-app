@@ -40,7 +40,7 @@ class ReportFragment : Fragment() {
     companion object{
         const val ARG_POSITION = "position"
         var STATUS: String? = null
-        var ID: Int? = null
+        var ID: String? = null
         var TOKEN: String = ""
     }
 
@@ -146,7 +146,7 @@ class ReportFragment : Fragment() {
         }
     }
 
-    private fun getReport(token: String, id_student: Int?, idStatus: String?) {
+    private fun getReport(token: String, id_student: String?, idStatus: String?) {
         val adapter = ReportAdapter()
         binding.rvStory.layoutManager = LinearLayoutManager(requireActivity())
       //  binding.rvStory.setHasFixedSize(true)

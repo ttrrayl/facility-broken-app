@@ -1,10 +1,14 @@
 package com.example.kumandra.data.room
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.kumandra.data.remote.response.Building
+import com.example.kumandra.data.remote.response.Classes
+import com.example.kumandra.data.remote.response.DetailFacility
 import com.example.kumandra.data.remote.response.ListStoryItem
 import com.example.kumandra.data.remote.response.Report
 
@@ -23,8 +27,9 @@ interface ReportDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM report WHERE id_student = :idStudent")
-    fun getReportByStudentId(idStudent: Int): PagingSource<Int, Report>
+    fun getReportByStudentId(idStudent: String): PagingSource<Int, Report>
 
     @Query("SELECT * FROM report WHERE id_student = :idStudent AND id_status= :idStatus")
-    fun getReportByStudentIdAndStatus(idStudent: Int, idStatus: String): PagingSource<Int, Report>
+    fun getReportByStudentIdAndStatus(idStudent: String, idStatus: String): PagingSource<Int, Report>
+
 }

@@ -1,5 +1,6 @@
 package com.example.kumandra.data.room
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -52,7 +53,7 @@ class StoryRemoteMediator(
                     page,
                     state.config.pageSize
                 )
-
+       //     Log.i("DATA", "DATA : ${responseData.listReport}")
             val endOfPaginationReached = responseData.listReport.isEmpty()
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

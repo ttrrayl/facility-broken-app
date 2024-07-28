@@ -4,12 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.kumandra.data.remote.response.Building
+import com.example.kumandra.data.remote.response.Classes
+import com.example.kumandra.data.remote.response.DetailFacility
 import com.example.kumandra.data.remote.response.ListStoryItem
 import com.example.kumandra.data.remote.response.Report
 
-@Database(entities = [Report::class, RemoteKeys::class], version = 5, exportSchema = false)
+@Database(entities = [Report::class, RemoteKeys::class,Building::class, Classes::class, DetailFacility::class], version = 2, exportSchema = false)
 abstract class ReportDatabase : RoomDatabase() {
     abstract fun reportDao(): ReportDao
+    abstract fun buildingDao(): BuildingDao
+    abstract fun classesDao(): ClassesDao
+    abstract fun facilDao(): DetailFacilDao
     abstract fun remoteKeysDao(): RemoteKeysDao
 
     companion object {

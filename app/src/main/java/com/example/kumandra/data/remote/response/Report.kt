@@ -38,10 +38,13 @@ data class Report(
     val id_status: String,
 
     @field:SerializedName("id_student")
-    val id_student: Int,
+    val id_student: String,
 
     @field:SerializedName("nama_classes")
     val nama_classes: String,
+
+    @field:SerializedName("nama_building")
+    val nama_building: String,
 
     @field:SerializedName("nama_detail_facilities")
     val nama_detail_facilities: String,

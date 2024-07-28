@@ -1,17 +1,12 @@
 package com.example.kumandra.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.kumandra.data.remote.ApiConfig
-import com.google.android.gms.maps.model.LatLng
 import com.example.kumandra.data.remote.response.AddStoryResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.kumandra.data.remote.response.UpdateResponses
 import retrofit2.Callback
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -38,8 +33,6 @@ class AddStoryViewModel : ViewModel() {
     ) {
         _isLoading.value = true
         try {
-//            val lat = latLng?.latitude?.toFloat()
-//            val lon = latLng?.longitude?.toFloat()
             val client = ApiConfig.getApiService().addStory(
                 "Bearer $token",
                 image,
@@ -65,7 +58,7 @@ class AddStoryViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                            _msg.value = "Successfully upload the file"
+                            _msg.value = "Successfully upload the report"
                         }
                     } else {
                         _msg.value = "gagal"
@@ -82,15 +75,55 @@ class AddStoryViewModel : ViewModel() {
         }
     }
 
-//    fun submit(
-//        token: String,
-//        image: MultipartBody.Part,
-//        id_building: RequestBody,
-//        id_classes: RequestBody,
-//        id_detailFacil: RequestBody,
-//        description: RequestBody,
-//        latLng: LatLng?
-//    ) = viewModelScope.launch {
-//        uploadStory("Bearer $token",image,id_building,id_classes,id_detailFacil,description, latLng)
-//    }
+    fun updateReport(
+        token: String,
+        id_report: String,
+        image: MultipartBody.Part?,
+        id_building: RequestBody,
+        id_classes: RequestBody,
+        id_detailFacil: RequestBody,
+        description: RequestBody
+    ) {
+        _isLoading.value = true
+        try {
+            val client = ApiConfig.getApiService().updateReport(
+                "Bearer $token",
+                id_report,
+                image,
+                id_building,
+                id_classes,
+                id_detailFacil,
+                description
+                )
+            client.enqueue(object : Callback<UpdateResponses> {
+                override fun onFailure(call: Call<UpdateResponses>, t: Throwable) {
+                    _isLoading.value = false
+                    _msg.value = t.message.toString()
+                }
+
+                override fun onResponse(
+                    call: Call<UpdateResponses>,
+                    response: Response<UpdateResponses>
+                ) {
+                    _isLoading.value = false
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            _msg.value = "Successfully update the report"
+                        }
+                    } else {
+                        _msg.value = "gagal"
+                        Log.i("AddReport", "tidak masuk")
+                    }
+
+
+                }
+            })
+        } catch ( e: Throwable){
+            _isLoading.value = false
+            Log.d("Add Story View Model", e.message.toString())
+
+        }
+    }
+
 }

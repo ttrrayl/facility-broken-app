@@ -3,12 +3,14 @@ package com.example.kumandra.data.remote
 import com.example.kumandra.data.remote.response.AddStoryResponse
 import com.example.kumandra.data.remote.response.BuildingResponses
 import com.example.kumandra.data.remote.response.ClassesResponses
+import com.example.kumandra.data.remote.response.DeleteResponses
 import com.example.kumandra.data.remote.response.DetailFacilResponses
 import com.example.kumandra.data.remote.response.DetailReportResponses
 import com.example.kumandra.data.remote.response.LoginResponse
 import com.example.kumandra.data.remote.response.MainResponse
 import com.example.kumandra.data.remote.response.RegisterResponse
 import com.example.kumandra.data.remote.response.SaveTokenResponses
+import com.example.kumandra.data.remote.response.UpdateResponses
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -66,7 +68,7 @@ interface ApiService {
     @POST("report")
     fun addStory(
         @Header("Authorization") authorization: String,
-        @Part pictures: MultipartBody.Part,
+        @Part pictures: MultipartBody.Part?,
         @Part ("id_student") idStudent: RequestBody,
         @Part("id_building") idBuilding: RequestBody,
         @Part("id_classes") idClasses: RequestBody,
@@ -78,8 +80,25 @@ interface ApiService {
 
     @GET("report/{id_report}")
     suspend fun detailReport(
-        @Query("id_report") id_report: String
+        @Path("id_report") id_report: String
     ): Response<DetailReportResponses>
+
+    @DELETE("report/{id_report}")
+    fun deleteReport(
+        @Path("id_report") id_report: String?
+    ): Call<DeleteResponses>
+
+    @Multipart
+    @PUT("report/{id_report}")
+    fun updateReport(
+        @Header("Authorization") authorization: String,
+        @Path("id_report") id_report: String?,
+        @Part pictures: MultipartBody.Part?,
+        @Part("id_building") idBuilding: RequestBody?,
+        @Part("id_classes") idClasses: RequestBody?,
+        @Part("id_detail_facilities") idDetailFacil: RequestBody?,
+        @Part("description") description: RequestBody?,
+    ): Call<UpdateResponses>
 
     @FormUrlEncoded
     @POST("fcm")

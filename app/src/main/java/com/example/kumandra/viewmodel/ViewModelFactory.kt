@@ -23,13 +23,13 @@ class ViewModelFactory (private val context: Context, private val pref: UserSess
                 AddStoryViewModel() as T
             }
             modelClass.isAssignableFrom(BuildingViewModel::class.java) -> {
-                BuildingViewModel() as T
+                BuildingViewModel(Injection.provideRepository(context)) as T
             }
             modelClass.isAssignableFrom(ClassesViewModel::class.java) -> {
-                ClassesViewModel() as T
+                ClassesViewModel(Injection.provideRepository(context)) as T
             }
             modelClass.isAssignableFrom(DetailFacilViewModel::class.java) -> {
-                DetailFacilViewModel() as T
+                DetailFacilViewModel(Injection.provideRepository(context)) as T
             }
             modelClass.isAssignableFrom(DetailReportViewModel::class.java) -> {
                 DetailReportViewModel(pref) as T

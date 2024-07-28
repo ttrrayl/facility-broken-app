@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:background="@color/bg">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_report"
@@ -15,7 +16,7 @@
         app:tabGravity="fill"
         app:tabMode="fixed"
         android:contentDescription="tab layout"
-        android:background="@color/teal_700"
+        android:background="@color/tab"
         app:tabTextColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/button"
         app:tint="@color/white"
         android:src="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"

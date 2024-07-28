@@ -25,4 +25,12 @@
     <string name="status_sedang_diproses">Status Sedang Diproses</string>
     <string name="status_ditolak">Status Ditolak</string>
     <string name="status_selesai">Status Selesai</string>
+    <string name="update">Update</string>
+    <string name="change">Ubah</string>
+    <string name="add">Tambah</string>
+    <string name="save">Simpan</string>
+    <string name="status_laporan">Status Laporan</string>
+    <string name="pilih_gedung_kuliah">Pilih Gedung Kuliah</string>
+    <string name="pilih_ruang_kelas">Pilih Ruang Kelas</string>
+    <string name="pilih_fasilitas">Pilih Fasilitas</string>
 </resources>

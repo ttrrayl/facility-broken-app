@@ -1,12 +1,15 @@
 package com.example.kumandra.ui
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -20,6 +23,9 @@ import com.example.kumandra.data.remote.response.ReportDetail
 import com.example.kumandra.databinding.ActivityDetailStoryBinding
 import com.example.kumandra.viewmodel.DetailReportViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class DetailStoryActivity : AppCompatActivity() {
@@ -32,7 +38,7 @@ class DetailStoryActivity : AppCompatActivity() {
         binding = ActivityDetailStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
         viewModelConfig()
         binding.btEdit.setOnClickListener{ editReport()}
         binding.btDelete.setOnClickListener{ deleteReport()}
@@ -47,14 +53,6 @@ class DetailStoryActivity : AppCompatActivity() {
             viewModel.getDetailReport(reportId)
         }
 
-//        if (reportId != null) {
-//            viewModel.getDetailReport(reportId)
-//        } else {
-//            viewModel.getUser().observe(this){
-//                val id = it.idStudent
-//                setLayout(id)
-//            }
-//        }
 
         viewModel.report.observe(this){
             when(it){
@@ -75,6 +73,15 @@ class DetailStoryActivity : AppCompatActivity() {
                 val id = it.idStudent
                 setLayout(id)
         }
+
+        viewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.pbDetail.visibility =
+            if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun setUI(report: ReportDetail?) {
@@ -104,8 +111,8 @@ class DetailStoryActivity : AppCompatActivity() {
 //
 //    }
 
-    private fun setLayout(idStudent: Int) {
-        detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
+    private fun setLayout(idStudent: String) {
+  //      detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
         binding.apply {
             Glide.with(applicationContext)
                 .load(detailReport.image_url)
@@ -116,6 +123,7 @@ class DetailStoryActivity : AppCompatActivity() {
             tvFacil.text =  ":" + detailReport.nama_detail_facilities
             tvClass.text =  ":" + detailReport.nama_classes
             tvDesc.text =  ":" + detailReport.description
+            tvStatus.text = ":" + detailReport.nama_status
 
         }
         if (detailReport.id_student != idStudent){
@@ -133,14 +141,40 @@ class DetailStoryActivity : AppCompatActivity() {
     }
 
     private fun editReport() {
-        TODO("Not yet implemented")
+        val intent = Intent(this, AddStoryActivity::class.java)
+        intent.putExtra(AddStoryActivity.report, detailReport)
+        startActivity(intent)
     }
 
     private fun deleteReport() {
-        TODO("Not yet implemented")
+        viewModel.deleteReport(detailReport.id_report)
+        Log.i("ID REPORT", "ID ${detailReport.id_report}")
+        viewModel.delReport.observe(this){
+            when(it){
+                is Results.Error -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Results.Loading -> {
+
+                }
+                is Results.Success -> {
+                    AlertDialog.Builder(this).apply {
+                        setTitle("Success")
+                        setMessage(it.data?.message)
+                        setPositiveButton("OK") {_,_ ->
+                            val intent = Intent(context, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                        }
+                        create()
+                        show()
+                    }
+                }
+            }
+
+        }
     }
-
-
 
     companion object{
         const val STORY_DETAIL = "detail"
