@@ -58,7 +58,7 @@ class AddStoryViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                            _msg.value = "Successfully upload the report"
+                            _msg.value = responseBody.message
                         }
                     } else {
                         _msg.value = "gagal"

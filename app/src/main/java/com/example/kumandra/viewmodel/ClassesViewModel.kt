@@ -11,19 +11,22 @@ import com.example.kumandra.data.local.ClassesModel
 import com.example.kumandra.data.remote.ApiConfig
 import com.example.kumandra.data.remote.response.Classes
 import com.example.kumandra.data.remote.response.ClassesResponses
+import com.example.kumandra.data.remote.response.DetailFacility
 import kotlinx.coroutines.launch
 
 class ClassesViewModel(private val reportRepository: ReportRepository): ViewModel() {
-    private val _classes = MutableLiveData<List<ClassesModel>>()
+  //  private val _classes = MutableLiveData<List<ClassesModel>>()
     //val classes: LiveData<List<ClassesModel>> get() = _classes
 
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    val classes = MutableLiveData<Results<List<Classes>>>()
+    val _classes = MutableLiveData<Results<List<Classes>>>()
+    val classes: LiveData<Results<List<Classes>>> = _classes
+
 
     private suspend fun fetchClasses() {
-        classes.postValue(Results.Loading())
+        _classes.postValue(Results.Loading())
         try {
             val response = ApiConfig.getApiService().listClasses()
             if (response.isSuccessful){
@@ -32,17 +35,17 @@ class ClassesViewModel(private val reportRepository: ReportRepository): ViewMode
                 }
             } else {
                 Log.i("ClassesViewModel", "safeGetRoles: $response")
-                classes.postValue(Results.Error("Gagal memuat data"))
+                _classes.postValue(Results.Error("Gagal memuat data"))
             }
         } catch (e: Throwable){
-            classes.postValue(Results.Error(e.message.toString()))
+            _classes.postValue(Results.Error(e.message.toString()))
         }
     }
 
     fun getClasses(idBuilding: String) = viewModelScope.launch {
         fetchClasses()
         reportRepository.getAllClasses(idBuilding).observeForever{
-            classes.postValue(Results.Success(it))
+            _classes.postValue(Results.Success(it))
         }
     }
 

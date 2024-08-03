@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -42,6 +43,9 @@ class DetailStoryActivity : AppCompatActivity() {
         viewModelConfig()
         binding.btEdit.setOnClickListener{ editReport()}
         binding.btDelete.setOnClickListener{ deleteReport()}
+        binding.ivBack.setOnClickListener{
+            onBackPressed()
+        }
     }
     private fun viewModelConfig() {
         val pref = UserSession.getInstance(dataStore)
@@ -89,12 +93,12 @@ class DetailStoryActivity : AppCompatActivity() {
             Glide.with(applicationContext)
                 .load(report?.image_url)
                 .into(ivDetail)
-            tvCreated.text = ":" + report?.created_at
-            tvUpdate.text =  ":" + report?.updated_at
-            tvEmail.text =  ":" + report?.email
-            tvFacil.text =  ":" + report?.nama_detail_facilities
-            tvClass.text =  ":" + report?.nama_classes
-            tvDesc.text =  ":" + report?.description
+            tvCreated.text = report?.created_at
+     //       tvUpdate.text =  ":" + report?.updated_at
+            tvEmail.text =  report?.email
+            tvFacil.text =  report?.nama_detail_facilities
+            tvClass.text =  report?.nama_classes
+            tvDesc.text =  report?.description
         }
 
         if (report?.id_status == "4"){
@@ -117,13 +121,13 @@ class DetailStoryActivity : AppCompatActivity() {
             Glide.with(applicationContext)
                 .load(detailReport.image_url)
                 .into(ivDetail)
-            tvCreated.text = ":" + detailReport.created_at
-            tvUpdate.text =  ":" + detailReport.updated_at
-            tvEmail.text =  ":" + detailReport.email
-            tvFacil.text =  ":" + detailReport.nama_detail_facilities
-            tvClass.text =  ":" + detailReport.nama_classes
-            tvDesc.text =  ":" + detailReport.description
-            tvStatus.text = ":" + detailReport.nama_status
+            tvCreated.text = detailReport.created_at
+        //    tvUpdate.text =  ":" + detailReport.updated_at
+            tvEmail.text =  detailReport.email
+            tvFacil.text =  detailReport.nama_detail_facilities
+            tvClass.text =  detailReport.nama_classes
+            tvDesc.text =  detailReport.description
+            tvStatus.text = detailReport.nama_status
 
         }
         if (detailReport.id_student != idStudent){
@@ -147,8 +151,20 @@ class DetailStoryActivity : AppCompatActivity() {
     }
 
     private fun deleteReport() {
-        viewModel.deleteReport(detailReport.id_report)
-        Log.i("ID REPORT", "ID ${detailReport.id_report}")
+        AlertDialog.Builder(this).apply {
+            setTitle("Konfirmasi")
+            setMessage("Hapus laporan ini?")
+            setPositiveButton("OK") {_,_ ->
+                viewModel.deleteReport(detailReport.id_report)
+                val intent = Intent(context, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+            }
+            create()
+            show()
+        }
+
         viewModel.delReport.observe(this){
             when(it){
                 is Results.Error -> {
@@ -158,23 +174,14 @@ class DetailStoryActivity : AppCompatActivity() {
 
                 }
                 is Results.Success -> {
-                    AlertDialog.Builder(this).apply {
-                        setTitle("Success")
-                        setMessage(it.data?.message)
-                        setPositiveButton("OK") {_,_ ->
-                            val intent = Intent(context, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        finish()
-                        }
-                        create()
-                        show()
-                    }
+                    Toast.makeText(this, it.message.toString(),Toast.LENGTH_SHORT).show()
                 }
             }
 
         }
     }
+
+
 
     companion object{
         const val STORY_DETAIL = "detail"

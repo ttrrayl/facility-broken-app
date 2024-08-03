@@ -28,7 +28,7 @@ class BuildingViewModel(private val reportRepository: ReportRepository): ViewMod
             if (response.isSuccessful){
                 response.body()?.let{
                     builds.postValue(Results.Success(it))
-                    _building.postValue(response.body()!!.building)
+                //    _building.postValue(response.body()!!.building)
                     reportRepository.fetchBuilding(it.building)
                 }
             } else {

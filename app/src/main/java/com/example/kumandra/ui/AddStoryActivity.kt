@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -57,8 +58,6 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
     private lateinit var currentPhotoPath: String
     private var getFile: File? = null
- //   private lateinit var user: StudentModel
-    private var latLng: LatLng? = null
     private lateinit var addStoryViewModel: AddStoryViewModel
     private lateinit var buildingViewModel: BuildingViewModel
     private lateinit var classesViewModel: ClassesViewModel
@@ -195,27 +194,81 @@ class AddStoryActivity : AppCompatActivity() {
 
         viewModelConfig()
         updateUIBuilding()
-        binding.classesInputLayout.editText?.setOnClickListener{
+
+        binding.buildingInputLayout.setOnClickListener{
+            updateUIBuilding()
+//            binding.autBuilding.setOnItemClickListener{ parent,view,position, id ->
+//                //  val selected = it.data?.building?.get(position)
+//                val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
+//                if (selectedBuilding.isEmpty()){
+//                    binding.buildingInputLayout.editText?.error ="filling first"
+//                }
+//                val selectedClassesId = buildingViewModel.builds.value?.data?.building?.find { building ->
+//                    building.nama_building == selectedBuilding
+//                }?.id_building
+//                updateUIClasses(selectedClassesId.toString())
+//            }
+        }
+        binding.classesInputLayout.setOnClickListener{
             val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
-            if (selectedBuilding.isEmpty()){
-                binding.buildingInputLayout.editText?.error ="filling first"
+            if (selectedBuilding.isEmpty()) {
+                binding.buildingInputLayout.editText?.error = "filling first"
             }
-            val selectedBuildingId = buildingViewModel.builds.value?.data?.building?.find {
-                it.nama_building == selectedBuilding
-            }?.id_building
-            updateUIClasses(selectedBuildingId.toString())
+            val selectedClassesId =
+                buildingViewModel.builds.value?.data?.building?.find { building ->
+                    building.nama_building == selectedBuilding
+                }?.id_building
+            updateUIClasses(selectedClassesId.toString())
         }
 
-        binding.detailFacilInputLayout.editText?.setOnClickListener{
-            val selectedBuilding = binding.classesInputLayout.editText?.text.toString()
-            if (selectedBuilding.isEmpty()){
+        binding.detailFacilInputLayout.setOnClickListener {
+            val selectedClasses = binding.classesInputLayout.editText?.text.toString()
+            if (selectedClasses.isEmpty()){
                 binding.classesInputLayout.editText?.error = "filling first"
             }
-            val selectedBuildingId = classesViewModel.classes.value?.data?.find {
-                it.nama_classes == selectedBuilding
+            val selectedClassesId = classesViewModel.classes.value?.data?.find {
+                it.nama_classes == selectedClasses
             }?.id_classes
-            updateUIFacil(selectedBuildingId.toString())
+            updateUIFacil(selectedClassesId.toString())
         }
+
+//        binding.autBuilding.setOnItemClickListener { parent, view, position, id ->
+//            //  val selected = it.data?.building?.get(position)
+//            val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
+//            if (selectedBuilding.isEmpty()) {
+//                binding.buildingInputLayout.editText?.error = "filling first"
+//            }
+//            val selectedClassesId =
+//                buildingViewModel.builds.value?.data?.building?.find { building ->
+//                    building.nama_building == selectedBuilding
+//                }?.id_building
+//            updateUIClasses(selectedClassesId.toString())
+//        }
+
+//        binding.classesInputLayout.editText?.setOnClickListener {
+//
+//            binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
+//                val selectedClasses = binding.classesInputLayout.editText?.text.toString()
+//                if (selectedClasses.isEmpty()){
+//                    binding.classesInputLayout.editText?.error = "filling first"
+//                }
+//                val selectedClassesId = classesViewModel.classes.value?.data?.find {
+//                    it.nama_classes == selectedClasses
+//                }?.id_classes
+//                updateUIFacil(selectedClassesId.toString())
+//            }
+//        }
+//
+//        binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
+//            val selectedClasses = binding.classesInputLayout.editText?.text.toString()
+//            if (selectedClasses.isEmpty()){
+//                binding.classesInputLayout.editText?.error = "filling first"
+//            }
+//            val selectedClassesId = classesViewModel.classes.value?.data?.find {
+//                it.nama_classes == selectedClasses
+//            }?.id_classes
+//            updateUIFacil(selectedClassesId.toString())
+//        }
     }
 
     private fun viewModelConfig(){
@@ -339,6 +392,7 @@ class AddStoryActivity : AppCompatActivity() {
             when(it){
                 is Results.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    Log.i("BUILDING", it.message.toString())
                 }
                 is Results.Loading -> {
                 }
@@ -352,11 +406,20 @@ class AddStoryActivity : AppCompatActivity() {
                         adapter
                     )
                 }
-
                 else -> {}
             }
+            binding.autBuilding.setOnItemClickListener{ parent,view,position, id ->
+                val selected = it.data?.building?.get(position)
+                val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
+                if (selectedBuilding.isEmpty()){
+                    binding.buildingInputLayout.editText?.error ="filling first"
+                }
+                val selectedClassesId = buildingViewModel.builds.value?.data?.building?.find { building ->
+                    building.nama_building == selectedBuilding
+                }?.id_building
+                updateUIClasses(selected?.id_building.toString())
+            }
         }
-
     }
 
     private fun updateUIClasses(idBuilding:String){
@@ -378,15 +441,20 @@ class AddStoryActivity : AppCompatActivity() {
                         adapter
                     )
                 }
-
                 else -> {}
             }
+            binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
+                val selected = it.data?.get(position)
+                val selectedClasses = binding.classesInputLayout.editText?.text.toString()
+                if (selectedClasses.isEmpty()){
+                    binding.classesInputLayout.editText?.error ="filling first"
+                }
+                val selectedClassesId = classesViewModel.classes.value?.data?.find { building ->
+                    building.nama_classes == selectedClasses
+                }?.id_classes
+                updateUIFacil(selected?.id_classes.toString())
+            }
         }
-//        val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-//        val selectedClassesId = classesViewModel.classes.value?.data?.find {
-//            it.nama_classes == selectedClasses
-//        }?.id_classes
-//        updateUIFacil(selectedClassesId.toString())
     }
 
     private fun updateUIFacil(idClasses: String){
@@ -402,7 +470,6 @@ class AddStoryActivity : AppCompatActivity() {
                     val items = mutableListOf<String>()
                     it.data?.forEach { detailFacil ->
                         items.add(detailFacil.nama_detail_facilities)
-                        Log.i("CLASS", "CLASS: ${detailFacil.nama_detail_facilities}")
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
                     (binding.detailFacilInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
@@ -552,6 +619,16 @@ class AddStoryActivity : AppCompatActivity() {
 
                 }
             }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish() // or onBackPressed() to handle back navigation
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

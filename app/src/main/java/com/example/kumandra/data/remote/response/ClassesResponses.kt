@@ -12,6 +12,5 @@ data class Classes(
     @PrimaryKey
     val id_classes: String,
     val id_building: String,
-    val nama_classes: String,
-    val tanggal_post: String
+    val nama_classes: String
 )

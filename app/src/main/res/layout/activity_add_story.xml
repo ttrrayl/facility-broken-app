@@ -4,18 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddStoryActivity">
+    tools:context=".ui.AddStoryActivity"
+    android:background="@color/bg">
 
-    <ImageView
-        android:id="@+id/iv_backgroundContainer"
-        android:layout_width="457dp"
-        android:layout_height="659dp"
-        android:layout_marginTop="150dp"
-        android:src="@drawable/background_info_page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/iv_add"
@@ -38,7 +30,7 @@
         app:cornerRadius="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add"
-        android:backgroundTint="@color/button"/>
+        android:backgroundTint="@color/yellow"/>
 
     <Button
         android:id="@+id/button_camera"
@@ -52,14 +44,14 @@
         android:text="@string/camera"
         android:textSize="18sp"
         android:padding="8dp"
-        android:backgroundTint="@color/button"/>
+        android:backgroundTint="@color/yellow"/>
 
     <TextView
         android:id="@+id/tv_building"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gedung Perkuliahan"
-        android:textColor="@color/white"
+        android:textColor="@color/blackgrey"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="322dp"
@@ -75,12 +67,14 @@
         android:layout_height="wrap_content"
         android:hint="@string/pilih_gedung_kuliah"
         android:layout_marginStart="15dp"
+        app:boxBackgroundColor="@color/white"
         android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_building">
 
         <AutoCompleteTextView
+            android:id="@+id/autBuilding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>
@@ -92,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ruang Kelas"
-        android:textColor="@color/white"
+        android:textColor="@color/blackgrey"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="322dp"
@@ -108,12 +102,14 @@
         android:layout_height="wrap_content"
         android:hint="@string/pilih_ruang_kelas"
         android:layout_marginStart="15dp"
+        app:boxBackgroundColor="@color/white"
         android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_classes">
 
         <AutoCompleteTextView
+            android:id="@+id/autClasses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>
@@ -125,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fasilitas"
-        android:textColor="@color/white"
+        android:textColor="@color/blackgrey"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="322dp"
@@ -141,6 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        app:boxBackgroundColor="@color/white"
         android:hint="@string/pilih_fasilitas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -153,34 +150,55 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/et_desc"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_desc"
+        android:layout_width="0dp"
         android:layout_height="123dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/bg"
-        android:textColor="@color/black"
-        android:hint="Deskripsi..."
-        android:padding="20dp"
-        android:gravity="start"
-        android:inputType="textMultiLine"/>
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_desc"
+            android:layout_width="match_parent"
+            android:layout_height="123dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:background="@color/white"
+            android:textColor="@color/blackgrey"
+            android:hint="Deskripsi kerusakan"
+            android:inputType="textMultiLine"/>
+    </com.google.android.material.textfield.TextInputLayout>
+<!--    <EditText-->
+<!--        android:id="@+id/et_desc"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="123dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"-->
+<!--        android:layout_marginStart="15dp"-->
+<!--        android:layout_marginEnd="15dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@color/grey"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:hint="Deskripsi..."-->
+<!--        android:padding="20dp"-->
+<!--        android:gravity="start"-->
+<!--        android:inputType="textMultiLine"/>-->
 
     <Button
         android:id="@+id/button_upload"
-        android:layout_width="180dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_desc"
+        app:layout_constraintTop_toBottomOf="@+id/layout_desc"
         android:layout_margin="12dp"
         app:cornerRadius="18dp"
         android:text="UPLOAD"
-        android:textSize="25sp"
-        android:backgroundTint="@color/button"/>
+        android:textSize="20sp"
+        android:backgroundTint="@color/yellow"/>
 
     <ProgressBar
         android:id="@+id/pb_add"

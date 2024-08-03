@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,7 +25,7 @@
             tools:src="@tools:sample/avatars"/>
 
         <TextView
-            android:id="@+id/tv_tanggal"
+            android:id="@+id/tv_fasil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -39,6 +40,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="7dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_tanggal"
             tools:text="deskripsi"/>
@@ -48,17 +50,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_kelas"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tanggal"
             tools:text="status"/>
 
         <TextView
-            android:id="@+id/tv_deskripsi"
-            android:layout_width="150dp"
+            android:id="@+id/tv_tanggal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.846"
+            android:textStyle="italic"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
             app:layout_constraintTop_toBottomOf="@+id/iv_gambarRv"
             tools:text="tanggal" />
 

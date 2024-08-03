@@ -14,6 +14,5 @@ data class DetailFacility(
     val id_classes: String,
     val id_facilities: String,
     val nama_detail_facilities: String,
-    val quantity: String,
-    val tanggal_post: String
+    val quantity: String
 )

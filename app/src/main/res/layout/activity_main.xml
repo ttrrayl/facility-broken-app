@@ -16,7 +16,7 @@
         app:tabGravity="fill"
         app:tabMode="fixed"
         android:contentDescription="tab layout"
-        android:background="@color/tab"
+        android:background="@color/grey"
         app:tabTextColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,23 +47,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/button"
-        app:tint="@color/white"
+        android:backgroundTint="@color/yellow"
+        app:tint="@color/blackgrey"
         android:src="@drawable/ic_add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rv_story"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        tools:listitem="@layout/item_rv"/>-->
-
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/add_report" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -147,13 +147,14 @@ class ReportFragment : Fragment() {
     }
 
     private fun getReport(token: String, id_student: String?, idStatus: String?) {
-        val adapter = ReportAdapter()
+        val adapter = ReportAdapter(requireContext())
+
         binding.rvStory.layoutManager = LinearLayoutManager(requireActivity())
-      //  binding.rvStory.setHasFixedSize(true)
         viewModel.getStories(token, id_student, idStatus).observe(viewLifecycleOwner){
             adapter.submitData(lifecycle, it)
         }
         binding.rvStory.adapter = adapter
+      //  adapter.notifyDataSetChanged()
     }
 
 

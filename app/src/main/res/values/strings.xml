@@ -33,4 +33,10 @@
     <string name="pilih_gedung_kuliah">Pilih Gedung Kuliah</string>
     <string name="pilih_ruang_kelas">Pilih Ruang Kelas</string>
     <string name="pilih_fasilitas">Pilih Fasilitas</string>
+    <string name="respon_dari_pj">Respon dari PJ</string>
+    <string name="back">back</string>
+    <string name="title_app">Layanan Pelaporan Kerusakan Fasilitas di Gedung Perkuliahan</string>
+    <string name="universitas_andalas">UNIVERSITAS ANDALAS</string>
+    <string name="sudah_punya_akun">Sudah punya akun</string>
+    <string name="add_report">ADD REPORT</string>
 </resources>
