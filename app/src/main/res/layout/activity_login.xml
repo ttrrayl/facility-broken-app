@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Halo, Selamat Datang"
+        android:textColor="@color/blackgrey"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,21 +36,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login dulu yuk!"
+        android:textColor="@color/blackgrey"
         android:textSize="24sp"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/tv_halo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-<!--    <TextView-->
-<!--        android:id="@+id/tv_email"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Email"-->
-<!--        android:layout_marginStart="30dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_login"/>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_no"
@@ -83,7 +75,9 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="MASUK"
+        android:textColor="@color/blackgrey"
         android:padding="10dp"
+        android:backgroundTint="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_no"

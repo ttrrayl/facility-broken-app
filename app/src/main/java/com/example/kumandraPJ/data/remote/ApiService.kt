@@ -21,12 +21,6 @@ interface ApiService {
         @Field("contact") contact: String
     ): Call<LoginResponse>
 
-    @GET("report")
-    suspend fun getStories(
-        @Header("Authorization") authorization: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): MainResponse
 
     @GET("report/user/{id_pj}")
     suspend fun getStoriesByIdPj(

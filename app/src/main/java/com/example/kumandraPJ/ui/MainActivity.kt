@@ -48,9 +48,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModelConfig()
-//        FirebaseApp.initializeApp(this)
-//        val token = Firebase.messaging.token
-//        Log.i("FCM TOKEN", "TOKEN : $token")
 
         // Mendapatkan token FCM
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -111,29 +108,10 @@ class MainActivity : AppCompatActivity() {
 
 
         mainViewModel.getUser().observe(this) { user ->
-//            getStory(token, user.idPj, MainActivity.status)
             MainActivity.ID = user.idPj
             PushNotificationService.ID = user.idPj
         }
 
-        //this.id = idPj
-
-
-
-//        mainViewModel.listStory.observe(this){
-//            if (it.isEmpty()){
-//                AlertDialog.Builder(this@MainActivity).apply {
-//                    setTitle("Sorry :(")
-//                    setMessage("There is nothing here")
-//                    setPositiveButton("OK"){_,_ ->
-//                        finish()
-//                    }
-//                    create()
-//                    show()
-//                }
-//            }
-//            listStory(it)
-//        }
     }
 
 
@@ -157,13 +135,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getStory(token: String, idPj: String, idStatus: String?) {
-        Log.i("STATUS", "STATUS: $idStatus")
-        val adapter = ReportAdapter()
+        val adapter = ReportAdapter(this)
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
-        binding.rvStory.setHasFixedSize(true)
+  //      binding.rvStory.setHasFixedSize(true)
         mainViewModel.getStories(token, idPj, idStatus).observe(this){
-
             adapter.submitData(lifecycle, it)
         }
         binding.rvStory.adapter = adapter

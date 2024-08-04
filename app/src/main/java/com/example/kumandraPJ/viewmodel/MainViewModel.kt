@@ -22,15 +22,6 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-//    init {
-//        _filter.value = SortClass.TIME
-//    }
-//
-//    fun filter(filterType: SortClass) {
-//        _filter.value = filterType
-//    }
-
-
     fun getToken(): LiveData<UserModel>{
         return pref.getToken().asLiveData()
     }
@@ -48,28 +39,6 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
     fun getStories(token: String, idPj: String,idStatus: String? ): LiveData<PagingData<Report>> =
         reportRepository.getReport(token, idPj, idStatus).cachedIn(viewModelScope)
 
-//    fun getStoriesMap(token: String) {
-//        _isLoading.value = true
-//        val client = ApiConfig.getApiService().getStoriesMap("Bearer $token")
-//        client.enqueue(object : Callback<MainResponse>{
-//            override fun onFailure(call: Call<MainResponse>, t: Throwable) {
-//                _isLoading.value = false
-//                Log.e(TAG,"onFailure: ${t.message}")
-//            }
-//
-//            override fun onResponse(call: Call<MainResponse>, response: Response<MainResponse>) {
-//                _isLoading.value = false
-//                if (response.isSuccessful){
-//                    val responBody = response.body()
-//                    if (responBody != null){
-//                        _listStoryMap.value = responBody.listStory
-//                    }
-//                } else{
-//                    Log.e(TAG,"onFailure: ${response.message()}")
-//                }
-//            }
-//        })
-//    }
 
     companion object{
         private const val TAG = "MainViewModel"

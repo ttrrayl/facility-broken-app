@@ -22,7 +22,6 @@ class StatusViewModel: ViewModel() {
 
     val status = MutableLiveData<Results<StatusResponses>>()
 
-    private lateinit var adapter: ArrayAdapter<String>
 
     private suspend fun fetchStatus() {
         status.postValue(Results.Loading())

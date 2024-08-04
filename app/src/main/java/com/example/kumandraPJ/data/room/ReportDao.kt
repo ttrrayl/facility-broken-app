@@ -15,9 +15,6 @@ interface ReportDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReport(report: List<Report>)
 
-//    @RawQuery(observedEntities = [Report::class])
-//    fun getHabits(query: SupportSQLiteQuery): DataSource.Factory<Int, Report>
-
     @Query("SELECT * FROM report")
     fun getAllReport(): PagingSource<Int, Report>
 

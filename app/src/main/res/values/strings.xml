@@ -28,4 +28,13 @@
     <string name="status_sedang_diproses">Status Sedang Diproses</string>
     <string name="status_ditolak">Status Ditolak</string>
     <string name="status_selesai">Status Selesai</string>
+    <string name="respon_dari_pj">Respon dari PJ</string>
+    <string name="back">back</string>
+    <string name="title_app">Layanan Pelaporan Kerusakan Fasilitas di Gedung Perkuliahan</string>
+    <string name="universitas_andalas">UNIVERSITAS ANDALAS</string>
+    <string name="sudah_punya_akun">Sudah punya akun</string>
+    <string name="add_report">ADD REPORT</string>
+    <string name="addRespon">Tambahkan Respon</string>
+    <string name="finish">Selesaikan</string>
+
 </resources>

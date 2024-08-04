@@ -1,70 +1,34 @@
 package com.example.kumandraPJ.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.ACTION_GET_CONTENT
-import android.graphics.BitmapFactory
-import android.location.Location
-import android.media.ExifInterface
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.model.LatLng
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.kumandraPJ.R
-import com.example.kumandraPJ.createCustomTempFile
 import com.example.kumandraPJ.data.Results
 import com.example.kumandraPJ.data.local.UserSession
 import com.example.kumandraPJ.databinding.ActivityAddStoryBinding
-import com.example.kumandraPJ.checkPermissionsGranted
 import com.example.kumandraPJ.data.remote.response.Report
-import com.example.kumandraPJ.reduceFileImage
-import com.example.kumandraPJ.uriToFile
 import com.example.kumandraPJ.viewmodel.AddStoryViewModel
 import com.example.kumandraPJ.viewmodel.StatusViewModel
-import com.example.kumandraPJ.viewmodel.ClassesViewModel
-import com.example.kumandraPJ.viewmodel.DetailFacilViewModel
 import com.example.kumandraPJ.viewmodel.ViewModelFactory
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
-import java.io.IOException
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
-    private lateinit var currentPhotoPath: String
-    private var getFile: File? = null
- //   private lateinit var user: StudentModel
-    private var latLng: LatLng? = null
     private lateinit var addStoryViewModel: AddStoryViewModel
     private lateinit var statusViewModel: StatusViewModel
-    private lateinit var classesViewModel: ClassesViewModel
-    private lateinit var detailFacilViewModel: DetailFacilViewModel
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var latitude: Double? = null
-    private var longitude: Double? = null
     private lateinit var detailReport: Report
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +41,12 @@ class AddStoryActivity : AppCompatActivity() {
 
         viewModelConfig()
         updateUIStatus()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.addRespon)
+
+        if (detailReport.id_status == "2" ){
+            binding.buttonUpload.text = getString(R.string.finish)
+        }
     }
 
     private fun viewModelConfig(){
@@ -125,7 +95,9 @@ class AddStoryActivity : AppCompatActivity() {
                 }
                 is Results.Success -> {
                     val items = mutableListOf<String>()
-                    it.data?.status?.forEach { status ->
+                    it.data?.status?.filter { status ->
+                        status.id_status != "1"
+                    }?.forEach { status ->
                         items.add(status.nama_status)
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
@@ -150,8 +122,8 @@ class AddStoryActivity : AppCompatActivity() {
             desc.isEmpty() -> binding.etResp.error = "Kolom tidak boleh kosong"
 
             else -> {
-                val idReport = detailReport.id_report.toString()
-                val idPj = detailReport.id_pj.toString()
+                val idReport = detailReport.id_report
+                val idPj = detailReport.id_pj
                 val respon = binding.etResp.text.toString()
                 val idStatus = selectedStatusId.toString()
                addStoryViewModel.sendResponse(TOKEN, idReport, idPj, idStatus, respon)
@@ -159,8 +131,15 @@ class AddStoryActivity : AppCompatActivity() {
             }
         }
     }
-
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish() // or onBackPressed() to handle back navigation
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     companion object {
         var TOKEN = "token"

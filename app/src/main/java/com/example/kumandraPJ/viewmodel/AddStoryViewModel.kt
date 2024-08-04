@@ -28,8 +28,6 @@ class AddStoryViewModel : ViewModel() {
         ) {
         _isLoading.value = true
         try {
-//            val lat = latLng?.latitude?.toFloat()
-//            val lon = latLng?.longitude?.toFloat()
             val client = ApiConfig.getApiService().addResponse(
                 "Bearer $token",
                 id_report,

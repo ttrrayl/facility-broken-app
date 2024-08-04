@@ -55,6 +55,12 @@ data class Report(
     @field:SerializedName("nama_status")
     val nama_status: String,
 
+    @field:SerializedName("username")
+    val username: String,
+
+    @field:SerializedName("content")
+    val content: String?,
+
     @field:SerializedName("updated_at")
     val updated_at: String
 ): Parcelable

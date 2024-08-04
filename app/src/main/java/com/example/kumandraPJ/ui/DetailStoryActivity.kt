@@ -35,6 +35,12 @@ class DetailStoryActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
+        binding.ivBack.setOnClickListener{
+            onBackPressed()
+        }
+        if(detailReport.id_status == "4" || detailReport.id_status == "3"){
+            binding.btResponse.visibility = View.GONE
+        }
     }
     private fun viewModelConfig() {
         val pref = UserSession.getInstance(dataStore)
@@ -53,13 +59,14 @@ class DetailStoryActivity : AppCompatActivity() {
             Glide.with(applicationContext)
                 .load(detailReport.image_url)
                 .into(ivDetail)
-            tvCreated.text = ":" + detailReport.created_at
-            tvUpdate.text =  ":" + detailReport.updated_at
-            tvEmail.text =  ":" + detailReport.email
-            tvFacil.text =  ":" + detailReport.nama_detail_facilities
-            tvClass.text =  ":" + detailReport.nama_classes
-            tvDesc.text =  ":" + detailReport.description
-            tvStatus.text =  ":" + detailReport.nama_status
+            tvCreated.text = detailReport.created_at
+            tvEmail.text =  detailReport.email
+            tvFacil.text =  detailReport.nama_detail_facilities
+            tvClass.text =  detailReport.nama_classes
+            tvDesc.text =  detailReport.description
+            tvStatus.text =  detailReport.nama_status
+            tvRespon.text = detailReport.content
+            tvUsername.text = detailReport.username
 
         }
     }
