@@ -11,6 +11,7 @@ import com.example.kumandra.data.Results
 import com.example.kumandra.data.local.ClassesModel
 import com.example.kumandra.data.local.DetailFacilModel
 import com.example.kumandra.data.remote.ApiConfig
+import com.example.kumandra.data.remote.response.ClassesResponses
 import com.example.kumandra.data.remote.response.DetailFacilResponses
 import com.example.kumandra.data.remote.response.DetailFacility
 import kotlinx.coroutines.CoroutineScope
@@ -28,32 +29,35 @@ class DetailFacilViewModel(private val reportRepository: ReportRepository): View
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    val detailFacil = MutableLiveData<Results<List<DetailFacility>>>()
-    val facil: LiveData<Results<List<DetailFacility>>> = detailFacil
+    val _listDetailFacil = MutableLiveData<Results<List<DetailFacility>>>()
+    val listFacil: LiveData<Results<List<DetailFacility>>> = _listDetailFacil
+
+    val facil = MutableLiveData<Results<DetailFacilResponses>>()
 
 
 
     private suspend fun fetchDetailFacil() {
-        detailFacil.postValue(Results.Loading())
+        _listDetailFacil.postValue(Results.Loading())
         try {
             val response = ApiConfig.getApiService().listDetailFacil()
             if (response.isSuccessful){
                 response.body()?.let {
                     reportRepository.fetchDetailFacil(it.detail_facilities)
+                    facil.postValue(Results.Success(it))
                 }
             } else {
                 Log.i("DetailFacilViewModel", "safeGetRoles: $response")
-                detailFacil.postValue(Results.Error("Gagal memuat data"))
+                _listDetailFacil.postValue(Results.Error("Gagal memuat data"))
             }
         } catch (e: Throwable){
-            detailFacil.postValue(Results.Error(e.message.toString()))
+            _listDetailFacil.postValue(Results.Error(e.message.toString()))
         }
     }
 
-    fun getDetailFacil(idClasses: String) = viewModelScope.launch {
+    fun getDetailFacil(idClasses: String?) = viewModelScope.launch {
         fetchDetailFacil()
         reportRepository.getAllDeFacil(idClasses).observeForever{
-            detailFacil.postValue(Results.Success(it))
+            _listDetailFacil.postValue(Results.Success(it))
         }
     }
 

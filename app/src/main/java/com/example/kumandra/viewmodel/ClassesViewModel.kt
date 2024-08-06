@@ -9,6 +9,7 @@ import com.example.kumandra.data.ReportRepository
 import com.example.kumandra.data.Results
 import com.example.kumandra.data.local.ClassesModel
 import com.example.kumandra.data.remote.ApiConfig
+import com.example.kumandra.data.remote.response.BuildingResponses
 import com.example.kumandra.data.remote.response.Classes
 import com.example.kumandra.data.remote.response.ClassesResponses
 import com.example.kumandra.data.remote.response.DetailFacility
@@ -21,31 +22,37 @@ class ClassesViewModel(private val reportRepository: ReportRepository): ViewMode
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    val _classes = MutableLiveData<Results<List<Classes>>>()
-    val classes: LiveData<Results<List<Classes>>> = _classes
+    val _listClasses = MutableLiveData<Results<List<Classes>>>()
+    val listClasses: LiveData<Results<List<Classes>>> = _listClasses
+
+//    val _classes = MutableLiveData<Results<ClassesResponses>>()
+//    val classes: LiveData<Results<ClassesResponses>> = _classes
+
+    val classes = MutableLiveData<Results<ClassesResponses>>()
 
 
     private suspend fun fetchClasses() {
-        _classes.postValue(Results.Loading())
+        classes.postValue(Results.Loading())
         try {
             val response = ApiConfig.getApiService().listClasses()
             if (response.isSuccessful){
                 response.body()?.let {
                     reportRepository.fetchClasses(it.classes)
+                    classes.postValue(Results.Success(it))
                 }
             } else {
                 Log.i("ClassesViewModel", "safeGetRoles: $response")
-                _classes.postValue(Results.Error("Gagal memuat data"))
+                classes.postValue(Results.Error("Gagal memuat data"))
             }
         } catch (e: Throwable){
-            _classes.postValue(Results.Error(e.message.toString()))
+            classes.postValue(Results.Error(e.message.toString()))
         }
     }
 
-    fun getClasses(idBuilding: String) = viewModelScope.launch {
+    fun getClasses(idBuilding: String?) = viewModelScope.launch {
         fetchClasses()
         reportRepository.getAllClasses(idBuilding).observeForever{
-            _classes.postValue(Results.Success(it))
+            _listClasses .postValue(Results.Success(it))
         }
     }
 

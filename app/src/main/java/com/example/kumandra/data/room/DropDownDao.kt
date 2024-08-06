@@ -23,7 +23,7 @@ interface ClassesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDataClasses(classes: List<Classes>)
     @Query("SELECT * FROM classes WHERE id_building = :idBuilding")
-    fun getAllClassesByIdBuilding(idBuilding: String): LiveData<List<Classes>>
+    fun getAllClassesByIdBuilding(idBuilding: String?): LiveData<List<Classes>>
 }
 
 @Dao
@@ -31,6 +31,6 @@ interface DetailFacilDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDataFacil(deFacil: List<DetailFacility>)
     @Query("SELECT * FROM detailFacil WHERE id_classes = :idClasses")
-    fun getAllFacilByIdClasses(idClasses: String): LiveData<List<DetailFacility>>
+    fun getAllFacilByIdClasses(idClasses: String?): LiveData<List<DetailFacility>>
 }
 

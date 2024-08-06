@@ -197,40 +197,29 @@ class AddStoryActivity : AppCompatActivity() {
 
         binding.buildingInputLayout.setOnClickListener{
             updateUIBuilding()
-//            binding.autBuilding.setOnItemClickListener{ parent,view,position, id ->
-//                //  val selected = it.data?.building?.get(position)
-//                val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
-//                if (selectedBuilding.isEmpty()){
-//                    binding.buildingInputLayout.editText?.error ="filling first"
-//                }
-//                val selectedClassesId = buildingViewModel.builds.value?.data?.building?.find { building ->
+        }
+//        binding.classesInputLayout.setOnClickListener{
+//            val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
+//            if (selectedBuilding.isEmpty()) {
+//                binding.buildingInputLayout.editText?.error = "filling first"
+//            }
+//            val selectedClassesId =
+//                buildingViewModel.builds.value?.data?.building?.find { building ->
 //                    building.nama_building == selectedBuilding
 //                }?.id_building
-//                updateUIClasses(selectedClassesId.toString())
+//            updateUIClasses(selectedClassesId.toString())
+//        }
+//
+//        binding.detailFacilInputLayout.setOnClickListener {
+//            val selectedClasses = binding.classesInputLayout.editText?.text.toString()
+//            if (selectedClasses.isEmpty()){
+//                binding.classesInputLayout.editText?.error = "filling first"
 //            }
-        }
-        binding.classesInputLayout.setOnClickListener{
-            val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
-            if (selectedBuilding.isEmpty()) {
-                binding.buildingInputLayout.editText?.error = "filling first"
-            }
-            val selectedClassesId =
-                buildingViewModel.builds.value?.data?.building?.find { building ->
-                    building.nama_building == selectedBuilding
-                }?.id_building
-            updateUIClasses(selectedClassesId.toString())
-        }
-
-        binding.detailFacilInputLayout.setOnClickListener {
-            val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-            if (selectedClasses.isEmpty()){
-                binding.classesInputLayout.editText?.error = "filling first"
-            }
-            val selectedClassesId = classesViewModel.classes.value?.data?.find {
-                it.nama_classes == selectedClasses
-            }?.id_classes
-            updateUIFacil(selectedClassesId.toString())
-        }
+//            val selectedClassesId = classesViewModel.listClasses.value?.data?.find {
+//                it.nama_classes == selectedClasses
+//            }?.id_classes
+//            updateUIFacil(selectedClassesId.toString())
+//        }
 
 //        binding.autBuilding.setOnItemClickListener { parent, view, position, id ->
 //            //  val selected = it.data?.building?.get(position)
@@ -308,6 +297,9 @@ class AddStoryActivity : AppCompatActivity() {
             this,
             ViewModelFactory(this, UserSession.getInstance(dataStore))
         )[DetailFacilViewModel::class.java]
+
+        classesViewModel.getClasses(null)
+        detailFacilViewModel.getDetailFacil(null)
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -424,7 +416,7 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun updateUIClasses(idBuilding:String){
         classesViewModel.getClasses(idBuilding)
-        classesViewModel.classes.observe(this){
+        classesViewModel.listClasses.observe(this){
             when(it){
                 is Results.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
@@ -449,7 +441,7 @@ class AddStoryActivity : AppCompatActivity() {
                 if (selectedClasses.isEmpty()){
                     binding.classesInputLayout.editText?.error ="filling first"
                 }
-                val selectedClassesId = classesViewModel.classes.value?.data?.find { building ->
+                val selectedClassesId = classesViewModel.classes.value?.data?.classes?.find { building ->
                     building.nama_classes == selectedClasses
                 }?.id_classes
                 updateUIFacil(selected?.id_classes.toString())
@@ -459,7 +451,7 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun updateUIFacil(idClasses: String){
         detailFacilViewModel.getDetailFacil(idClasses)
-        detailFacilViewModel.facil.observe(this){
+        detailFacilViewModel.listFacil.observe(this){
             when(it){
                 is Results.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
@@ -491,19 +483,25 @@ class AddStoryActivity : AppCompatActivity() {
         }?.id_building
 
         val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-        val selectedClassesId = classesViewModel.classes.value?.data?.find {
+        Log.i("NAMA KELAS", "kelas: $selectedClasses")
+        val selectedClassesId = classesViewModel.classes.value?.data?.classes?.find {
             it.nama_classes == selectedClasses
         }?.id_classes
+        Log.i("NAMA KELAS", "kelasID: $selectedClassesId")
 
         val selectedDetailFacil = binding.detailFacilInputLayout.editText?.text.toString()
         val selectedDetailFacilId =
-            detailFacilViewModel.detailFacil.value?.data?.find {
+            detailFacilViewModel.facil.value?.data?.detail_facilities?.find {
                 it.nama_detail_facilities == selectedDetailFacil
             }?.id_detail_facilities
 
 
         when {
             desc.isEmpty() -> binding.etDesc.error = "Fill description"
+            selectedBuilding.isEmpty() -> binding.buildingInputLayout.editText?.error = "Pilih gedung perkuliahan dahulu"
+            selectedClasses.isEmpty() -> binding.classesInputLayout.editText?.error = "Pilih ruang kelas dahulu"
+            selectedDetailFacil.isEmpty() -> binding.detailFacilInputLayout.editText?.error = "Pilih fasilitas dahulu"
+
 //            getFile == null -> {
 //                Toast.makeText(
 //                    this@AddStoryActivity,
@@ -545,16 +543,16 @@ class AddStoryActivity : AppCompatActivity() {
 //                    file.name,
 //                    requestImageFile
 //                )
-                val imageMultipart: MultipartBody.Part
-                if (getFile != null) {
-                    val file = reduceFileImage(getFile as File)
-                    val requestImageFile = file.asRequestBody("pictures/jpeg".toMediaType())
-                    imageMultipart = MultipartBody.Part.createFormData(
-                        "pictures",
-                        file.name,
-                        requestImageFile
-                    )
-                }
+//                val imageMultipart: MultipartBody.Part
+//                if (getFile != null) {
+//                    val file = reduceFileImage(getFile as File)
+//                    val requestImageFile = file.asRequestBody("pictures/jpeg".toMediaType())
+//                    imageMultipart = MultipartBody.Part.createFormData(
+//                        "pictures",
+//                        file.name,
+//                        requestImageFile
+//                    )
+//                }
 
                 if (!isEdit) {
                     if (getFile == null) {
@@ -603,6 +601,7 @@ class AddStoryActivity : AppCompatActivity() {
                                 description
                             )
                         }
+                        Log.d("EDIT REPORT1", "idBuilding: ${selectedBuildingId.toString()} idClasses: ${selectedClassesId.toString()} idDetail:${selectedDetailFacilId.toString()} description: ${description.toString()}")
                     } else{
                         detailReport?.let {
                             addStoryViewModel.updateReport(
@@ -615,8 +614,8 @@ class AddStoryActivity : AppCompatActivity() {
                                 description
                             )
                         }
+                        Log.d("EDIT REPORT2", "idBuilding: ${selectedBuildingId.toString()} idClasses: ${selectedClassesId.toString()} idDetail:${selectedDetailFacilId.toString()} description: ${desc.toString()}")
                     }
-
                 }
             }
         }

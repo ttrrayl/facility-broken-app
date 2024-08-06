@@ -128,6 +128,9 @@ class DetailStoryActivity : AppCompatActivity() {
             tvClass.text =  detailReport.nama_classes
             tvDesc.text =  detailReport.description
             tvStatus.text = detailReport.nama_status
+            tvRespon.text = detailReport.content
+            tvUsername.text = detailReport.username
+
 
         }
         if (detailReport.id_student != idStudent){

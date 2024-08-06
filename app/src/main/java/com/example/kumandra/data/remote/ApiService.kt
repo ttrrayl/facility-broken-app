@@ -89,15 +89,15 @@ interface ApiService {
     ): Call<DeleteResponses>
 
     @Multipart
-    @PUT("report/{id_report}")
+    @POST("report/{id_report}")
     fun updateReport(
         @Header("Authorization") authorization: String,
         @Path("id_report") id_report: String?,
         @Part pictures: MultipartBody.Part?,
-        @Part("id_building") idBuilding: RequestBody?,
-        @Part("id_classes") idClasses: RequestBody?,
-        @Part("id_detail_facilities") idDetailFacil: RequestBody?,
-        @Part("description") description: RequestBody?,
+        @Part("id_building") id_building: RequestBody,
+        @Part("id_classes") id_classes: RequestBody,
+        @Part("id_detail_facilities") id_detail_facilities: RequestBody,
+        @Part("description") description: RequestBody,
     ): Call<UpdateResponses>
 
     @FormUrlEncoded

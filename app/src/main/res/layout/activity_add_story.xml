@@ -7,7 +7,16 @@
     tools:context=".ui.AddStoryActivity"
     android:background="@color/bg">
 
-
+    <ImageView
+        android:id="@+id/iv_backgroundContainer"
+        android:layout_width="457dp"
+        android:layout_height="659dp"
+        android:layout_marginTop="170dp"
+        android:src="@drawable/bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_add"
@@ -67,7 +76,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/pilih_gedung_kuliah"
         android:layout_marginStart="15dp"
-        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundColor="@color/grey_young"
         android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +111,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/pilih_ruang_kelas"
         android:layout_marginStart="15dp"
-        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundColor="@color/grey_young"
         android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundColor="@color/grey_young"
         android:hint="@string/pilih_fasilitas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,17 +166,19 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
+        app:boxBackgroundColor="@color/grey_young"
         app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_desc"
             android:layout_width="match_parent"
             android:layout_height="123dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:background="@color/white"
             android:textColor="@color/blackgrey"
-            android:hint="Deskripsi kerusakan"
+            android:hint="Deskripsikan kerusakan"
+            android:gravity="start"
             android:inputType="textMultiLine"/>
     </com.google.android.material.textfield.TextInputLayout>
 <!--    <EditText-->
