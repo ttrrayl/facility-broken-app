@@ -157,7 +157,7 @@ class DetailStoryActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle("Konfirmasi")
             setMessage("Hapus laporan ini?")
-            setPositiveButton("OK") {_,_ ->
+            setPositiveButton("YA") {_,_ ->
                 viewModel.deleteReport(detailReport.id_report)
                 val intent = Intent(context, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -171,13 +171,13 @@ class DetailStoryActivity : AppCompatActivity() {
         viewModel.delReport.observe(this){
             when(it){
                 is Results.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, it.data?.message, Toast.LENGTH_SHORT).show()
                 }
                 is Results.Loading -> {
 
                 }
                 is Results.Success -> {
-                    Toast.makeText(this, it.message.toString(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, it.data?.message, Toast.LENGTH_SHORT).show()
                 }
             }
 

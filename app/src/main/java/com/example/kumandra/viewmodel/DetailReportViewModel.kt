@@ -81,14 +81,12 @@ class DetailReportViewModel (private val pref: UserSession) : ViewModel() {
                     val responBody = Gson().fromJson(
                         response.errorBody()?.charStream(), DeleteResponses::class.java
                     )
-                    Log.i("DELETE REPORT", responBody.message.toString())
                     _delreport.postValue(Results.Error(responBody.message))
                 }
             }
 
             override fun onFailure(call: Call<DeleteResponses>, t: Throwable) {
                 _isLoading.value = false
-                Log.i("DELETE REPORT", t.message.toString())
             }
         })
     }

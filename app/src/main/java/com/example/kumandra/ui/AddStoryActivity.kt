@@ -198,66 +198,21 @@ class AddStoryActivity : AppCompatActivity() {
         binding.buildingInputLayout.setOnClickListener{
             updateUIBuilding()
         }
+
+      //  (binding.classesInputLayout.editText as? AutoCompleteTextView)?.isClickable
+
 //        binding.classesInputLayout.setOnClickListener{
-//            val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
-//            if (selectedBuilding.isEmpty()) {
-//                binding.buildingInputLayout.editText?.error = "filling first"
-//            }
-//            val selectedClassesId =
-//                buildingViewModel.builds.value?.data?.building?.find { building ->
-//                    building.nama_building == selectedBuilding
-//                }?.id_building
-//            updateUIClasses(selectedClassesId.toString())
-//        }
 //
-//        binding.detailFacilInputLayout.setOnClickListener {
-//            val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-//            if (selectedClasses.isEmpty()){
-//                binding.classesInputLayout.editText?.error = "filling first"
-//            }
-//            val selectedClassesId = classesViewModel.listClasses.value?.data?.find {
-//                it.nama_classes == selectedClasses
-//            }?.id_classes
-//            updateUIFacil(selectedClassesId.toString())
-//        }
-
-//        binding.autBuilding.setOnItemClickListener { parent, view, position, id ->
-//            //  val selected = it.data?.building?.get(position)
 //            val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
-//            if (selectedBuilding.isEmpty()) {
-//                binding.buildingInputLayout.editText?.error = "filling first"
+//            if (selectedBuilding.isEmpty()){
+//                binding.buildingInputLayout.editText?.error ="filling first"
 //            }
-//            val selectedClassesId =
-//                buildingViewModel.builds.value?.data?.building?.find { building ->
-//                    building.nama_building == selectedBuilding
-//                }?.id_building
+//            val selectedClassesId = buildingViewModel.builds.value?.data?.building?.find { building ->
+//                building.nama_building == selectedBuilding
+//            }?.id_building
 //            updateUIClasses(selectedClassesId.toString())
 //        }
 
-//        binding.classesInputLayout.editText?.setOnClickListener {
-//
-//            binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
-//                val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-//                if (selectedClasses.isEmpty()){
-//                    binding.classesInputLayout.editText?.error = "filling first"
-//                }
-//                val selectedClassesId = classesViewModel.classes.value?.data?.find {
-//                    it.nama_classes == selectedClasses
-//                }?.id_classes
-//                updateUIFacil(selectedClassesId.toString())
-//            }
-//        }
-//
-//        binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
-//            val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-//            if (selectedClasses.isEmpty()){
-//                binding.classesInputLayout.editText?.error = "filling first"
-//            }
-//            val selectedClassesId = classesViewModel.classes.value?.data?.find {
-//                it.nama_classes == selectedClasses
-//            }?.id_classes
-//            updateUIFacil(selectedClassesId.toString())
-//        }
     }
 
     private fun viewModelConfig(){
@@ -336,9 +291,6 @@ class AddStoryActivity : AppCompatActivity() {
                 )
             )
         }
-
-
-
     }
 
     private fun getExifData(context: Context, imageUri: Uri): Pair<Double?,Double?>{
@@ -398,18 +350,20 @@ class AddStoryActivity : AppCompatActivity() {
                         adapter
                     )
                 }
+
                 else -> {}
             }
             binding.autBuilding.setOnItemClickListener{ parent,view,position, id ->
-                val selected = it.data?.building?.get(position)
+                //     val selected = it.data?.building?.get(position)
+                val selected = parent.getItemAtPosition(position)
                 val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
                 if (selectedBuilding.isEmpty()){
                     binding.buildingInputLayout.editText?.error ="filling first"
                 }
                 val selectedClassesId = buildingViewModel.builds.value?.data?.building?.find { building ->
-                    building.nama_building == selectedBuilding
+                    building.nama_building == selected
                 }?.id_building
-                updateUIClasses(selected?.id_building.toString())
+                updateUIClasses(selectedClassesId.toString())
             }
         }
     }
@@ -429,22 +383,27 @@ class AddStoryActivity : AppCompatActivity() {
                         items.add(classes.nama_classes)
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
+                 //   adapter.clear()
+                //    adapter.addAll(items)
+                    adapter.notifyDataSetChanged()
                     (binding.classesInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
                         adapter
                     )
+                    (binding.classesInputLayout.editText as? AutoCompleteTextView)?.showDropDown()
                 }
                 else -> {}
             }
             binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
-                val selected = it.data?.get(position)
+                val selected = parent.getItemAtPosition(position)
+               // parent.getItemAtPosition(position).toString()
                 val selectedClasses = binding.classesInputLayout.editText?.text.toString()
                 if (selectedClasses.isEmpty()){
                     binding.classesInputLayout.editText?.error ="filling first"
                 }
-                val selectedClassesId = classesViewModel.classes.value?.data?.classes?.find { building ->
-                    building.nama_classes == selectedClasses
+                val selectedClassesId = classesViewModel.listClasses.value?.data?.find { building ->
+                    building.nama_classes == selected
                 }?.id_classes
-                updateUIFacil(selected?.id_classes.toString())
+                updateUIFacil(selectedClassesId.toString())
             }
         }
     }
@@ -464,6 +423,7 @@ class AddStoryActivity : AppCompatActivity() {
                         items.add(detailFacil.nama_detail_facilities)
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
+                    adapter.notifyDataSetChanged()
                     (binding.detailFacilInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
                         adapter
                     )

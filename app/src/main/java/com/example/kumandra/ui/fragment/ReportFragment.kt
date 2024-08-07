@@ -90,12 +90,21 @@ class ReportFragment : Fragment() {
 
     private fun showFilter() {
         val view = requireActivity().findViewById<View>(R.id.menu_filter)
+
         PopupMenu(requireContext(), view).apply {
             menuInflater.inflate(R.menu.filter_sort, menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.filter1 -> {
-                        getReport(TOKEN, ID, "1")
+                        var position = 0
+                        arguments?.let { arg ->
+                            position = arg.getInt(ARG_POSITION)
+                        }
+                        if(position == 1){
+                            getReport(TOKEN, null, "1")
+                        } else{
+                            getReport(TOKEN, ID, "1")
+                        }
                         true
                     }
                     R.id.filter2 -> {
@@ -107,7 +116,15 @@ class ReportFragment : Fragment() {
                         true
                     }
                     R.id.filter4 -> {
-                        getReport(TOKEN, ID, "4")
+                        var position = 0
+                        arguments?.let { arg ->
+                            position = arg.getInt(ARG_POSITION)
+                        }
+                        if(position == 1){
+                            getReport(TOKEN, null, "4")
+                        } else{
+                            getReport(TOKEN, ID, "4")
+                        }
                         true
                         }
                     else -> false
@@ -140,6 +157,7 @@ class ReportFragment : Fragment() {
             position = it.getInt(ARG_POSITION)
         }
         if(position == 1){
+            ID = null
             getReport(TOKEN, null, null)
         } else{
             getReport(TOKEN, ID, null)
@@ -148,7 +166,7 @@ class ReportFragment : Fragment() {
 
     private fun getReport(token: String, id_student: String?, idStatus: String?) {
         val adapter = ReportAdapter(requireContext())
-
+        adapter.notifyDataSetChanged()
         binding.rvStory.layoutManager = LinearLayoutManager(requireActivity())
         viewModel.getStories(token, id_student, idStatus).observe(viewLifecycleOwner){
             adapter.submitData(lifecycle, it)
