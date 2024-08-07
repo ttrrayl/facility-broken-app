@@ -44,9 +44,17 @@ class AddStoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.addRespon)
 
-        if (detailReport.id_status == "2" ){
+        if (detailReport.id_status != "1" ){
             binding.buttonUpload.text = getString(R.string.finish)
+            binding.levelInputLayout.visibility = View.GONE
+            binding.tvLevel.visibility = View.GONE
         }
+
+        val level = mutableListOf<String>("Darurat","Tidak Darurat")
+        val adapter = ArrayAdapter(this, R.layout.item_dropdown,level)
+        (binding.levelInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
+            adapter
+        )
     }
 
     private fun viewModelConfig(){
@@ -96,7 +104,7 @@ class AddStoryActivity : AppCompatActivity() {
                 is Results.Success -> {
                     val items = mutableListOf<String>()
                     it.data?.status?.filter { status ->
-                        status.id_status != "1"
+                        status.id_status_respon != "1"
                     }?.forEach { status ->
                         items.add(status.nama_status)
                     }
@@ -112,13 +120,14 @@ class AddStoryActivity : AppCompatActivity() {
     private fun submit() {
         val desc = binding.etResp.text.toString()
         val selectedStatus = binding.statusInputLayout.editText?.text.toString()
-
         val selectedStatusId = statusViewModel.status.value?.data?.status?.find{
             it.nama_status == selectedStatus
-        }?.id_status
+        }?.id_status_respon
+        val selectedLevel = binding.levelInputLayout.editText?.text.toString()
 
         when {
             selectedStatus.isEmpty() -> binding.statusInputLayout.editText?.error = "Perbarui status laporan"
+        //    selectedLevel.isEmpty() -> binding.levelInputLayout.editText?.error = "Pilih level laporan"
             desc.isEmpty() -> binding.etResp.error = "Kolom tidak boleh kosong"
 
             else -> {
@@ -126,7 +135,7 @@ class AddStoryActivity : AppCompatActivity() {
                 val idPj = detailReport.id_pj
                 val respon = binding.etResp.text.toString()
                 val idStatus = selectedStatusId.toString()
-               addStoryViewModel.sendResponse(TOKEN, idReport, idPj, idStatus, respon)
+               addStoryViewModel.sendResponse(TOKEN, idReport, idPj, idStatus, selectedLevel, respon)
 
             }
         }

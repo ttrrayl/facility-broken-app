@@ -5,6 +5,6 @@ data class StatusResponses(
     val message: String
 )
 data class Status(
-    val id_status: String,
+    val id_status_respon: String,
     val nama_status: String
 )

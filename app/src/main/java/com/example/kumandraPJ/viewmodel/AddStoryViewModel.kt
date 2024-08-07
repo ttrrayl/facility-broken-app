@@ -24,6 +24,7 @@ class AddStoryViewModel : ViewModel() {
         id_report: String,
         id_pj: String,
         id_status: String,
+        level: String,
         content: String,
         ) {
         _isLoading.value = true
@@ -33,6 +34,7 @@ class AddStoryViewModel : ViewModel() {
                 id_report,
                 id_pj,
                 id_status,
+                level,
                 content
             )
             client.enqueue(object : Callback<AddStoryResponse> {

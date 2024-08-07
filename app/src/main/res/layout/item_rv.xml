@@ -16,58 +16,69 @@
 
         <ImageView
             android:id="@+id/iv_gambarRv"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars"/>
-
-        <TextView
-            android:id="@+id/tv_fasil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_gambarRv"
-            tools:text="username"/>
-
-        <TextView
-            android:id="@+id/tv_kelas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="7dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tanggal"
-            tools:text="deskripsi"/>
-
-        <TextView
-            android:id="@+id/tv_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_tanggal"
-            tools:text="status"/>
 
         <TextView
             android:id="@+id/tv_tanggal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.846"
             android:textStyle="italic"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="11sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="tanggal"/>
+
+        <TextView
+            android:id="@+id/tv_fasil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toEndOf="@+id/iv_gambarRv"
+            app:layout_constraintTop_toBottomOf="@id/tv_tanggal"
+            tools:text="fasil"/>
+
+        <TextView
+            android:id="@+id/tv_kelas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toEndOf="@+id/iv_gambarRv"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fasil"
+            tools:text="kelas"/>
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="status"/>
+
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/iv_gambarRv"
-            tools:text="tanggal" />
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="12dp"
+            android:text="click for detail"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

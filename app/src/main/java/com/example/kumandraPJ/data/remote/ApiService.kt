@@ -45,7 +45,8 @@ interface ApiService {
         @Header("Authorization") authorization: String,
         @Field("id_report") idReport: String,
         @Field("id_pj") idPj: String,
-        @Field("id_status") idStatus: String,
+        @Field("id_status_respon") idStatus: String,
+        @Field("level_report") levelReport: String?,
         @Field("content") content: String,
         ): Call<AddStoryResponse>
 

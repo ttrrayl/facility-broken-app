@@ -185,14 +185,16 @@ class MainActivity : AppCompatActivity() {
             menuInflater.inflate(R.menu.filter_sort, menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.filter ->
+                        getStory(MainActivity.TOKEN, MainActivity.ID, null)
                     R.id.filter1 ->
-                        getStory(MainActivity.TOKEN, MainActivity.ID, "1")
-                    R.id.filter2 ->
                         getStory(MainActivity.TOKEN, MainActivity.ID, "2")
-                    R.id.filter3 ->
+                    R.id.filter2 ->
                         getStory(MainActivity.TOKEN, MainActivity.ID, "3")
-                    R.id.filter4 ->
+                    R.id.filter3 ->
                         getStory(MainActivity.TOKEN, MainActivity.ID, "4")
+                    R.id.filter4 ->
+                        getStory(MainActivity.TOKEN, MainActivity.ID, "5")
 
                 }
                 true

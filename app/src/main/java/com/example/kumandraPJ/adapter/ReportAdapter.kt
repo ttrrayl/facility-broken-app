@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
@@ -48,17 +49,21 @@ class ReportAdapter(private val context: Context) : PagingDataAdapter<Report, Re
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
         when(data?.id_status){
-            "1" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status1))
-            }
             "2" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status2))
+                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status1))
+                holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status1))
             }
             "3" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status3))
+                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status2))
+                holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status2))
             }
             "4" -> {
+                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status3))
+                holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status3))
+            }
+            "5" -> {
                 holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status4))
+                holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status4))
             }
         }
         if (data != null) {
