@@ -56,7 +56,8 @@ class LoginViewModel(private val pref: UserSession) : ViewModel() {
                             pref.saveUser(
                                 StudentModel(
                                     responBody.loginResult.idStudent,
-                                    responBody.loginResult.username
+                                    responBody.loginResult.username,
+                                    responBody.loginResult.email
                                 )
                             )
                             pref.login(responBody.loginResult.token)

@@ -34,7 +34,7 @@ data class Report(
     @field:SerializedName("id_report")
     val id_report: String,
 
-    @field:SerializedName("id_status")
+    @field:SerializedName("id_status_respon")
     val id_status: String,
 
     @field:SerializedName("id_student")

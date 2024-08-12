@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/home"
+        android:id="@+id/home"
+        android:icon="@drawable/icon_home"/>
+    <item android:title="@string/laporan"
+        android:id="@+id/report"
+        android:icon="@drawable/baseline_report"/>
+    <item android:title="@string/profil"
+        android:id="@+id/profil"
+        android:icon="@drawable/icon_profil"/>
+</menu>

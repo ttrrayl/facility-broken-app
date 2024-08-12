@@ -51,16 +51,20 @@ class ReportRepository(
         return reportDatabase.facilDao().insertDataFacil(deFacil)
     }
 
-    fun getAllBuilding(): LiveData<List<Building>>{
-        return reportDatabase.buildingDao().getAllBuilding()
-    }
-
     fun getAllClasses(idBuilding: String?): LiveData<List<Classes>>{
         return reportDatabase.classesDao().getAllClassesByIdBuilding(idBuilding)
     }
 
     fun getAllDeFacil(idClasses: String?): LiveData<List<DetailFacility>>{
         return reportDatabase.facilDao().getAllFacilByIdClasses(idClasses)
+    }
+
+    fun getTotalReports(idStudent: String, idStatus: String?): LiveData<Int>{
+        return if (idStatus!=null){
+            reportDatabase.reportDao().getTotalReportsByStat(idStudent,idStatus)
+        } else{
+            reportDatabase.reportDao().getTotalReports(idStudent)
+        }
     }
 
 }

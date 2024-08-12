@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -28,6 +29,9 @@ import com.example.kumandra.adapter.SectionPageAdapter
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.data.remote.ApiConfig
 import com.example.kumandra.databinding.ActivityMainBinding
+import com.example.kumandra.ui.fragment.HomeFragment
+import com.example.kumandra.ui.fragment.ParentReportFragment
+import com.example.kumandra.ui.fragment.ProfileFragment
 import com.example.kumandra.ui.fragment.ReportFragment
 import com.example.kumandra.viewmodel.MainViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
@@ -51,20 +55,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        binding.fbAddStory.setOnClickListener{
-            startActivity(Intent(this@MainActivity, AddStoryActivity::class.java))
-        }
-
-        val sectionsPagerAdapter = SectionPageAdapter(this)
-       // sectionsPagerAdapter.username = username.toString()
-        val viewPager: ViewPager2 = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = binding.tabReport
-        TabLayoutMediator(tabs, viewPager){
-                tab,position -> tab.text = resources.getString(TAB_TITLES[position])
-        }.attach()
-
         // Mendapatkan token FCM
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -85,6 +75,24 @@ class MainActivity : AppCompatActivity() {
         }
         viewModelConfig()
         requestNotificationPermission()
+        replaceFragment(HomeFragment())
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home -> replaceFragment(HomeFragment())
+                R.id.report -> replaceFragment(ParentReportFragment())
+                R.id.profil -> replaceFragment(ProfileFragment())
+                else ->{
+                }
+            }
+            true
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .commit()
     }
     private fun requestNotificationPermission() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -126,9 +134,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel =
             ViewModelProvider(this, ViewModelFactory(this, pref))[MainViewModel::class.java]
 
-        mainViewModel.isLoading.observe(this){
-            showLoading(it)
-        }
+
 
         mainViewModel.getToken().observe(this){ user ->
             if (user.isLogin) {
@@ -147,68 +153,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.pbMain.visibility =
-            if (isLoading) View.VISIBLE else View.GONE
-    }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId) {
-//            R.id.menu_filter -> {
-//                showFilter()
-//            }
-//            R.id.menu_logout -> {
-//                AlertDialog.Builder(this).apply {
-//                    setTitle("CONFIRMATION")
-//                    setMessage("Logout of your account?")
-//                    setPositiveButton("Yes") {_,_ ->
-//                        mainViewModel.logout()
-//                        finish()
-//                    }
-//                    setNegativeButton("No") {dialog,_ -> dialog.cancel()}
-//                    create()
-//                    show()
-//                }
-//            }
-//
-//        }
-//        return true
-//    }
-//
-//    private fun showFilter() {
-//        val view = findViewById<View>(R.id.menu_filter) ?: return
-//        PopupMenu(this, view).run {
-//            menuInflater.inflate(R.menu.filter_sort, menu)
-//            setOnMenuItemClickListener {
-//                when (it.itemId) {
-//                    R.id.filter1 ->
-//                        ReportFragment.ge
-//                        ReportFragment.STATUS = "1"
-//                    R.id.filter2 ->
-//                        ReportFragment.STATUS = "2"
-//                    R.id.filter3 ->
-//                        ReportFragment.STATUS = "3"
-//                    R.id.filter4 ->
-//                        ReportFragment.STATUS = "4"
-//                }
-//                true
-//            }
-//            show()
-//        }
-//    }
-
-    companion object{
-        const val EXTRA_DETAIL = "extra_detail"
-        const val AVATAR_DETAIL = "avatar_detail"
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.tabText1,
-            R.string.tabText2
-        )
-    }
 }

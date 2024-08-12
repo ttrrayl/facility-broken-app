@@ -42,14 +42,6 @@ interface ApiService {
         @Query("size") size: Int
     ): MainResponse
 
-    @GET("report/user/{id_student}")
-    suspend fun getStoriesByIdStudent(
-        @Header("Authorization") authorization: String,
-        @Path("id_student") id_student:Int,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): MainResponse
-
     @GET("building")
     suspend fun listBuilding(): Response<BuildingResponses>
 
@@ -58,11 +50,6 @@ interface ApiService {
 
     @GET("detail_facil")
     suspend fun listDetailFacil(): Response<DetailFacilResponses>
-
-//    @GET("stories?location=1")
-//    fun getStoriesMap(
-//        @Header("Authorization") authorization: String
-//    ): Call<MainResponse>
 
     @Multipart
     @POST("report")

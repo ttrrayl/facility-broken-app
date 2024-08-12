@@ -25,6 +25,9 @@ data class LoginResult(
 	@field:SerializedName("id_student")
 	val idStudent: String,
 
+	@field:SerializedName("email")
+	val email: String,
+
 	@field:SerializedName("username")
 	val username: String,
 

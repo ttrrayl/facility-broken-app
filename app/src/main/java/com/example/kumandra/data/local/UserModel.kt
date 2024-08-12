@@ -7,5 +7,6 @@ data class UserModel (
 
 data class StudentModel(
     val idStudent: String = "",
-    val username: String
+    val username: String,
+    val email: String
 )

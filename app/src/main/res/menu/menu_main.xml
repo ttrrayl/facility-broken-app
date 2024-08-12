@@ -4,10 +4,9 @@
     <item
         android:id="@+id/menu_filter"
         android:title="@string/filter_status"
-        android:orderInCategory="101"
         android:icon="@drawable/ic_filter_report"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_logout"
-        android:title="@string/logout"/>
+        app:showAsAction="always"/>
+<!--    <item-->
+<!--        android:id="@+id/menu_logout"-->
+<!--        android:title="@string/logout"/>-->
 </menu>

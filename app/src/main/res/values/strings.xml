@@ -39,4 +39,9 @@
     <string name="universitas_andalas">UNIVERSITAS ANDALAS</string>
     <string name="sudah_punya_akun">Sudah punya akun</string>
     <string name="add_report">ADD REPORT</string>
+    <string name="seluruh_laporan">Seluruh Laporan</string>
+    <string name="semoga_perkuliahan_menyenangkan">Semoga Perkuliahanmu Menyenangkan</string>
+    <string name="laporan">Laporan</string>
+    <string name="home">Home</string>
+    <string name="profil">Profil</string>
 </resources>

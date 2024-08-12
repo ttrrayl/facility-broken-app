@@ -10,7 +10,7 @@ import com.example.kumandra.data.remote.response.DetailFacility
 import com.example.kumandra.data.remote.response.ListStoryItem
 import com.example.kumandra.data.remote.response.Report
 
-@Database(entities = [Report::class, RemoteKeys::class,Building::class, Classes::class, DetailFacility::class], version = 6, exportSchema = false)
+@Database(entities = [Report::class, RemoteKeys::class,Building::class, Classes::class, DetailFacility::class], version = 8, exportSchema = false)
 abstract class ReportDatabase : RoomDatabase() {
     abstract fun reportDao(): ReportDao
     abstract fun buildingDao(): BuildingDao

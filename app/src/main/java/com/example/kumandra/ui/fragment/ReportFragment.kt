@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
@@ -29,13 +30,6 @@ import com.example.kumandra.viewmodel.AddStoryViewModel
 import com.example.kumandra.viewmodel.MainViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ReportFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class ReportFragment : Fragment() {
     companion object{
         const val ARG_POSITION = "position"
@@ -67,21 +61,7 @@ class ReportFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
        return when(item.itemId) {
             R.id.menu_filter -> {
-               showFilter()
-                true
-            }
-            R.id.menu_logout -> {
-                AlertDialog.Builder(requireContext()).apply {
-                    setTitle("CONFIRMATION")
-                    setMessage("Logout of your account?")
-                    setPositiveButton("Yes") {_,_ ->
-                        viewModel.logout()
-                        requireActivity().finish()
-                    }
-                    setNegativeButton("No") {dialog,_ -> dialog.cancel()}
-                    create()
-                    show()
-                }
+                showFilter()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -95,27 +75,43 @@ class ReportFragment : Fragment() {
             menuInflater.inflate(R.menu.filter_sort, menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.filter -> {
+                        var position = 0
+                        arguments?.let { arg ->
+                            position = arg.getInt(ARG_POSITION)
+                        }
+                        if(position == 1){
+                            getReport(TOKEN, null, null)
+                        } else{
+                            getReport(TOKEN, ID, null)
+                        }
+                        true
+                    }
                     R.id.filter1 -> {
                         var position = 0
                         arguments?.let { arg ->
                             position = arg.getInt(ARG_POSITION)
                         }
                         if(position == 1){
-                            getReport(TOKEN, null, "1")
+                            getReport(TOKEN, null, "2")
                         } else{
-                            getReport(TOKEN, ID, "1")
+                            getReport(TOKEN, ID, "2")
                         }
                         true
                     }
                     R.id.filter2 -> {
-                        getReport(TOKEN, ID, "2")
+                        var position = 0
+                        arguments?.let { arg ->
+                            position = arg.getInt(ARG_POSITION)
+                        }
+                        if(position == 1){
+                            getReport(TOKEN, null, "3")
+                        } else{
+                            getReport(TOKEN, ID, "3")
+                        }
                         true
                     }
                     R.id.filter3 -> {
-                        getReport(TOKEN, ID, "3")
-                        true
-                    }
-                    R.id.filter4 -> {
                         var position = 0
                         arguments?.let { arg ->
                             position = arg.getInt(ARG_POSITION)
@@ -124,6 +120,18 @@ class ReportFragment : Fragment() {
                             getReport(TOKEN, null, "4")
                         } else{
                             getReport(TOKEN, ID, "4")
+                        }
+                        true
+                    }
+                    R.id.filter4 -> {
+                        var position = 0
+                        arguments?.let { arg ->
+                            position = arg.getInt(ARG_POSITION)
+                        }
+                        if(position == 1){
+                            getReport(TOKEN, null, "5")
+                        } else{
+                            getReport(TOKEN, ID, "5")
                         }
                         true
                         }
@@ -174,9 +182,4 @@ class ReportFragment : Fragment() {
         binding.rvStory.adapter = adapter
       //  adapter.notifyDataSetChanged()
     }
-
-
-
-
-
 }

@@ -19,14 +19,6 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
     private val _listStoryMap = MutableLiveData<List<ListStoryItem>>()
     val listStoryMap: LiveData<List<ListStoryItem>> = _listStoryMap
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-//    private val _statusId = MutableLiveData<String>()
-//    val reports: LiveData<PagingData<Report>> = _statusId.switchMap { statusId ->
-//        getReport("", "", statusId)
-//    }
-
 
 
     fun getToken(): LiveData<UserModel>{
@@ -47,28 +39,9 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
            return reportRepository.getReport(token, idStudent, idStatus).cachedIn(viewModelScope)
     }
 
-//    fun getStoriesMap(token: String) {
-//        _isLoading.value = true
-//        val client = ApiConfig.getApiService().getStoriesMap("Bearer $token")
-//        client.enqueue(object : Callback<MainResponse>{
-//            override fun onFailure(call: Call<MainResponse>, t: Throwable) {
-//                _isLoading.value = false
-//                Log.e(TAG,"onFailure: ${t.message}")
-//            }
-//
-//            override fun onResponse(call: Call<MainResponse>, response: Response<MainResponse>) {
-//                _isLoading.value = false
-//                if (response.isSuccessful){
-//                    val responBody = response.body()
-//                    if (responBody != null){
-//                        _listStoryMap.value = responBody.listStory
-//                    }
-//                } else{
-//                    Log.e(TAG,"onFailure: ${response.message()}")
-//                }
-//            }
-//        })
-//    }
+    fun getTotalReports(idStudent: String,idStatus: String?): LiveData<Int> {
+       return reportRepository.getTotalReports(idStudent, idStatus)
+    }
 
     companion object{
         private const val TAG = "MainViewModel"

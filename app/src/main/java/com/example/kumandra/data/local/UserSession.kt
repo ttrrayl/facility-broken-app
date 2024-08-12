@@ -24,7 +24,9 @@ class UserSession private constructor(private val dataStore: DataStore<Preferenc
         return dataStore.data.map { preferences ->
             StudentModel(
                 preferences[IDSTUDENT] ?: "",
-                preferences[USERNAME] ?:""
+                preferences[USERNAME] ?:"",
+                preferences[EMAIL] ?:""
+
             )
         }
     }
@@ -40,6 +42,7 @@ class UserSession private constructor(private val dataStore: DataStore<Preferenc
         dataStore.edit { preferences ->
             preferences[IDSTUDENT] = student.idStudent
             preferences[USERNAME] = student.username
+            preferences[EMAIL] = student.email
         }
     }
 
@@ -74,6 +77,7 @@ class UserSession private constructor(private val dataStore: DataStore<Preferenc
         private val TOKEN = stringPreferencesKey("token")
         private val IDSTUDENT = stringPreferencesKey("id_student")
         private val USERNAME = stringPreferencesKey("username")
+        private val EMAIL = stringPreferencesKey("email")
 
 
     }
