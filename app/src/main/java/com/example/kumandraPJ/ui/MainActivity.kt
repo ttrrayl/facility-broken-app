@@ -39,8 +39,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var pj: PjModel
-  //  private var id = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         requestNotificationPermission()
-        getStory(MainActivity.TOKEN, MainActivity.ID, null)
     }
     private fun requestNotificationPermission() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -86,15 +83,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun viewModelConfig(){
         val pref = UserSession.getInstance(dataStore)
         mainViewModel =
             ViewModelProvider(this, ViewModelFactory(this, pref))[MainViewModel::class.java]
 
-        mainViewModel.isLoading.observe(this){
-            showLoading(it)
-        }
+//        mainViewModel.isLoading.observe(this){
+//            showLoading(it)
+//        }
 
         mainViewModel.getToken().observe(this){ user ->
             if (user.isLogin) {
@@ -106,10 +102,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         mainViewModel.getUser().observe(this) { user ->
             MainActivity.ID = user.idPj
             PushNotificationService.ID = user.idPj
+            binding.username.text = "Halo, " +user.username
+            getStory(MainActivity.TOKEN, MainActivity.ID, null)
+        }
+
+        mainViewModel.getTotalReports(null).observe(this){
+            binding.tvTotal.text = it.toString()
+        }
+        mainViewModel.getTotalReports("2").observe(this){
+            binding.tvStatus2.text = it.toString()
+        }
+        mainViewModel.getTotalReports("3").observe(this){
+            binding.tvStatus3.text = it.toString()
+        }
+        mainViewModel.getTotalReports("4").observe(this){
+            binding.tvStatus4.text = it.toString()
+        }
+        mainViewModel.getTotalReports("5").observe(this){
+            binding.tvStatus5.text = it.toString()
         }
 
     }
@@ -146,10 +159,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.pbMain.visibility =
-            if (isLoading) View.VISIBLE else View.GONE
-    }
+//    private fun showLoading(isLoading: Boolean) {
+//        binding.pbMain.visibility =
+//            if (isLoading) View.VISIBLE else View.GONE
+//    }
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -181,6 +194,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showFilter() {
         val view = findViewById<View>(R.id.menu_filter) ?: return
+        Log.i("TOKEN", "TOKEN: $TOKEN")
         PopupMenu(this, view).run {
             menuInflater.inflate(R.menu.filter_sort, menu)
             setOnMenuItemClickListener {

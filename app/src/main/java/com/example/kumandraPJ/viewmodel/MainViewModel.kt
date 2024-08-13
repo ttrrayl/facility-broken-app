@@ -39,10 +39,9 @@ class MainViewModel (private val reportRepository: ReportRepository, private val
     fun getStories(token: String, idPj: String,idStatus: String? ): LiveData<PagingData<Report>> =
         reportRepository.getReport(token, idPj, idStatus).cachedIn(viewModelScope)
 
+    fun getTotalReports(idStatus: String?): LiveData<Int> = reportRepository.getTotalReports(idStatus)
 
     companion object{
         private const val TAG = "MainViewModel"
     }
-
-
 }

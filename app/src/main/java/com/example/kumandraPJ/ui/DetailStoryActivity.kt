@@ -38,7 +38,7 @@ class DetailStoryActivity : AppCompatActivity() {
         binding.ivBack.setOnClickListener{
             onBackPressed()
         }
-        if(detailReport.id_status == "4" || detailReport.id_status == "3"){
+        if(detailReport.id_status == "4" || detailReport.id_status == "5"){
             binding.btResponse.visibility = View.GONE
         }
     }

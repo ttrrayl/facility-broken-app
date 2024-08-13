@@ -37,5 +37,9 @@
     <string name="addRespon">Tambahkan Respon</string>
     <string name="finish">Selesaikan</string>
     <string name="seluruh_laporan">Seluruh Laporan</string>
+    <string name="laporan_baru">Laporan Baru</string>
+    <string name="sedang_diproses">Sedang Diproses</string>
+    <string name="ditolak">Ditolak</string>
+    <string name="selesai">Selesai</string>
 
 </resources>

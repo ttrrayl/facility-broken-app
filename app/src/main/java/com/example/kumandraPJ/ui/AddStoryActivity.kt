@@ -44,7 +44,7 @@ class AddStoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.addRespon)
 
-        if (detailReport.id_status != "1" ){
+        if (detailReport.id_status != "2" ){
             binding.buttonUpload.text = getString(R.string.finish)
             binding.levelInputLayout.visibility = View.GONE
             binding.tvLevel.visibility = View.GONE

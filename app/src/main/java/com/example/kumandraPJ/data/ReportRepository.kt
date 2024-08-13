@@ -27,4 +27,12 @@ class ReportRepository(
             }
         ).liveData
     }
+
+    fun getTotalReports(idStatus: String?): LiveData<Int>{
+        return if (idStatus!=null){
+            reportDatabase.reportDao().getTotalReportsByStat(idStatus)
+        } else{
+            reportDatabase.reportDao().getTotalReports()
+        }
+    }
 }

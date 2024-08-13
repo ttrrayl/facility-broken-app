@@ -1,5 +1,6 @@
 package com.example.kumandraPJ.data.room
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -23,4 +24,10 @@ interface ReportDao {
 
     @Query("SELECT * FROM report WHERE id_status = :idStatus")
     fun getReportByStatusId(idStatus: String?): PagingSource<Int, Report>
+
+    @Query("SELECT COUNT(*) FROM report WHERE id_status= :idStatus")
+    fun getTotalReportsByStat(idStatus: String): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM report")
+    fun getTotalReports(): LiveData<Int>
 }
