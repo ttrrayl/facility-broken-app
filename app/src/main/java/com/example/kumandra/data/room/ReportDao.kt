@@ -37,8 +37,4 @@ interface ReportDao {
 
     @Query("SELECT COUNT(*) FROM report WHERE id_student = :idStudent")
     fun getTotalReports(idStudent: String): LiveData<Int>
-//    @Query("SELECT COUNT(*) FROM report WHERE id_status = :specificId")
-//    fun getTotalReports(specificId: String?): LiveData<Int>
-
-
 }

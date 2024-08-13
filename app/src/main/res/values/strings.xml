@@ -44,4 +44,8 @@
     <string name="laporan">Laporan</string>
     <string name="home">Home</string>
     <string name="profil">Profil</string>
+    <string name="selesai">Selesai</string>
+    <string name="ditolak">Ditolak</string>
+    <string name="sedang_diproses">Sedang Diproses</string>
+    <string name="laporan_baru">Laporan Baru</string>
 </resources>

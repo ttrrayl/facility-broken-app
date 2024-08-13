@@ -4,6 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:background="@color/white"
 tools:context=".ui.fragment.HomeFragment">
 
 <ImageView
@@ -85,15 +86,41 @@ tools:context=".ui.fragment.HomeFragment">
             app:layout_constraintTop_toBottomOf="@+id/tv_titleTotal" />
 
         <TextView
+            android:id="@+id/tv_titleStatus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/laporan_baru"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:textSize="14sp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_total" />
+
+        <TextView
+            android:id="@+id/tv_status2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="100"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginStart="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_titleStatus2" />
+
+        <TextView
             android:id="@+id/tv_titleStatus3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sedang Diproses"
+            android:text="@string/sedang_diproses"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_titleStatus2"
             app:layout_constraintTop_toBottomOf="@+id/tv_total" />
 
         <TextView
@@ -103,22 +130,22 @@ tools:context=".ui.fragment.HomeFragment">
             tools:text="100"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:layout_marginStart="60dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_titleStatus3" />
+            android:textSize="12sp"
+            android:layout_marginStart="119dp"
+            app:layout_constraintStart_toEndOf="@id/tv_status2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_titleStatus2" />
 
         <TextView
             android:id="@+id/tv_titleStatus4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ditolak"
+            android:text="@string/ditolak"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginStart="90dp"
+            android:textSize="14sp"
+            android:layout_marginEnd="18dp"
             android:layout_marginTop="15dp"
-
-            app:layout_constraintStart_toEndOf="@+id/tv_status3"
+            app:layout_constraintEnd_toStartOf="@+id/tv_titleStatus5"
             app:layout_constraintTop_toBottomOf="@+id/tv_total"/>
 
         <TextView
@@ -128,22 +155,22 @@ tools:context=".ui.fragment.HomeFragment">
             tools:text="100"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:layout_marginStart="100dp"
-            app:layout_constraintStart_toEndOf="@+id/tv_status3"
+            android:textSize="12sp"
+            android:layout_marginEnd="57dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_status5"
             app:layout_constraintTop_toBottomOf="@+id/tv_titleStatus4" />
 
         <TextView
             android:id="@+id/tv_titleStatus5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selesai"
+            android:text="@string/selesai"
             android:textStyle="bold"
+            android:textSize="14sp"
             android:textColor="@color/white"
-            android:layout_marginStart="90dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="15dp"
-
-            app:layout_constraintStart_toEndOf="@+id/tv_status4"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_total"/>
 
         <TextView
@@ -153,9 +180,9 @@ tools:context=".ui.fragment.HomeFragment">
             tools:text="100"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:layout_marginStart="100dp"
-            app:layout_constraintStart_toEndOf="@+id/tv_status4"
+            android:textSize="12sp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_titleStatus4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -166,7 +193,7 @@ tools:context=".ui.fragment.HomeFragment">
     android:layout_width="457dp"
     android:layout_height="659dp"
     android:layout_marginTop="680dp"
-    android:src="@drawable/bg"
+    android:src="@drawable/bg2"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +218,7 @@ tools:context=".ui.fragment.HomeFragment">
     android:id="@+id/rv_story"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="420dp"
+    android:layout_marginTop="400dp"
     tools:listitem="@layout/item_rv"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

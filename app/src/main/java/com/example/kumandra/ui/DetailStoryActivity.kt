@@ -101,7 +101,7 @@ class DetailStoryActivity : AppCompatActivity() {
             tvDesc.text =  report?.description
         }
 
-        if (report?.id_status == "4"){
+        if (report?.id_status == "5"){
             binding.btEdit.visibility = View.GONE
             binding.btDelete.visibility = View.GONE
         } else {

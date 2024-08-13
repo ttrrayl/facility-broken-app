@@ -165,14 +165,6 @@ class AddStoryActivity : AppCompatActivity() {
                         Glide.with(this)
                             .load(note.image_url)
                             .into(binding.ivAdd)
-//                        val myFile = File(note.image_url)
-//                        getFile = myFile
-//                        val selectedImg: Uri = note.image_url as Uri
-//                        selectedImg.let { uri ->
-//                            val myFile = uriToFile(uri, this@AddStoryActivity)
-//                            getFile = myFile
-//                            binding.ivAdd.setImageURI(uri)
-//                        }
                         binding.detailFacilInputLayout.editText?.setText(note.nama_detail_facilities)
                         binding.buildingInputLayout.editText?.setText(note.nama_building)
                         binding.classesInputLayout.editText?.setText(note.nama_classes)
@@ -383,8 +375,6 @@ class AddStoryActivity : AppCompatActivity() {
                         items.add(classes.nama_classes)
                     }
                     val adapter = ArrayAdapter(this, R.layout.item_dropdown,items)
-                 //   adapter.clear()
-                //    adapter.addAll(items)
                     adapter.notifyDataSetChanged()
                     (binding.classesInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
                         adapter
@@ -427,8 +417,8 @@ class AddStoryActivity : AppCompatActivity() {
                     (binding.detailFacilInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
                         adapter
                     )
+                    (binding.detailFacilInputLayout.editText as? AutoCompleteTextView)?.showDropDown()
                 }
-
                 else -> {}
             }
         }
@@ -443,12 +433,9 @@ class AddStoryActivity : AppCompatActivity() {
         }?.id_building
 
         val selectedClasses = binding.classesInputLayout.editText?.text.toString()
-        Log.i("NAMA KELAS", "kelas: $selectedClasses")
         val selectedClassesId = classesViewModel.classes.value?.data?.classes?.find {
             it.nama_classes == selectedClasses
         }?.id_classes
-        Log.i("NAMA KELAS", "kelasID: $selectedClassesId")
-
         val selectedDetailFacil = binding.detailFacilInputLayout.editText?.text.toString()
         val selectedDetailFacilId =
             detailFacilViewModel.facil.value?.data?.detail_facilities?.find {
@@ -461,14 +448,6 @@ class AddStoryActivity : AppCompatActivity() {
             selectedBuilding.isEmpty() -> binding.buildingInputLayout.editText?.error = "Pilih gedung perkuliahan dahulu"
             selectedClasses.isEmpty() -> binding.classesInputLayout.editText?.error = "Pilih ruang kelas dahulu"
             selectedDetailFacil.isEmpty() -> binding.detailFacilInputLayout.editText?.error = "Pilih fasilitas dahulu"
-
-//            getFile == null -> {
-//                Toast.makeText(
-//                    this@AddStoryActivity,
-//                    "Choose the image first",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
 
             else -> {
                 val idStudent =
@@ -497,22 +476,7 @@ class AddStoryActivity : AppCompatActivity() {
                     selectedClassesId.toString().toRequestBody("text/plain".toMediaType())
                 val idDetailFacil =
                     selectedDetailFacilId.toString().toRequestBody("text/plain".toMediaType())
-//                val requestImageFile = file.asRequestBody("pictures/jpeg".toMediaType())
-//                val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-//                    "pictures",
-//                    file.name,
-//                    requestImageFile
-//                )
-//                val imageMultipart: MultipartBody.Part
-//                if (getFile != null) {
-//                    val file = reduceFileImage(getFile as File)
-//                    val requestImageFile = file.asRequestBody("pictures/jpeg".toMediaType())
-//                    imageMultipart = MultipartBody.Part.createFormData(
-//                        "pictures",
-//                        file.name,
-//                        requestImageFile
-//                    )
-//                }
+
 
                 if (!isEdit) {
                     if (getFile == null) {

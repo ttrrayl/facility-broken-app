@@ -57,6 +57,9 @@ class HomeFragment : Fragment() {
             viewModel.getTotalReports(id.idStudent,null).observe(viewLifecycleOwner){
                 binding.tvTotal.text = it.toString()
             }
+            viewModel.getTotalReports(id.idStudent,"2").observe(viewLifecycleOwner){
+                binding.tvStatus2.text = it.toString()
+            }
             viewModel.getTotalReports(id.idStudent,"3").observe(viewLifecycleOwner){
                 binding.tvStatus3.text = it.toString()
             }
@@ -67,10 +70,6 @@ class HomeFragment : Fragment() {
                 binding.tvStatus5.text = it.toString()
             }
         }
-
-
-
-
     }
     private fun getReport(token: String, id_student: String, idStatus: String?) {
         val adapter = ReportAdapter(requireContext())

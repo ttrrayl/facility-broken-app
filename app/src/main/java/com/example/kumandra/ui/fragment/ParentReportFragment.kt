@@ -47,6 +47,7 @@ class ParentReportFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = "Laporan Kerusakan"
         (activity as? AppCompatActivity)?.supportActionBar?.show()
         binding = FragmentParentReportBinding.inflate(inflater, container, false)
         return binding.root
@@ -68,10 +69,20 @@ class ParentReportFragment : Fragment() {
         }.attach()
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.pbMain.visibility =
-            if (isLoading) View.VISIBLE else View.GONE
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        (activity as? AppCompatActivity)?.supportActionBar?.show()
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+//    }
+
+//    private fun showLoading(isLoading: Boolean) {
+//        binding.pbMain.visibility =
+//            if (isLoading) View.VISIBLE else View.GONE
+//    }
 
     companion object{
         @StringRes
