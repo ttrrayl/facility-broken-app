@@ -10,7 +10,7 @@
         android:id="@+id/iv_backgroundContainer"
         android:layout_width="457dp"
         android:layout_height="659dp"
-        android:layout_marginTop="420dp"
+        android:layout_marginTop="690dp"
         android:src="@drawable/bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -18,31 +18,17 @@ class AddStoryViewModel : ViewModel() {
 
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
-
-    fun sendResponse(
-        token: String,
-        id_report: String,
-        id_pj: String,
-        id_status: String,
-        level: String,
-        content: String,
+    fun sendResponse(token: String, id_report: String, id_pj: String, id_status: String, level: String, content: String,
         ) {
         _isLoading.value = true
         try {
             val client = ApiConfig.getApiService().addResponse(
-                "Bearer $token",
-                id_report,
-                id_pj,
-                id_status,
-                level,
-                content
-            )
+                "Bearer $token", id_report, id_pj, id_status, level, content)
             client.enqueue(object : Callback<AddStoryResponse> {
                 override fun onFailure(call: Call<AddStoryResponse>, t: Throwable) {
                     _isLoading.value = false
                     _msg.value = t.message.toString()
                 }
-
                 override fun onResponse(
                     call: Call<AddStoryResponse>,
                     response: Response<AddStoryResponse>
@@ -57,26 +43,11 @@ class AddStoryViewModel : ViewModel() {
                         _msg.value = "gagal"
                         Log.i("AddReport", "tidak masuk")
                     }
-
-
                 }
             })
         } catch ( e: Throwable){
             _isLoading.value = false
             Log.d("Add Story View Model", e.message.toString())
-
         }
     }
-
-//    fun submit(
-//        token: String,
-//        image: MultipartBody.Part,
-//        id_building: RequestBody,
-//        id_classes: RequestBody,
-//        id_detailFacil: RequestBody,
-//        description: RequestBody,
-//        latLng: LatLng?
-//    ) = viewModelScope.launch {
-//        uploadStory("Bearer $token",image,id_building,id_classes,id_detailFacil,description, latLng)
-//    }
 }

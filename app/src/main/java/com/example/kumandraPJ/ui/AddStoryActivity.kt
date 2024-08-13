@@ -24,13 +24,11 @@ import com.example.kumandraPJ.viewmodel.StatusViewModel
 import com.example.kumandraPJ.viewmodel.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
 class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
     private lateinit var addStoryViewModel: AddStoryViewModel
     private lateinit var statusViewModel: StatusViewModel
     private lateinit var detailReport: Report
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
@@ -49,14 +47,12 @@ class AddStoryActivity : AppCompatActivity() {
             binding.levelInputLayout.visibility = View.GONE
             binding.tvLevel.visibility = View.GONE
         }
-
-        val level = mutableListOf<String>("Darurat","Tidak Darurat")
+        val level = mutableListOf<String>("Darurat","Biasa")
         val adapter = ArrayAdapter(this, R.layout.item_dropdown,level)
         (binding.levelInputLayout.editText as? AutoCompleteTextView)?.setAdapter(
             adapter
         )
     }
-
     private fun viewModelConfig(){
         addStoryViewModel = ViewModelProvider(
             this,

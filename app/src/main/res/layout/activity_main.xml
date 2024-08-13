@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.MainActivity"
-    android:background="@color/bg">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/username"
@@ -183,8 +183,8 @@
         android:id="@+id/iv_backgroundContainer"
         android:layout_width="457dp"
         android:layout_height="659dp"
-        android:layout_marginTop="480dp"
-        android:src="@drawable/bg"
+        android:layout_marginTop="420dp"
+        android:src="@drawable/bg2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,7 @@
         android:id="@+id/rv_story"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="270dp"
         tools:listitem="@layout/item_rv"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -43,6 +43,7 @@
             android:textSize="16sp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_gambarRv"
             app:layout_constraintTop_toBottomOf="@id/tv_tanggal"
             tools:text="fasil"/>
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginStart="8dp"
+            android:textStyle="bold"
             android:layout_marginTop="7dp"
             app:layout_constraintStart_toEndOf="@+id/iv_gambarRv"
             app:layout_constraintTop_toBottomOf="@+id/tv_fasil"
