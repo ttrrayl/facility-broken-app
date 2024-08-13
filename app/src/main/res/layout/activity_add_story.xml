@@ -36,6 +36,7 @@
         android:padding="8dp"
         android:text="@string/gallery"
         android:textSize="18sp"
+        android:textColor="@color/blackgrey"
         app:cornerRadius="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add"
@@ -49,6 +50,7 @@
         app:layout_constraintStart_toEndOf="@+id/button_gallery"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="74dp"
+        android:textColor="@color/blackgrey"
         app:cornerRadius="18dp"
         android:text="@string/camera"
         android:textSize="18sp"
@@ -208,6 +210,7 @@
         android:layout_margin="12dp"
         app:cornerRadius="18dp"
         android:text="UPLOAD"
+        android:textColor="@color/blackgrey"
         android:textSize="20sp"
         android:backgroundTint="@color/yellow"/>
 

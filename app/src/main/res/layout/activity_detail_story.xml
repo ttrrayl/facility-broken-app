@@ -216,6 +216,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+        android:textColor="@color/blackgrey"
         android:backgroundTint="@color/yellow"
         android:text="@string/edit"
         app:cornerRadius="18dp"
