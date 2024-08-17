@@ -39,15 +39,19 @@ interface ApiService {
     @GET("detail_facil")
     suspend fun listDetailFacil(): Response<DetailFacilResponses>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("response")
     fun addResponse(
         @Header("Authorization") authorization: String,
-        @Field("id_report") idReport: String,
-        @Field("id_pj") idPj: String,
-        @Field("id_status_respon") idStatus: String,
-        @Field("level_report") levelReport: String?,
-        @Field("content") content: String,
+        @Part pictures_process: MultipartBody.Part?,
+        @Part pictures_done: MultipartBody.Part?,
+        @Part("id_report") idReport: RequestBody,
+        @Part("id_pj") idPj: RequestBody,
+        @Part("id_status_respon") idStatus: RequestBody,
+        @Part("level_report") levelReport: RequestBody,
+        @Part("content") content: RequestBody,
+        @Part("lat") lat: RequestBody?,
+        @Part("lon") lon: RequestBody?,
         ): Call<AddStoryResponse>
 
     @FormUrlEncoded

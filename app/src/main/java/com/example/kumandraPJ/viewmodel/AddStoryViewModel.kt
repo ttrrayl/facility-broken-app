@@ -18,12 +18,31 @@ class AddStoryViewModel : ViewModel() {
 
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
-    fun sendResponse(token: String, id_report: String, id_pj: String, id_status: String, level: String, content: String,
+    fun sendResponse(
+        token: String,
+        image_process: MultipartBody.Part?,
+        image_done: MultipartBody.Part?,
+        id_report: RequestBody,
+        id_pj: RequestBody,
+        id_status: RequestBody,
+        level: RequestBody,
+        content: RequestBody,
+        lat: RequestBody?,
+        lon: RequestBody?
         ) {
         _isLoading.value = true
         try {
             val client = ApiConfig.getApiService().addResponse(
-                "Bearer $token", id_report, id_pj, id_status, level, content)
+                "Bearer $token",
+                image_process,
+                image_done,
+                id_report,
+                id_pj,
+                id_status,
+                level,
+                content,
+                lat,
+                lon)
             client.enqueue(object : Callback<AddStoryResponse> {
                 override fun onFailure(call: Call<AddStoryResponse>, t: Throwable) {
                     _isLoading.value = false
@@ -41,7 +60,7 @@ class AddStoryViewModel : ViewModel() {
                         }
                     } else {
                         _msg.value = "gagal"
-                        Log.i("AddReport", "tidak masuk")
+                        Log.i("AddResponse", "tidak masuk")
                     }
                 }
             })
