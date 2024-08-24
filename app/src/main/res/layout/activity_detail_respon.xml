@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.DetailResponActivity"
+    android:background="@color/third_purple">
+
+    <ImageView
+        android:id="@+id/iv_detailRespon"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars"/>
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#80FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/baseline_arrow_back_ios_new_24"
+        android:contentDescription="@string/back" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:background="@color/line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_status"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_created"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_detailRespon"
+        android:layout_marginEnd="5dp"
+        tools:text="value"/>
+
+    <TextView
+        android:id="@+id/tv_labelClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/blackgrey"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/tv_created"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/lokasi_kelas"/>
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:textSize="18sp"
+        android:textColor="@color/blackgrey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelClass"
+        tools:text="value"/>
+
+    <TextView
+        android:id="@+id/tv_labelFacil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/blackgrey"
+        app:layout_constraintTop_toBottomOf="@+id/tv_created"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_labelClass"
+        android:layout_marginStart="30dp"
+        android:textStyle="bold"
+        android:text="@string/fasilitas"/>
+
+    <TextView
+        android:id="@+id/tv_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/blackgrey"
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelFacil"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="110dp"
+        android:layout_marginStart="20dp"
+        tools:text="value"/>
+
+    <TextView
+        android:id="@+id/tv_labelDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/blackgrey"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/tv_status"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/deskripsi"/>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/blackgrey"
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelDesc"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="value"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddStoryActivity"
-    android:background="@color/bg">
+    android:background="@color/third_purple">
 
     <ImageView
         android:id="@+id/iv_backgroundContainer"
         android:layout_width="457dp"
         android:layout_height="659dp"
         android:layout_marginTop="170dp"
-        android:src="@drawable/bg"
+        android:src="@drawable/bgwhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         app:cornerRadius="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add"
-        android:backgroundTint="@color/yellow"/>
+        android:backgroundTint="@color/secondary_purple"/>
 
     <Button
         android:id="@+id/button_camera"
@@ -55,7 +55,7 @@
         android:text="@string/camera"
         android:textSize="18sp"
         android:padding="8dp"
-        android:backgroundTint="@color/yellow"/>
+        android:backgroundTint="@color/secondary_purple"/>
 
     <TextView
         android:id="@+id/tv_building"
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/pilih_gedung_kuliah"
         android:layout_marginStart="15dp"
-        app:boxBackgroundColor="@color/grey_young"
+        app:boxBackgroundColor="@color/third_purple"
         android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/pilih_ruang_kelas"
         android:layout_marginStart="15dp"
-        app:boxBackgroundColor="@color/grey_young"
+        app:boxBackgroundColor="@color/third_purple"
         android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +148,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        app:boxBackgroundColor="@color/grey_young"
+        app:boxBackgroundColor="@color/third_purple"
         android:hint="@string/pilih_fasilitas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -168,7 +168,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
-        app:boxBackgroundColor="@color/grey_young"
+        app:boxBackgroundColor="@color/third_purple"
         app:layout_constraintTop_toBottomOf="@+id/detailFacilInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -210,9 +210,9 @@
         android:layout_margin="12dp"
         app:cornerRadius="18dp"
         android:text="UPLOAD"
-        android:textColor="@color/blackgrey"
+        android:textColor="@color/white"
         android:textSize="20sp"
-        android:backgroundTint="@color/yellow"/>
+        android:backgroundTint="@color/main_purple"/>
 
     <ProgressBar
         android:id="@+id/pb_add"

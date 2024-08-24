@@ -22,6 +22,7 @@ import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.data.remote.response.Report
 import com.example.kumandra.data.remote.response.ReportDetail
 import com.example.kumandra.databinding.ActivityDetailStoryBinding
+import com.example.kumandra.ui.fragment.ReportFragment
 import com.example.kumandra.viewmodel.DetailReportViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -40,11 +41,26 @@ class DetailStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
+
         viewModelConfig()
         binding.btEdit.setOnClickListener{ editReport()}
         binding.btDelete.setOnClickListener{ deleteReport()}
         binding.ivBack.setOnClickListener{
             onBackPressed()
+        }
+        binding.cardHome.setOnClickListener {
+            val intent = Intent(this, DetailResponActivity::class.java).apply {
+                putExtra(DetailResponActivity.REPORT, detailReport)
+            }
+            startActivity(intent)
+            DetailResponActivity.sign = "1"
+        }
+        binding.cardHome2.setOnClickListener {
+            val intent = Intent(this, DetailResponActivity::class.java).apply {
+                putExtra(DetailResponActivity.REPORT, detailReport)
+            }
+            startActivity(intent)
+            DetailResponActivity.sign = "2"
         }
     }
     private fun viewModelConfig() {
@@ -58,20 +74,20 @@ class DetailStoryActivity : AppCompatActivity() {
         }
 
 
-        viewModel.report.observe(this){
-            when(it){
-                is Results.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-                is Results.Loading -> {
-
-                }
-                is Results.Success -> {
-                    val report = it.data?.report
-                    setUI(report)
-                }
-            }
-        }
+//        viewModel.report.observe(this){
+//            when(it){
+//                is Results.Error -> {
+//                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+//                }
+//                is Results.Loading -> {
+//
+//                }
+//                is Results.Success -> {
+//                    val report = it.data?.report
+//                    setUI(report)
+//                }
+//            }
+//        }
 
         viewModel.getUser().observe(this){
                 val id = it.idStudent
@@ -88,35 +104,34 @@ class DetailStoryActivity : AppCompatActivity() {
             if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun setUI(report: ReportDetail?) {
-        binding.apply {
-            Glide.with(applicationContext)
-                .load(report?.image_url)
-                .into(ivDetail)
-            tvCreated.text = report?.created_at
-     //       tvUpdate.text =  ":" + report?.updated_at
-            tvEmail.text =  report?.email
-            tvFacil.text =  report?.nama_detail_facilities
-            tvClass.text =  report?.nama_classes
-            tvDesc.text =  report?.description
-        }
-
-        if (report?.id_status == "5"){
-            binding.btEdit.visibility = View.GONE
-            binding.btDelete.visibility = View.GONE
-        } else {
-            binding.btEdit.visibility = View.VISIBLE
-            binding.btDelete.visibility = View.VISIBLE
-        }
-
-    }
+//    private fun setUI(report: ReportDetail?) {
+//        binding.apply {
+//            Glide.with(applicationContext)
+//                .load(report?.image_url)
+//                .into(ivDetail)
+//            tvCreated.text = report?.created_at
+//     //       tvUpdate.text =  ":" + report?.updated_at
+//            tvEmail.text =  report?.email
+//            tvFacil.text =  report?.nama_detail_facilities
+//            tvClass.text =  report?.nama_classes
+//            tvDesc.text =  report?.description
+//        }
+//
+//        if (report?.id_status == "5"){
+//            binding.btEdit.visibility = View.GONE
+//            binding.btDelete.visibility = View.GONE
+//        } else {
+//            binding.btEdit.visibility = View.VISIBLE
+//            binding.btDelete.visibility = View.VISIBLE
+//        }
+//
+//    }
 
 //    private fun setUI(): Results<DetailReportResponses>? {
 //
 //    }
 
     private fun setLayout(idStudent: String) {
-  //      detailReport = intent.getParcelableExtra<Report>(STORY_DETAIL) as Report
         binding.apply {
             Glide.with(applicationContext)
                 .load(detailReport.image_url)
@@ -128,7 +143,6 @@ class DetailStoryActivity : AppCompatActivity() {
             tvClass.text =  detailReport.nama_classes
             tvDesc.text =  detailReport.description
             tvStatus.text = detailReport.nama_status
-            tvRespon.text = detailReport.content
             tvUsername.text = detailReport.username
 
 
@@ -137,13 +151,17 @@ class DetailStoryActivity : AppCompatActivity() {
             binding.btEdit.visibility = View.GONE
             binding.btDelete.visibility = View.GONE
         } else{
-            if (detailReport.id_status == "4"){
-                binding.btEdit.visibility = View.GONE
-                binding.btDelete.visibility = View.GONE
-            } else {
+            if (detailReport.id_status == "2") {
                 binding.btEdit.visibility = View.VISIBLE
                 binding.btDelete.visibility = View.VISIBLE
             }
+        }
+
+        if (detailReport.id_status =="5"){
+            binding.cardHome2.visibility = View.VISIBLE
+            binding.cardHome.visibility = View.VISIBLE
+        } else if (detailReport.id_status == "3"){
+            binding.cardHome.visibility = View.VISIBLE
         }
     }
 
@@ -157,13 +175,14 @@ class DetailStoryActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle("Konfirmasi")
             setMessage("Hapus laporan ini?")
-            setPositiveButton("YA") {_,_ ->
+            setPositiveButton("Ya") {_,_ ->
                 viewModel.deleteReport(detailReport.id_report)
-                val intent = Intent(context, MainActivity::class.java)
+                val intent = Intent(context, ReportFragment::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
                 finish()
             }
+            setNegativeButton("No") { dialog, _ -> dialog.cancel() }
             create()
             show()
         }

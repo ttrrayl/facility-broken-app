@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.ProfileFragment"
-    android:background="@color/bg">
+    android:background="@color/third_purple">
 
     <ImageView
         android:id="@+id/iv_backgroundContainer"
         android:layout_width="457dp"
         android:layout_height="719dp"
         android:layout_marginTop="350dp"
-        android:src="@drawable/bg"
+        android:src="@drawable/bgwhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,8 +59,8 @@
         android:text="@string/logout"
         android:textSize="24sp"
         app:cornerRadius="30dp"
-        android:textColor="@color/blackgrey"
-        android:backgroundTint="@color/yellow"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_emailProfil" />

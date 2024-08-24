@@ -38,6 +38,7 @@
         android:theme="@style/Theme.Kumandra"
         android:usesCleartextTraffic="true"
         tools:targetApi="s">
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -62,6 +63,14 @@
         </activity>
         <activity
             android:name=".ui.DetailStoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.DetailResponActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data

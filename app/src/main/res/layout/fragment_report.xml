@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_rv"
-        android:background="@color/bg"/>
+        android:background="@color/white"/>
 
         <!--    <ProgressBar-->
         <!--        android:id="@+id/progressBar_report"-->

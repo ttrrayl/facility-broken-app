@@ -58,6 +58,21 @@ data class Report(
     @field:SerializedName("content")
     val content: String?,
 
+    @field:SerializedName("level_report")
+    val level_report: String?,
+
+    @field:SerializedName("process_image")
+    val processImage: String?,
+
+    @field:SerializedName("process_image_date")
+    val processImageDate: String?,
+
+    @field:SerializedName("completion_image")
+    val completionImage: String?,
+
+    @field:SerializedName("completion_image_date")
+    val completionImageDate: String?,
+
     @field:SerializedName("updated_at")
     val updated_at: String
 ): Parcelable

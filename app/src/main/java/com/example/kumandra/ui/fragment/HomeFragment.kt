@@ -27,9 +27,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: MainViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,7 +82,5 @@ class HomeFragment : Fragment() {
         var ID: String = ""
         var TOKEN: String = ""
         var USERNAME: String = ""
-
     }
-
 }
