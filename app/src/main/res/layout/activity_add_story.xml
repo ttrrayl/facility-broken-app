@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddStoryActivity">
+    tools:context=".ui.AddStoryActivity"
+    android:background="@color/third_purple">
+
+    <ImageView
+        android:id="@+id/iv_backgroundContainer"
+        android:layout_width="457dp"
+        android:layout_height="659dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/bgwhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_add" />
 
     <ImageView
         android:id="@+id/iv_add"
@@ -28,7 +40,7 @@
         app:cornerRadius="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add"
-        android:backgroundTint="@color/yellow"/>
+        android:backgroundTint="@color/secondary_purple"/>
 
     <Button
         android:id="@+id/button_camera"
@@ -43,18 +55,7 @@
         android:text="@string/camera"
         android:textSize="18sp"
         android:padding="8dp"
-        android:backgroundTint="@color/yellow"/>
-
-    <ImageView
-        android:id="@+id/iv_backgroundContainer"
-        android:layout_width="457dp"
-        android:layout_height="659dp"
-        android:layout_marginTop="690dp"
-        android:src="@drawable/bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_camera" />
+        android:backgroundTint="@color/secondary_purple"/>
 
     <TextView
         android:id="@+id/tv_detailFacil"
@@ -78,7 +79,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:hint="Pilih Status"
-        android:background="@color/grey_young"
+        android:background="@color/third_purple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_detailFacil">
@@ -114,7 +115,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:hint="Pilih Level"
-        android:background="@color/grey_young"
+        android:background="@color/third_purple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_level">
@@ -142,7 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="123dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:background="@color/grey_young"
+            android:background="@color/third_purple"
             android:textColor="@color/blackgrey"
             android:hint="Masukkan respon disini"
             android:gravity="start"
@@ -153,7 +154,7 @@
     <Button
         android:id="@+id/button_upload"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_resp"
@@ -161,10 +162,10 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="Kirim"
-        android:textColor="@color/blackgrey"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="18dp"
-        android:backgroundTint="@color/yellow"/>
+        android:backgroundTint="@color/main_purple"/>
 
     <ProgressBar
         android:id="@+id/pb_add"

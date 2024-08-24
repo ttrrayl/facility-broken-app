@@ -13,11 +13,15 @@
     <color name="blackgrey">#212121</color>
     <color name="bg">#EDF0F2</color>
     <color name="line">#cbced1</color>
-    <color name="status1">#f8dcda</color>
-    <color name="status2">#f3e6da</color>
-    <color name="status3">#efedda</color>
-    <color name="status4">#e9f7da</color>
+    <color name="status1">#f6f6f1</color>
+    <color name="status2">#f2f6e1</color>
+    <color name="status3">#ffeee8</color>
+    <color name="status4">#eaffe8</color>
     <color name="grey_young">#dae2e8</color>
+    <color name="green">#8009e880</color>
 
+    <color name="main_purple">#9d9de4</color>
+    <color name="secondary_purple">#cbcbeb</color>
+    <color name="third_purple">#ececf3</color>
 
 </resources>

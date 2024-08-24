@@ -8,7 +8,8 @@
     android:elevation="3dp"
     app:cardCornerRadius="10dp"
     app:cardMaxElevation="8dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    android:backgroundTint="@color/third_purple">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,6 +33,7 @@
             android:layout_marginEnd="10dp"
             android:textSize="11sp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/blackgrey"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="tanggal"/>
@@ -44,6 +46,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:textStyle="bold"
+            android:textColor="@color/blackgrey"
             app:layout_constraintStart_toEndOf="@+id/iv_gambarRv"
             app:layout_constraintTop_toBottomOf="@id/tv_tanggal"
             tools:text="fasil"/>
@@ -56,16 +59,18 @@
             android:layout_marginStart="8dp"
             android:textStyle="bold"
             android:layout_marginTop="7dp"
+            android:textColor="@color/blackgrey"
             app:layout_constraintStart_toEndOf="@+id/iv_gambarRv"
             app:layout_constraintTop_toBottomOf="@+id/tv_fasil"
             tools:text="kelas"/>
 
         <TextView
             android:id="@+id/tv_status"
-            android:layout_width="120dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/blackgrey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="status"/>

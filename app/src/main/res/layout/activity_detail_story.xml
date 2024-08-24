@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:theme="@style/Theme.AppCompat.NoActionBar"
     tools:context=".ui.DetailStoryActivity"
-    android:background="@color/bg">
+    android:background="@color/third_purple">
 
     <ImageView
         android:id="@+id/iv_detail"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginBottom="10dp"
-        android:textSize="13sp"
+        android:textSize="11sp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line"
@@ -95,6 +95,7 @@
         android:layout_marginBottom="5dp"
         android:textColor="@color/blackgrey"
         android:textStyle="bold"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/tv_created"
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/lokasi_kelas"/>
@@ -120,6 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_labelClass"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:text="@string/fasilitas"/>
 
@@ -219,10 +221,10 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:padding="10dp"
-        android:backgroundTint="@color/yellow"
+        android:backgroundTint="@color/main_purple"
         android:text="@string/respon"
         app:cornerRadius="18dp"
-        android:textColor="@color/blackgrey"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

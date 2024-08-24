@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.MainActivity"
-    android:background="@color/white">
+    android:background="@color/third_purple">
 
     <TextView
         android:id="@+id/username"
@@ -42,7 +42,7 @@
         app:cardMaxElevation="8dp"
         app:cardUseCompatPadding="true"
         android:padding="12dp"
-        app:cardBackgroundColor="@color/grey"
+        app:cardBackgroundColor="@color/main_purple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/greetings">
@@ -184,7 +184,7 @@
         android:layout_width="457dp"
         android:layout_height="659dp"
         android:layout_marginTop="420dp"
-        android:src="@drawable/bg2"
+        android:src="@drawable/bgwhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

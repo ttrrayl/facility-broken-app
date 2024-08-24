@@ -50,19 +50,19 @@ class ReportAdapter(private val context: Context) : PagingDataAdapter<Report, Re
         val data = getItem(position)
         when(data?.id_status){
             "2" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status1))
+         //       holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status1))
                 holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status1))
             }
             "3" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status2))
+           //     holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status2))
                 holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status2))
             }
             "4" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status3))
+             //   holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status3))
                 holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status3))
             }
             "5" -> {
-                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status4))
+             //   holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.status4))
                 holder.itemView.findViewById<TextView>(R.id.tv_status).setBackgroundColor(ContextCompat.getColor(context, R.color.status4))
             }
         }
