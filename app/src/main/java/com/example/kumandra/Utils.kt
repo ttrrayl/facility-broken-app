@@ -79,19 +79,6 @@ fun rotateBitmap(bitmap: Bitmap, degree: Float): Bitmap {
     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 }
 
-//fun rotateBitmap(bitmap: Bitmap, degree: Float): Bitmap {
-//    val matrix = Matrix()
-//    return if (isBackCamera) {
-//        matrix.postRotate(270f)
-//        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-//    } else {
-//        matrix.postRotate(90f)
-//        //matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
-//        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-//    }
-//}
-
-
 fun Array<String>.checkPermissionsGranted(context: Context) = this.all {
     ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
 }
