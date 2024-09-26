@@ -177,7 +177,7 @@ class DetailStoryActivity : AppCompatActivity() {
             setMessage("Hapus laporan ini?")
             setPositiveButton("Ya") {_,_ ->
                 viewModel.deleteReport(detailReport.id_report)
-                val intent = Intent(context, ReportFragment::class.java)
+                val intent = Intent(context, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
                 finish()

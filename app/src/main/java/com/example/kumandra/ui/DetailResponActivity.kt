@@ -22,7 +22,7 @@ class DetailResponActivity : AppCompatActivity() {
         report = intent.getParcelableExtra(REPORT)
         binding.tvLevel.text = report?.level_report
         binding.tvStatus.text = report?.nama_status
-        binding.tvDesc.text = report?.content
+        binding.tvDesc.text = report?.respon
         if (DetailResponActivity.sign == "1"){
             binding.apply {
                 Glide.with(applicationContext)

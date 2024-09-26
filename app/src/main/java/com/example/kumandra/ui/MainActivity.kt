@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     private fun sendRegistrationToServer(idStudent: String, token: String) {
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                val response = ApiConfig.getApiService().addFcmToken(idStudent, "1", token)
+                val response = ApiConfig.getApiService().addFcmToken(idStudent, token)
                 if (response.isSuccessful){
                     response.body()?.let {
                         Log.i("FcmMainOK", "fcm: $response")

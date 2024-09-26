@@ -9,6 +9,7 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContextCompat
+import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -59,17 +60,36 @@ fun reduceFileImage(file: File): File{
     return file
 }
 
-fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
-    val matrix = Matrix()
-    return if (isBackCamera) {
-        matrix.postRotate(270f)
-        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    } else {
-        matrix.postRotate(90f)
-        //matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
-        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+fun rotateImageIfRequired(context: Context, bitmap: Bitmap, imageUri: Uri): Bitmap {
+    val inputStream = context.contentResolver.openInputStream(imageUri)
+    val exif = inputStream?.let { ExifInterface(it) }
+    val orientation = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+    return when (orientation) {
+        ExifInterface.ORIENTATION_ROTATE_90 -> rotateBitmap(bitmap, 90f)
+        ExifInterface.ORIENTATION_ROTATE_180 -> rotateBitmap(bitmap, 180f)
+        ExifInterface.ORIENTATION_ROTATE_270 -> rotateBitmap(bitmap, 270f)
+        else -> bitmap
     }
 }
+
+fun rotateBitmap(bitmap: Bitmap, degree: Float): Bitmap {
+    val matrix = Matrix()
+    matrix.postRotate(degree)
+    return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+}
+
+//fun rotateBitmap(bitmap: Bitmap, degree: Float): Bitmap {
+//    val matrix = Matrix()
+//    return if (isBackCamera) {
+//        matrix.postRotate(270f)
+//        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+//    } else {
+//        matrix.postRotate(90f)
+//        //matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
+//        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+//    }
+//}
 
 
 fun Array<String>.checkPermissionsGranted(context: Context) = this.all {

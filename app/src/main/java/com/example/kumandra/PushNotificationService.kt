@@ -28,7 +28,7 @@ class PushNotificationService(): FirebaseMessagingService() {
     private fun sendTokenToServer(token: String) {
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                val response = ApiConfig.getApiService().addFcmToken(ID, "1", token)
+                val response = ApiConfig.getApiService().addFcmToken(ID, token)
                 if (response.isSuccessful){
                     response.body()?.let {
                         Log.i("FcmPUSH", "fcm: $response")

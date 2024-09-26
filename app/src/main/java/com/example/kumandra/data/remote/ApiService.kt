@@ -18,7 +18,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-
     @FormUrlEncoded
     @POST("register")
     fun register(
@@ -90,8 +89,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("fcm")
     suspend fun addFcmToken(
-        @Field("id_user") idUser: String,
-        @Field("id_role") idRole: String,
+        @Field("id_student") idStudent: String,
         @Field("token") fcmToken: String
     ): Response<SaveTokenResponses>
 }

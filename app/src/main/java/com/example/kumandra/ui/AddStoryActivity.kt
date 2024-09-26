@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
 import android.media.ExifInterface
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -37,6 +39,7 @@ import com.example.kumandra.databinding.ActivityAddStoryBinding
 import com.example.kumandra.data.remote.response.Report
 import com.example.kumandra.reduceFileImage
 import com.example.kumandra.rotateBitmap
+import com.example.kumandra.rotateImageIfRequired
 import com.example.kumandra.uriToFile
 import com.example.kumandra.viewmodel.AddStoryViewModel
 import com.example.kumandra.viewmodel.BuildingViewModel
@@ -50,6 +53,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -107,16 +111,26 @@ class AddStoryActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun saveRotatedImageToFile(bitmap: Bitmap, file: File): File {
+        val outputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        return file
+    }
+
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == RESULT_OK) {
             val myFile = File(currentPhotoPath)
             myFile.let { file ->
-                val result = rotateBitmap(BitmapFactory.decodeFile(file.path))
+                val result = rotateImageIfRequired(this, BitmapFactory.decodeFile(file.path), Uri.fromFile(file))
                 binding.ivAdd.setImageBitmap(result)
+                val savedFile = saveRotatedImageToFile(result, file)
+                getFile = savedFile
             }
-            getFile = myFile
+
         }
     }
 
@@ -160,15 +174,15 @@ class AddStoryActivity : AppCompatActivity() {
             btnTitle = getString(R.string.update)
             //?
             if (detailReport != null){
-                detailReport.let { note ->
-                    if (note != null) {
+                detailReport.let { report ->
+                    if (report != null) {
                         Glide.with(this)
-                            .load(note.image_url)
+                            .load(report.image_url)
                             .into(binding.ivAdd)
-                        binding.detailFacilInputLayout.editText?.setText(note.nama_detail_facilities)
-                        binding.buildingInputLayout.editText?.setText(note.nama_building)
-                        binding.classesInputLayout.editText?.setText(note.nama_classes)
-                        binding.etDesc.setText(note.description)
+                        binding.detailFacilInputLayout.editText?.setText(report.nama_detail_facilities)
+                        binding.buildingInputLayout.editText?.setText(report.nama_building)
+                        binding.classesInputLayout.editText?.setText(report.nama_classes)
+                        binding.etDesc.setText(report.description)
                     }
                 }
             }
@@ -346,7 +360,6 @@ class AddStoryActivity : AppCompatActivity() {
                 else -> {}
             }
             binding.autBuilding.setOnItemClickListener{ parent,view,position, id ->
-                //     val selected = it.data?.building?.get(position)
                 val selected = parent.getItemAtPosition(position)
                 val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
                 if (selectedBuilding.isEmpty()){
@@ -385,7 +398,6 @@ class AddStoryActivity : AppCompatActivity() {
             }
             binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
                 val selected = parent.getItemAtPosition(position)
-               // parent.getItemAtPosition(position).toString()
                 val selectedClasses = binding.classesInputLayout.editText?.text.toString()
                 if (selectedClasses.isEmpty()){
                     binding.classesInputLayout.editText?.error ="filling first"
@@ -452,16 +464,6 @@ class AddStoryActivity : AppCompatActivity() {
             else -> {
                 val idStudent =
                     IDSTUDENT.toString().toRequestBody("text/plain".toMediaType())
-//                val file = reduceFileImage(getFile as File)
-//                val (imageLatitude, imageLongitude) = getExifData(this, file.toUri())
-//                if (imageLatitude != null && imageLongitude != null) {
-//                    latitude = imageLatitude
-//                    longitude = imageLongitude
-//
-//                } else {
-//                    latitude = location.latitude.toDouble()
-//                    longitude = location.longitude.toDouble()
-//                }
                 latitude = location.latitude.toDouble()
                 longitude = location.longitude.toDouble()
                 val lat =
@@ -525,7 +527,6 @@ class AddStoryActivity : AppCompatActivity() {
                                 description
                             )
                         }
-                        Log.d("EDIT REPORT1", "idBuilding: ${selectedBuildingId.toString()} idClasses: ${selectedClassesId.toString()} idDetail:${selectedDetailFacilId.toString()} description: ${description.toString()}")
                     } else{
                         detailReport?.let {
                             addStoryViewModel.updateReport(
@@ -538,7 +539,6 @@ class AddStoryActivity : AppCompatActivity() {
                                 description
                             )
                         }
-                        Log.d("EDIT REPORT2", "idBuilding: ${selectedBuildingId.toString()} idClasses: ${selectedClassesId.toString()} idDetail:${selectedDetailFacilId.toString()} description: ${desc.toString()}")
                     }
                 }
             }
