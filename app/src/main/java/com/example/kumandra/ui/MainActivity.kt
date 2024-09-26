@@ -9,35 +9,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.kumandra.PushNotificationService
 import com.example.kumandra.R
-import com.example.kumandra.adapter.SectionPageAdapter
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.data.remote.ApiConfig
 import com.example.kumandra.databinding.ActivityMainBinding
 import com.example.kumandra.ui.fragment.HomeFragment
 import com.example.kumandra.ui.fragment.ParentReportFragment
 import com.example.kumandra.ui.fragment.ProfileFragment
-import com.example.kumandra.ui.fragment.ReportFragment
 import com.example.kumandra.viewmodel.MainViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("FCMToken", "Refreshed token: $token")
 
             mainViewModel.getUser().observe(this) { user ->
-                sendRegistrationToServer(user.idStudent.toString(), token)
+                sendRegistrationToServer(user.idStudent, token)
             }
 
         }
@@ -149,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getUser().observe(this) {
             this.idStudent = it.idStudent
             AddStoryActivity.IDSTUDENT = it.idStudent
-            PushNotificationService.ID = it.idStudent.toString()
+            PushNotificationService.ID = it.idStudent
         }
     }
 

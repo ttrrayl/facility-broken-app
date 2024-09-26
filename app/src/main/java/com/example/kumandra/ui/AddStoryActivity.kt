@@ -8,10 +8,8 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
-import android.media.ExifInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.model.LatLng
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -25,7 +23,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -38,7 +35,6 @@ import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.databinding.ActivityAddStoryBinding
 import com.example.kumandra.data.remote.response.Report
 import com.example.kumandra.reduceFileImage
-import com.example.kumandra.rotateBitmap
 import com.example.kumandra.rotateImageIfRequired
 import com.example.kumandra.uriToFile
 import com.example.kumandra.viewmodel.AddStoryViewModel
@@ -54,7 +50,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -299,19 +294,19 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun getExifData(context: Context, imageUri: Uri): Pair<Double?,Double?>{
-        try {
-            val inputStream = context.contentResolver.openInputStream(imageUri)
-            val exif = ExifInterface(inputStream!!)
-            val latLong = FloatArray(2)
-            if (exif.getLatLong(latLong)) {
-                return Pair(latLong[0].toDouble(), latLong[1].toDouble())
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return Pair(null, null)
-    }
+//    private fun getExifData(context: Context, imageUri: Uri): Pair<Double?,Double?>{
+//        try {
+//            val inputStream = context.contentResolver.openInputStream(imageUri)
+//            val exif = ExifInterface(inputStream!!)
+//            val latLong = FloatArray(2)
+//            if (exif.getLatLong(latLong)) {
+//                return Pair(latLong[0].toDouble(), latLong[1].toDouble())
+//            }
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//        return Pair(null, null)
+//    }
 
     private fun startTakePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -359,7 +354,7 @@ class AddStoryActivity : AppCompatActivity() {
 
                 else -> {}
             }
-            binding.autBuilding.setOnItemClickListener{ parent,view,position, id ->
+            binding.autBuilding.setOnItemClickListener{ parent, _, position, _ ->
                 val selected = parent.getItemAtPosition(position)
                 val selectedBuilding = binding.buildingInputLayout.editText?.text.toString()
                 if (selectedBuilding.isEmpty()){
@@ -396,7 +391,7 @@ class AddStoryActivity : AppCompatActivity() {
                 }
                 else -> {}
             }
-            binding.autClasses.setOnItemClickListener{ parent,view,position, id ->
+            binding.autClasses.setOnItemClickListener{ parent, _, position, _ ->
                 val selected = parent.getItemAtPosition(position)
                 val selectedClasses = binding.classesInputLayout.editText?.text.toString()
                 if (selectedClasses.isEmpty()){
@@ -463,9 +458,9 @@ class AddStoryActivity : AppCompatActivity() {
 
             else -> {
                 val idStudent =
-                    IDSTUDENT.toString().toRequestBody("text/plain".toMediaType())
-                latitude = location.latitude.toDouble()
-                longitude = location.longitude.toDouble()
+                    IDSTUDENT.toRequestBody("text/plain".toMediaType())
+                latitude = location.latitude
+                longitude = location.longitude
                 val lat =
                     latitude.toString().toRequestBody("text/plain".toMediaType())
                 val lon =

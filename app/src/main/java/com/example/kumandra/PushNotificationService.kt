@@ -16,7 +16,6 @@ import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 
 class PushNotificationService(): FirebaseMessagingService() {
     override fun onNewToken(token: String) {

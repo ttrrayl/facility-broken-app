@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import com.example.kumandra.data.remote.response.Building
 import com.example.kumandra.data.remote.response.Classes
 import com.example.kumandra.data.remote.response.DetailFacility
-import com.example.kumandra.data.remote.response.ListStoryItem
 import com.example.kumandra.data.remote.response.Report
 
 @Database(entities = [Report::class, RemoteKeys::class,Building::class, Classes::class, DetailFacility::class], version = 12, exportSchema = false)

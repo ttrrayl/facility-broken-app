@@ -4,11 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
@@ -16,18 +12,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.kumandra.R
 import com.example.kumandra.data.Results
 import com.example.kumandra.data.local.UserSession
 import com.example.kumandra.data.remote.response.Report
-import com.example.kumandra.data.remote.response.ReportDetail
 import com.example.kumandra.databinding.ActivityDetailStoryBinding
-import com.example.kumandra.ui.fragment.ReportFragment
 import com.example.kumandra.viewmodel.DetailReportViewModel
 import com.example.kumandra.viewmodel.ViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class DetailStoryActivity : AppCompatActivity() {
