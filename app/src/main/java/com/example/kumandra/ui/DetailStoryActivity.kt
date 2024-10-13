@@ -43,15 +43,15 @@ class DetailStoryActivity : AppCompatActivity() {
                 putExtra(DetailResponActivity.REPORT, detailReport)
             }
             startActivity(intent)
-            DetailResponActivity.sign = "1"
+ //           DetailResponActivity.sign = "1"
         }
-        binding.cardHome2.setOnClickListener {
-            val intent = Intent(this, DetailResponActivity::class.java).apply {
-                putExtra(DetailResponActivity.REPORT, detailReport)
-            }
-            startActivity(intent)
-            DetailResponActivity.sign = "2"
-        }
+//        binding.cardHome2.setOnClickListener {
+//            val intent = Intent(this, DetailResponActivity::class.java).apply {
+//                putExtra(DetailResponActivity.REPORT, detailReport)
+//            }
+//            startActivity(intent)
+//            DetailResponActivity.sign = "2"
+//        }
     }
     private fun viewModelConfig() {
         val pref = UserSession.getInstance(dataStore)
@@ -63,21 +63,6 @@ class DetailStoryActivity : AppCompatActivity() {
             viewModel.getDetailReport(reportId)
         }
 
-
-//        viewModel.report.observe(this){
-//            when(it){
-//                is Results.Error -> {
-//                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-//                }
-//                is Results.Loading -> {
-//
-//                }
-//                is Results.Success -> {
-//                    val report = it.data?.report
-//                    setUI(report)
-//                }
-//            }
-//        }
 
         viewModel.getUser().observe(this){
                 val id = it.idStudent
@@ -147,10 +132,7 @@ class DetailStoryActivity : AppCompatActivity() {
             }
         }
 
-        if (detailReport.id_status =="5"){
-            binding.cardHome2.visibility = View.VISIBLE
-            binding.cardHome.visibility = View.VISIBLE
-        } else if (detailReport.id_status == "3"){
+        if (detailReport.id_status =="5" || detailReport.id_status == "4"){
             binding.cardHome.visibility = View.VISIBLE
         }
     }

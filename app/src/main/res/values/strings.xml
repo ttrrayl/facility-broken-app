@@ -48,4 +48,7 @@
     <string name="ditolak">Ditolak</string>
     <string name="sedang_diproses">Sedang Diproses</string>
     <string name="laporan_baru">Laporan Baru</string>
+    <string name="status">Status</string>
+    <string name="level_report">Level Laporan</string>
+    <string name="respon_pj">Respon PJ</string>
 </resources>

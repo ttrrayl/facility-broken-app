@@ -491,7 +491,7 @@ class AddStoryActivity : AppCompatActivity() {
                             requestImageFile
                         )
                         addStoryViewModel.uploadStory(
-                            TOKEN,
+                            AddStoryActivity.TOKEN,
                             imageMultipar,
                             idStudent,
                             idBuilding,
@@ -513,7 +513,7 @@ class AddStoryActivity : AppCompatActivity() {
                         )
                         detailReport?.let {
                             addStoryViewModel.updateReport(
-                                TOKEN,
+                                AddStoryActivity.TOKEN,
                                 it.id_report,
                                 imageMultipar,
                                 idBuilding,
@@ -525,7 +525,7 @@ class AddStoryActivity : AppCompatActivity() {
                     } else{
                         detailReport?.let {
                             addStoryViewModel.updateReport(
-                                TOKEN,
+                                AddStoryActivity.TOKEN,
                                 it.id_report,
                                 null,
                                 idBuilding,

@@ -2,6 +2,7 @@ package com.example.kumandra.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.example.kumandra.data.remote.response.Report
 import com.example.kumandra.databinding.ActivityDetailResponBinding
@@ -20,9 +21,12 @@ class DetailResponActivity : AppCompatActivity() {
 
         report = intent.getParcelableExtra(REPORT)
         binding.tvLevel.text = report?.level_report
+        binding.tvLokasi.text = report?.nama_classes
+        binding.tvFacil.text = report?.nama_detail_facilities
         binding.tvStatus.text = report?.nama_status
-        binding.tvDesc.text = report?.respon
-        if (sign == "1"){
+        binding.tvRespon.text = report?.respon
+        val idStatus = report?.id_status
+        if (idStatus != "5"){
             binding.apply {
                 Glide.with(applicationContext)
                     .load(report?.processImage)
@@ -36,6 +40,7 @@ class DetailResponActivity : AppCompatActivity() {
                     .into(ivDetailRespon)
                 tvCreated.text = report?.completionImageDate
             }
+
         }
     }
 
